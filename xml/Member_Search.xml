@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
+<Script xmlns="http://www.w3schools.com/xmlValidation.xsd" name="Member_Search"
+	locale="en" lang="">
+	<KeyWords>
+		<KeyWord label="Initializedata" />		
+		<KeyWord label="NavigateToUrl">
+			<Arguments>
+				<ArgumentVal value="ONC_IMASIS" />
+			</Arguments>
+		</KeyWord>
+		<KeyWord label="Login">
+			<Arguments>
+				<ArgumentVal value="gblStrUserId" />
+				<ArgumentVal value="gblStrPassword" />
+				<ArgumentVal value="" />
+			</Arguments>
+		</KeyWord>		
+	</KeyWords>
+</Script>

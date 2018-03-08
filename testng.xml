@@ -1,0 +1,7 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Suite" preserve-order="true">
+    <suite-files>
+    	<suite-file path="/resources/xml/Initialize.xml"></suite-file>
+        <suite-file path="/resources/xml/RunTest.xml"></suite-file>        
+    </suite-files>
+</suite>

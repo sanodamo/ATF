@@ -1,0 +1,8 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="runAllTest" preserve-order="true">
+  <test name="runAllTest">
+  	<classes>  		
+  		<class name="org.staw.framework.RunTests"/>
+  	</classes>
+  </test> <!-- Test -->
+</suite> <!-- Suite -->
