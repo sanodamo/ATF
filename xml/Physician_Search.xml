@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 
-<Script xmlns="http://www.w3schools.com/xmlValidation.xsd" name="Member_Search"
+<Script xmlns="http://www.w3schools.com/xmlValidation.xsd" name="Physician_Search"
 	locale="en" lang="">
 	<KeyWords>
 		<KeyWord label="Initializedata" />

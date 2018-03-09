@@ -2,10 +2,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.staw</groupId>
+	<groupId>org.atf</groupId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
-	<name>STAW</name>
+	<name>ATF</name>
 	<description>Automation Test Framework</description>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -43,6 +43,11 @@
 			<version>5.2.3.Final</version><!--$NO-MVN-MAN-VER$-->
 		</dependency>
 		<dependency>
+		    <groupId>com.microsoft.sqlserver</groupId>
+		    <artifactId>mssql-jdbc</artifactId>
+		    <version>6.1.0.jre8</version>
+		</dependency>
+		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
 			<version>5.2.3.Final</version><!--$NO-MVN-MAN-VER$-->
@@ -75,7 +80,11 @@
   			<artifactId>jcommander</artifactId>
   			<version>1.30</version>  		
 		</dependency>
-		
+		<dependency>
+  			<groupId>com.zaxxer</groupId>
+  			<artifactId>HikariCP</artifactId>
+  			<version>2.6.1</version>  		
+		</dependency>			
 		<dependency>
   			<groupId>org.codehaus.jackson</groupId>
   			<artifactId>jackson-core-asl</artifactId>
@@ -179,6 +188,12 @@
 		</dependency>
 		
 		<dependency>
+		    <groupId>org.seleniumhq.selenium</groupId>
+		    <artifactId>selenium-support</artifactId>
+		    <version>${org.seleniumhq.selenium.version}</version>
+		</dependency>
+		
+		<dependency>
   			<groupId>org.mortbay.jetty</groupId>
   			<artifactId>jetty</artifactId>
   			<version>6.1.26</version>  		
@@ -267,7 +282,17 @@
 			<snapshots>
 				<enabled>true</enabled>
 			</snapshots>
-		</repository>				
+		</repository>	
+		<repository> 
+			<id>selenium-support</id>
+			<url>https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-support</url> 
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>					
 	</repositories>
-	<artifactId>STAW</artifactId>
+	<artifactId>ATF</artifactId>
 </project>
