@@ -3,18 +3,17 @@ package org.staw.testing.imasis.onc;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.staw.framework.CustomizedActions;
+import org.staw.framework.SeleniumWrapper;
 import org.staw.framework.SeleniumDriver;
 import org.staw.framework.SoftAssertion;
-import org.staw.framework.helpers.Utilities;
+
 
 public class Login {
 	private static SoftAssertion myAssert;
-	private Utilities util;
+	
 	
 	public Login(SoftAssertion myAssert) {
-		this.myAssert = myAssert;
-		util = new Utilities(myAssert);
+		this.myAssert = myAssert;	
 	}
 	
 	public boolean login(String userName, String password ) {
@@ -33,28 +32,28 @@ public class Login {
 		WebDriver driver = SeleniumDriver.getInstance().getWebDriver();
 				
 		try {
-			WebElement userId = CustomizedActions.getElement(By.id("login-username"),myAssert);
+			WebElement userId = SeleniumWrapper.getElement(By.id("login-username"),myAssert);
 			if(userId!= null){
 				userId.clear();
 				userId.sendKeys(userName.trim());
 			}
 			
-			WebElement loginButton = CustomizedActions.getElement(By.id("login-signin"),myAssert);
+			WebElement loginButton = SeleniumWrapper.getElement(By.id("login-signin"),myAssert);
 			if(loginButton!= null){
 				loginButton.click();
-				util.syncBrowser();
+				SeleniumWrapper.syncBrowser();
 			}
 			
-			WebElement pwd = CustomizedActions.getElement(By.id("login-passwd"),myAssert);
+			WebElement pwd = SeleniumWrapper.getElement(By.id("login-passwd"),myAssert);
 			if(pwd!= null){
 				pwd.clear();
 				pwd.sendKeys(password.trim());
 			}
 			
-			loginButton = CustomizedActions.getElement(By.id("login-signin"),myAssert);
+			loginButton = SeleniumWrapper.getElement(By.id("login-signin"),myAssert);
 			if(loginButton!= null){
 				loginButton.click();
-				util.syncBrowser();
+				SeleniumWrapper.syncBrowser();
 			}
 			
 			

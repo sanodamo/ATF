@@ -2,7 +2,7 @@ package org.staw.framework;
 
 import java.util.HashMap;
 
-import org.staw.framework.constants.GlobalVariables;
+import org.staw.framework.models.GlobalVariables;
 
 
 public class ThreadInformation {

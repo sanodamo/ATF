@@ -6,6 +6,12 @@ public class GlobalConstants {
 		public static final String RUN_ENVIRONMENT_PROP_SHEET = "runEnvironmentPropSheet";
   		public static final String TEST_CASES_TO_RUN = "testCasesToRunExcelSheet";
   		public static final String USER_NAME_AND_PASSWORD = "userNameAndPasswordExcelSheet";
+  		
+  		
+  		public static final String PROD = "prod";	
+  		public static final String QA = "qa";
+  		public static final String LOCAL_DEV = "local_dev";
+  		
 	}
 	
 	public class MasterConstant {	

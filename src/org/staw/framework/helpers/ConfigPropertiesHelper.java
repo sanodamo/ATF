@@ -17,7 +17,7 @@ public abstract class ConfigPropertiesHelper {
 		Properties prop = new Properties();
 		InputStream input = null;
 		try {
-			input = new FileInputStream(Utilities.getWorkSpace()
+			input = new FileInputStream(TestSetupHelper.getWorkSpace()
 					+ "//resources//properties//"+fileName+".properties");
 			prop.load(input);
 		} catch (Exception e) {

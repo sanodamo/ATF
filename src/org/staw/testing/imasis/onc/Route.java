@@ -2,28 +2,31 @@ package org.staw.testing.imasis.onc;
 
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
+import org.springframework.boot.env.EnvironmentPostProcessor;
 import org.staw.framework.SeleniumDriver;
+import org.staw.framework.SeleniumWrapper;
 import org.staw.framework.SoftAssertion;
-import org.staw.framework.helpers.Utilities;
+import org.staw.framework.helpers.EnviromentPropertiesSetupHelper;
+
 
 public class Route {
-	public static Logger logger = Logger.getLogger(Utilities.class.getName());
+	public static Logger logger = Logger.getLogger(Route.class.getName());
 	private static SoftAssertion myAssert;
-	private Utilities util;
+	
 	public Route(SoftAssertion myAssert) {
 		this.myAssert = myAssert;
-		util = new Utilities(myAssert);
+		
 	}
 	
 	public boolean navigateToUrl(String url) {
 		WebDriver driver = SeleniumDriver.getInstance().getWebDriver();
-		String currRunEnv = Utilities.getTestRunningEnvironmentVariable();
-		Utilities util = new Utilities(myAssert); 		
+		String currRunEnv = EnviromentPropertiesSetupHelper.getTestRunningEnvironmentVariable();
+		 		
 		try {
 			if (!url.isEmpty()) {
 							
 				driver.get(url);
-				util.syncBrowser();
+				SeleniumWrapper.syncBrowser();
 										
 				SeleniumDriver.getJavaScriptErrors();
 			}

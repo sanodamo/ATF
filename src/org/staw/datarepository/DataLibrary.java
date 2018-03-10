@@ -158,13 +158,17 @@ public class DataLibrary {
 		case REPORT_TABLE:
 			switch(key){
 			case GlobalConstants.MasterConstant.FM_P_ID:
-				dbVal = new String[13];
+				dbVal = new String[10];
 				dbVal[0] = p_id;
 				dbVal[1] = time;
-				for(int i=2;i<=4;i++)dbVal[i]="0";
+				dbVal[2]="0";
+				dbVal[3]="0";
+				dbVal[4]="0";
 				dbVal[5] = "00:00:00";
-				//dbVal[6] =  WordUtils.capitalize(Suite.ResultType.FAILED.name());
-				for(int i=6;i<=12;i++)dbVal[i]="N/A";
+				dbVal[6]="N/A";
+				dbVal[7]="N/A";
+				dbVal[8]="N/A";
+				dbVal[9]="N/A";
 				esq = QueryVars.INSERT_INTO_REPORT_TABLE;
 				break;
 			case GlobalConstants.MasterConstant.FM_START_DATE_AND_TIME:

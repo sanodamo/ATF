@@ -12,10 +12,9 @@ import org.apache.log4j.Logger;
 import org.staw.datarepository.DataLibrary.ReportType;
 import org.staw.datarepository.DataLibrary;
 import org.staw.framework.constants.GlobalConstants;
-import org.staw.framework.constants.Keywords;
-import org.staw.framework.constants.KeywordsExtended;
+import org.staw.framework.models.Keywords;
 import org.staw.framework.helpers.TestSetupHelper;
-import org.staw.framework.helpers.Utilities;
+
 import org.staw.framework.constants.BrowserTargetType;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -127,7 +126,7 @@ public class KeywordRunner {
 			}
 		}
 		if (!argumentList.isEmpty())
-			returnList = Utilities.getParametersValue(argumentList);
+			returnList = TestSetupHelper.getParametersValue(argumentList);
 		else
 			returnList = null;
 		
@@ -151,7 +150,7 @@ public class KeywordRunner {
 		boolean lastKeywordResult = false, currentKeywordResult = false;
 		ArrayList<String> argList = null;
 		Keywords kw;
-		KeywordsExtended kwe = null; 
+		 
 		int keywordCount =1;
 		try {
 			for (int i = 0; i < keyWords.getLength(); i++) {
@@ -162,9 +161,7 @@ public class KeywordRunner {
 					argList = getInitialInformationFromXml(keywordCount, singleKeyword);
 					strKeyword = singleKeyword.getAttributes().getNamedItem("label").getNodeValue().toUpperCase();
 					kw = Keywords.getKeyword(strKeyword);
-					if(kw == null) {
-						kwe = KeywordsExtended.getKeyword(strKeyword);
-					}
+					
 					if (kw != null) {
 						switch (kw) {
 						
@@ -188,14 +185,6 @@ public class KeywordRunner {
 								e.printStackTrace();
 							}
 							break;
-						}
-					} else if(kwe != null) {
-						try {
-							currentKeywordResult = keywordResult(argList, kwe.getClassName(), kwe.name());
-						} catch (Throwable e) {
-							log.error("Keyword failed to execute: " + kwe.getName() + ". Localized Message: " + e.getLocalizedMessage() + " Message: "
-									+ e.getMessage());
-							e.printStackTrace();
 						}
 					}
 					

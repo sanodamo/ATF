@@ -7,13 +7,13 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.staw.framework.helpers.TestSetupHelper;
-import org.staw.framework.helpers.Utilities;
+
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-public class RunTests extends BaseTestCase{
+public class RunTests extends CoreTestCase{
 	public static Logger logger = Logger.getLogger(RunTests.class.getName());
 	
 	@Override
@@ -55,19 +55,9 @@ public class RunTests extends BaseTestCase{
 	@DataProvider()
 	public static Object[][] getTestCaseNamesAndEnvOptions() throws IOException {
 		
-		Utilities.priliminaryCheck();
-		
+		TestSetupHelper.priliminaryCheck();		
 		return TestSetupHelper.getParameters(retrieveTestCasesToExecute(), TestSetupHelper.getEnvironmentOptions());
-		
-		/*Object[][]	obj =	new Object[1][5];
-		obj[0][0] = "member_search";
-		obj[0][1] = "firefox";
-		obj[0][2] = "54.0";
-		obj[0][3] = "Windows 10";
-		obj[0][4] = "Chrome";
-		
-		return obj;		*/
-				
+			
 	}
 		
 	

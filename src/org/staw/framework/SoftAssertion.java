@@ -6,13 +6,13 @@ import org.staw.datarepository.DataLibrary.ReportType;
 import org.staw.datarepository.DataLibrary;
 import org.staw.framework.constants.AssertTypes;
 import org.staw.framework.constants.GlobalConstants;
-import org.staw.framework.helpers.Utilities;
+
 import org.testng.asserts.Assertion;
 import org.testng.asserts.IAssert;
 
 public class SoftAssertion extends Assertion {
 
-		public Utilities util = null;
+		
 		
 	    public static Logger log = Logger.getLogger(SoftAssertion.class.getName());
 	

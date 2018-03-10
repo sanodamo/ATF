@@ -7,9 +7,9 @@ import org.apache.log4j.Logger;
 import org.staw.datarepository.DataLibrary.ReportType;
 import org.openqa.selenium.WebDriver;
 import org.staw.datarepository.DataLibrary;
-import org.staw.framework.constants.GlobalVariables;
+import org.staw.framework.helpers.EnviromentPropertiesSetupHelper;
 import org.staw.framework.helpers.TestSetupHelper;
-import org.staw.framework.helpers.Utilities;
+import org.staw.framework.models.GlobalVariables;
 import org.staw.framework.constants.GlobalConstants;
 import org.w3c.dom.NodeList;
 
@@ -82,16 +82,14 @@ public class FrameworkHelper {
 	public static boolean runTests(String tcName, String browser, String browserVersion, String osVersion){
 		WebDriver driver = SeleniumDriver.getInstance().getWebDriver();
 		String testCaseName = "";
-		String currRunEnv = Utilities.getTestRunningEnvironmentVariable();
+		String currRunEnv = EnviromentPropertiesSetupHelper.getTestRunningEnvironmentVariable();
 		if(driver != null) {
 			try {
 				myAssert.configurePrefix(browser,tcName);
-				Utilities util = new Utilities(myAssert);
 				KeywordRunner allactions = new KeywordRunner(myAssert);
-				myAssert.util = util;
 				NodeList keywords = null;
 				testCaseName = getTestCase(currRunEnv, tcName);
-				keywords = util.readTestCase(testCaseName.trim() + ".xml");
+				keywords = TestSetupHelper.readTestCase(testCaseName.trim() + ".xml");
 				if (keywords == null) {
 					
 					myAssert.assertTrue(false);

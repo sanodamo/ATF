@@ -6,8 +6,8 @@
 		<KeyWord label="Initializedata" />
 		<KeyWord label="SetGlobalVariables">
 			<Arguments>
-				<ArgumentVal value="gblStrAppName==&gt;SalesForceApplication" />
-				<ArgumentVal value="Users@SalesForceSalesUser_Set2" />
+				<ArgumentVal value="imasis" />
+				<ArgumentVal value="onc" />
 			</Arguments>
 		</KeyWord>
 		<KeyWord label="NavigateToUrl">
@@ -20,71 +20,6 @@
 				<ArgumentVal value="IMASIS_USER_ID" />
 				<ArgumentVal value="IMASIS_PASSWORD" />				
 			</Arguments>
-		</KeyWord>
-		<KeyWord label="SALESFORCE_CHANGE_VIEW">
-			<Arguments>
-				<ArgumentVal value="Lightning" />
-			</Arguments>
-		</KeyWord>
-		<KeyWord label="ACCOUNT_PAGE_ACTION_LTN">
-			<Arguments>
-				<ArgumentVal value="Click On Account Tab" />
-				<ArgumentVal value="" />
-			</Arguments>
-		</KeyWord>
-		<KeyWord label="ACCOUNT_PAGE_ACTION_LTN">
-			<Arguments>
-				<ArgumentVal value="Verify Account List" />
-				<ArgumentVal value="" />
-			</Arguments>
-		</KeyWord>
-		<KeyWord label="ACCOUNT_PAGE_ACTION_LTN">
-			<Arguments>
-				<ArgumentVal value="Verify Column Header" />
-				<ArgumentVal value="Accounts with NSSM Notes" />
-			</Arguments>
-		</KeyWord>
-		<KeyWord label="ACCOUNT_PAGE_ACTION_LTN">
-			<Arguments>
-			<ArgumentVal value="Verify Column Header" />
-				<ArgumentVal value="My Accounts" />
-			</Arguments>
-		</KeyWord>
-		<KeyWord label="ACCOUNT_PAGE_ACTION_LTN">
-			<Arguments>
-			<ArgumentVal value="Verify Column Header" />
-				<ArgumentVal value="My Account Team" />
-			</Arguments>
-		</KeyWord>
-		<KeyWord label="ACCOUNT_PAGE_ACTION_LTN">
-			<Arguments>
-			<ArgumentVal value="Verify Column Header" />
-				<ArgumentVal value="My Local Accounts" />
-			</Arguments>
-		</KeyWord>
-		<KeyWord label="ACCOUNT_PAGE_ACTION_LTN">
-			<Arguments>
-			<ArgumentVal value="Verify Column Header" />
-				<ArgumentVal value="My National Accounts" />
-			</Arguments>
-		</KeyWord>
-		<KeyWord label="ACCOUNT_PAGE_ACTION_LTN">
-			<Arguments>
-			<ArgumentVal value="Verify Column Header" />
-				<ArgumentVal value="My Territory's Accounts" />
-			</Arguments>
-		</KeyWord>
-		<KeyWord label="ACCOUNT_PAGE_ACTION_LTN">
-			<Arguments>
-			<ArgumentVal value="Verify Column Header" />
-				<ArgumentVal value="Recently Viewed Accounts" />
-			</Arguments>
-		</KeyWord>
-		<KeyWord label="ACCOUNT_PAGE_ACTION_LTN">
-			<Arguments>
-				<ArgumentVal value="Verify Column Header" />
-				<ArgumentVal value="Web Pricing Opted-In Customers" />
-			</Arguments>
-		</KeyWord>	
+		</KeyWord>		
 	</KeyWords>
 </Script>
