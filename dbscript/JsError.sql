@@ -1,0 +1,26 @@
+USE [JAC]
+GO
+
+/****** Object:  Table [dbo].[JSERROR]    Script Date: 3/11/2018 9:17:59 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+CREATE TABLE [dbo].[JSERROR](
+	[ID] [bigint] IDENTITY(1,1) NOT NULL,
+	[P_ID] [varchar](255) NOT NULL,
+	[TSTAMP] [timestamp] NOT NULL,
+	[URL] [varchar](255) NOT NULL,
+	[JSERROR] [varchar](255) NOT NULL
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+

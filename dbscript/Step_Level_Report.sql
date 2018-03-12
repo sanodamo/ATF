@@ -1,0 +1,29 @@
+USE [JAC]
+GO
+
+/****** Object:  Table [dbo].[STEP_LEVEL_REPORT]    Script Date: 3/11/2018 9:17:19 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [dbo].[STEP_LEVEL_REPORT](
+	[ID] [bigint] IDENTITY(1,1) NOT NULL,
+	[P_ID] [varchar](255) NOT NULL,
+	[TSTAMP] [datetime] NOT NULL,
+	[STEP_NUMBER] [int] NOT NULL,
+	[KEYWORD] [varchar](255) NOT NULL,
+	[PARAMETERS] [varchar](255) NOT NULL,
+	[DESCRIPTION] [varchar](255) NOT NULL,
+	[RESULT] [varchar](255) NOT NULL
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
