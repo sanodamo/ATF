@@ -6,7 +6,7 @@ import org.springframework.boot.env.EnvironmentPostProcessor;
 import org.staw.framework.SeleniumDriver;
 import org.staw.framework.SeleniumWrapper;
 import org.staw.framework.SoftAssertion;
-import org.staw.framework.helpers.EnviromentPropertiesSetupHelper;
+import org.staw.framework.helpers.EnviromentSetupHelper;
 
 
 public class Route {
@@ -20,7 +20,7 @@ public class Route {
 	
 	public boolean navigateToUrl(String url) {
 		WebDriver driver = SeleniumDriver.getInstance().getWebDriver();
-		String currRunEnv = EnviromentPropertiesSetupHelper.getTestRunningEnvironmentVariable();
+		String currRunEnv = EnviromentSetupHelper.getTestRunningEnvironmentVariable();
 		 		
 		try {
 			if (!url.isEmpty()) {

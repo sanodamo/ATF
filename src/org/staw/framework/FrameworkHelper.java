@@ -7,7 +7,7 @@ import org.apache.log4j.Logger;
 import org.staw.datarepository.DataLibrary.ReportType;
 import org.openqa.selenium.WebDriver;
 import org.staw.datarepository.DataLibrary;
-import org.staw.framework.helpers.EnviromentPropertiesSetupHelper;
+import org.staw.framework.helpers.EnviromentSetupHelper;
 import org.staw.framework.helpers.TestSetupHelper;
 import org.staw.framework.models.GlobalVariables;
 import org.staw.framework.constants.GlobalConstants;
@@ -82,7 +82,7 @@ public class FrameworkHelper {
 	public static boolean runTests(String tcName, String browser, String browserVersion, String osVersion){
 		WebDriver driver = SeleniumDriver.getInstance().getWebDriver();
 		String testCaseName = "";
-		String currRunEnv = EnviromentPropertiesSetupHelper.getTestRunningEnvironmentVariable();
+		String currRunEnv = EnviromentSetupHelper.getTestRunningEnvironmentVariable();
 		if(driver != null) {
 			try {
 				myAssert.configurePrefix(browser,tcName);

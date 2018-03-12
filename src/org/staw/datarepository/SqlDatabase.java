@@ -17,7 +17,7 @@ import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
 
 import org.apache.log4j.Logger;
-import org.staw.framework.helpers.DatabasePropertiesHelper;
+import org.staw.framework.helpers.DatabaseHelper;
 
 import com.zaxxer.hikari.HikariDataSource;
 import com.zaxxer.hikari.HikariPoolMXBean;
@@ -55,7 +55,7 @@ public class SqlDatabase {
 		dataSource = new HikariDataSource();
 		String currUser = "autoUser";
 		try {
-			DatabasePropertiesHelper dbHelper = new DatabasePropertiesHelper("database");
+			DatabaseHelper dbHelper = new DatabaseHelper("database");
 			
 			location = "AutomationDatabase.qa.sqlserver";
 			

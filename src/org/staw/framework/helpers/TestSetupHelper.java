@@ -32,7 +32,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-public class TestSetupHelper extends ConfigPropertiesHelper{
+public class TestSetupHelper extends ConfigHelper{
 	private static Logger logger = Logger.getLogger(TestSetupHelper.class.getName());
 	private static Properties setupHelperPropFile;
 	private static boolean filefound = false;
@@ -103,7 +103,7 @@ public class TestSetupHelper extends ConfigPropertiesHelper{
 	public static String getLevel() throws Exception{
 		try{
 			String lvl = setupHelperPropFile.getProperty("Level");
-			EnviromentPropertiesSetupHelper.RunningEnvironment.getVariable(lvl);
+			EnviromentSetupHelper.RunningEnvironment.getVariable(lvl);
 			return lvl;
 		}catch(Exception e){
 			throw new Exception("INVALID LELEL TYPE");
