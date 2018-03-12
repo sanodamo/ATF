@@ -1,0 +1,28 @@
+USE [JAC]
+GO
+
+/****** Object:  Table [dbo].[THREADS]    Script Date: 3/11/2018 9:17:29 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [dbo].[THREADS](
+	[ID] [bigint] IDENTITY(1,1) NOT NULL,
+	[THREAD] [int] NOT NULL,
+	[P_ID] [varchar](255) NOT NULL,
+	[TESTNAME] [varchar](255) NOT NULL,
+	[BROWSER] [varchar](255) NOT NULL,
+	[BROWSER_VERSION] [varchar](255) NULL,
+	[OS] [varchar](255) NULL
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
