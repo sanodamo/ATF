@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://www.w3schools.com/xmlValidation.xsd" elementFormDefault="qualified" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:ns="http://www.w3schools.com/xmlValidation.xsd">
+
+    <element name="Script" type="ns:TestCaseName"></element>
+    
+    <complexType name="TestCaseName">
+    	<sequence>
+    		<element name="KeyWords" type="ns:KWords" maxOccurs="1"
+    			minOccurs="1">
+    		</element>
+    	</sequence>
+    	<attribute name="name" type="string" use="required"></attribute>
+    	<attribute name="locale" type="string" use="optional" default="en"></attribute>
+    	<attribute name="lang" type="string"></attribute>
+    </complexType>
+
+    <complexType name="KWords">
+    	<sequence>
+    		<element name="KeyWord" type="ns:kWord" maxOccurs="unbounded" minOccurs="1">
+    		</element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="kWord">
+    	<sequence>
+    		<element name="Arguments" type="ns:Args" maxOccurs="1" minOccurs="0">
+    		</element>
+    	</sequence>
+    	<attribute name="label" type="string" use="required"></attribute>
+    </complexType>
+
+    <complexType name="Args">
+    	<sequence>
+    		<element name="ArgumentVal" type="ns:ArgVal" maxOccurs="unbounded" minOccurs="0"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="ArgVal">
+    	<attribute name="value" type="string" use="required"></attribute>
+    </complexType>
+</schema>

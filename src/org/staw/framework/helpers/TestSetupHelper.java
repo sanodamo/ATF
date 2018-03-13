@@ -304,17 +304,18 @@ public class TestSetupHelper extends ConfigHelper{
 		NodeList nList = null;
 		try {
 			File fXmlFile = getTestCasePath(tcFileName);
+			
 			if (fXmlFile == null){
 				logger.error("Unable to find test case with name: " + tcFileName);
 				return nList;
 			}
-//			try {
-//				if (!validateXml(fXmlFile))
-//					return nList;
-//			} catch (SAXException | IOException | ParserConfigurationException e) {
-//				logger.error(e.getMessage());
-//				return nList;
-//			}
+			try {
+				if (!validateXml(fXmlFile))
+					return nList;
+			} catch (SAXException | IOException | ParserConfigurationException e) {
+				logger.error(e.getMessage());
+				return nList;
+			}
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 			Document doc = dBuilder.parse(fXmlFile);

@@ -4,12 +4,12 @@ import java.io.File;
 
 public enum DriverVariables {
 	
-	RESOURCES_FOLDER("/resources"),
+	RESOURCES_FOLDER("\\resources"),
 	CHROME_DRIVER_WINDOWS("drivers\\chromedriver_win32\\chromedriver.exe"),
 	INTERNET_EXPLORER_DRIVER("drivers\\iedriver\\IEDriverServer.exe"),
 	GECKO_DRIVER_WIN("\\Drivers\\GeckoDriver\\Windows\\geckodriver.exe"),	
-	LOG4J_PROP("\\resources\\properties"),
-	XSD(RESOURCES_FOLDER.getPath()+"/xsd/xmlValidation.xsd");
+	LOG4J_PROP("resources\\properties"),
+	XSD("resources\\xsd\\xmlValidation.xsd");
 	
 	private String path;
 	private DriverVariables(String path){
