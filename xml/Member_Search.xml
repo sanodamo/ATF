@@ -20,6 +20,87 @@
 				<ArgumentVal value="IMASIS_USER_ID" />
 				<ArgumentVal value="IMASIS_PASSWORD" />				
 			</Arguments>
-		</KeyWord>		
+		</KeyWord>	
+		<KeyWord label="CALLACTION">
+			<Arguments>
+				<ArgumentVal value="Start call" />
+				<ArgumentVal value="" />				
+			</Arguments>
+		</KeyWord>
+		<KeyWord label="FILLCALLERDETAILS">
+			<Arguments>
+				<ArgumentVal value="" />
+				<ArgumentVal value="Caller:FirstName" />
+				<ArgumentVal value="Caller:LastName" />
+				<ArgumentVal value="" />
+				<ArgumentVal value="Caller:Phone" />
+				<ArgumentVal value="" />
+				<ArgumentVal value="" />
+				<ArgumentVal value="" />
+			</Arguments>
+		</KeyWord>	
+		<KeyWord label="SWITCHTAB">
+			<Arguments>
+				<ArgumentVal value="Member" />							
+			</Arguments>
+		</KeyWord>
+		<KeyWord label="PRODUCTSELECTION">
+			<Arguments>
+				<ArgumentVal value="RAD" />							
+			</Arguments>
+		</KeyWord>
+		<KeyWord label="TREATMENTDATESELECTION">
+			<Arguments>
+				<ArgumentVal value="PROSPECTIVE" />							
+			</Arguments>
+		</KeyWord>
+		<KeyWord label="MEMBERSEARCH">
+			<Arguments>				
+				<ArgumentVal value="Anthem CR" />
+				<ArgumentVal value="ActiveMember:Id:CR" />
+			</Arguments>
+		</KeyWord>
+		<KeyWord label="MEMBERSELECT">
+			<Arguments>								
+				<ArgumentVal value="Active Member" />
+			</Arguments>
+		</KeyWord>
+		<KeyWord label="SWITCHTAB">
+			<Arguments>
+				<ArgumentVal value="Physician" />							
+			</Arguments>
+		</KeyWord>
+		<KeyWord label="PHYSICIANSEARCHBYNPI">
+			<Arguments>				
+				<ArgumentVal value="Illinois" />
+				<ArgumentVal value="ActivePhysician:NPI:IL" />
+			</Arguments>
+		</KeyWord>
+		<KeyWord label="PHYSICIANSELECT">
+			<Arguments>								
+				<ArgumentVal value="Active Physician" />
+			</Arguments>
+		</KeyWord>
+		<KeyWord label="SWITCHTAB">
+			<Arguments>
+				<ArgumentVal value="Provider" />							
+			</Arguments>
+		</KeyWord>
+		<KeyWord label="PROVIDERSEARCHBYNPI">
+			<Arguments>				
+				<ArgumentVal value="Illinois" />
+				<ArgumentVal value="ContractedProvider:NPI:IL" />
+			</Arguments>
+		</KeyWord>
+		<KeyWord label="PROVIDERSELECT">
+			<Arguments>								
+				<ArgumentVal value="Contracted Provider" />
+			</Arguments>
+		</KeyWord>
+		<KeyWord label="SWITCHTAB">
+			<Arguments>
+				<ArgumentVal value="Modality" />							
+			</Arguments>
+		</KeyWord>
 	</KeyWords>
 </Script>

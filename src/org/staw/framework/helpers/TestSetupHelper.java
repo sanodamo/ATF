@@ -240,45 +240,50 @@ public class TestSetupHelper extends ConfigHelper{
 	public static ArrayList<String> getParametersValue(ArrayList<String> args) {
 		ArrayList<String> argValue = new ArrayList<String>();
 		Field masterHashMapField = null;
-		Field constantsVarField = null;
-		boolean foundInHashMap;
-		boolean foundInConstVar;
-		boolean specialArgs=false;
-		if(args.size()==1&&args.get(0).contains(",")){
-			args = splitArgument(args.get(0));
-			specialArgs=true;
-		}
+		Field constantsVarField = null;	
+		String testData;
+				
 		for (String arg: args) {
 			arg = arg.trim();
 			try {
+								
 				try{
 					masterHashMapField = GlobalConstants.MasterConstant.class.getField(arg);
-					foundInHashMap = true;
-				}catch(Exception e){foundInHashMap = false;}
+					if(masterHashMapField != null) {
+						//add to arglist
+					}
+					
+				}catch(Exception e){}
+				
 				try{
 					constantsVarField = EnviromentProperties.class.getDeclaredField(arg);
-					foundInConstVar = true;
-				}catch(Exception e){foundInConstVar = false;}
+					if(constantsVarField != null) {
+						argValue.add((String) constantsVarField.get(null));
+						continue;
+					}
+					
+				}catch(Exception e){}
 				
-				if(foundInHashMap){
-					//argValue.add();
-				}else if(foundInConstVar){
-					argValue.add((String) constantsVarField.get(null));
+				try {
+					if(!arg.isEmpty()) {
+						testData = DataLibrary.getValue(ReportType.TESTDATA, arg);
+						if(!testData.isEmpty()) {
+							argValue.add(testData);
+							continue;
+						}
+					}
 				}
+				catch(Exception e) {}
+				
+												
+				argValue.add(arg);
 				
 			} catch (Exception e) {				
 				argValue.add(arg);
 				logger.error("Please provide a valid argument. Unable to parse argument: " + arg);				
 			}
 		}
-		if(specialArgs){
-			StringBuffer sb = new StringBuffer();
-			for(int i=0; i<argValue.size();i++){
-				sb.append(argValue.get(i)+((i!=(argValue.size()-1)?",":"")));
-			}
-			argValue = new ArrayList<>();
-			argValue.add(sb.toString());
-		}
+		
 		return argValue;
 	}
 	

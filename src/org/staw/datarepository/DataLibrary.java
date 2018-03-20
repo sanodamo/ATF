@@ -21,56 +21,56 @@ import org.staw.framework.constants.GlobalConstants;
 public class DataLibrary {
 
 	public enum ReportType {
-		THREADS, MASTER_TABLE, REPORT_TABLE, STEP_LEVEL_REPORT, RERUN_TABLE, JSERROR_TABLE, COOKIES_TABLE;
+		THREADS, MASTER_TABLE, REPORT_TABLE, STEP_LEVEL_REPORT, RERUN_TABLE, JSERROR_TABLE, COOKIES_TABLE, TESTDATA;
 	}
 
 	private static Logger log = Logger.getLogger(DataLibrary.class.getName());
 
-	public static void createAllTables(){
-//		destroyAllTables();
-		for(ReportType type: ReportType.values()){
-			DataLibrary.initialize("create", type);
-		}
-	}
+//	public static void createAllTables(){
+////		destroyAllTables();
+//		for(ReportType type: ReportType.values()){
+//			DataLibrary.initialize("create", type);
+//		}
+//	}
+//
+//	public static void destroyAllTables(){
+//		for(ReportType type: ReportType.values()){
+//			DataLibrary.initialize("drop", type);
+//		}
+//	}
 
-	public static void destroyAllTables(){
-		for(ReportType type: ReportType.values()){
-			DataLibrary.initialize("drop", type);
-		}
-	}
-
-	public static void initialize(String action, ReportType rt) {
-		boolean create = action.equalsIgnoreCase("create") ? true : false;
-		QueryVars esq = null;
-		switch (rt) {
-		case MASTER_TABLE:
-			esq = create ? QueryVars.CREATE_MASTER_TABLE : QueryVars.DROP_MASTER_TABLE;
-			break;
-		case REPORT_TABLE:
-			esq = create ? QueryVars.CREATE_REPORT_TABLE : QueryVars.DROP_REPORT_TABLE;
-			break;
-		case STEP_LEVEL_REPORT:
-			esq = create ? QueryVars.CREATE_STEP_LEVEL_REPORT : QueryVars.DROP_STEP_LEVEL_REPORT;
-			break;
-		case THREADS:
-			esq = create ? QueryVars.CREATE_THREADS_TABLE : QueryVars.DROP_THREADS_TABLE;
-			break;
-		case RERUN_TABLE:
-			esq = create ? QueryVars.CREATE_RERUN_TABLE : QueryVars.DROP_RERUN_TABLE;
-			break;
-		case JSERROR_TABLE:
-			esq = create ? QueryVars.CREATE_JSERROR_TABLE : QueryVars.DROP_JSERROR_TABLE;
-			break;
-		case COOKIES_TABLE:
-			esq = create ? QueryVars.CREATE_COOKIE_TABLE : QueryVars.DROP_COOKIES_TABLE;
-			break;
-		}
-		try {
-			SqlDatabase.runSqlForEmdDb(esq, null);
-		} catch (SQLException | IOException e) {
-			log.error(e.getMessage());
-		}
-	}
+//	public static void initialize(String action, ReportType rt) {
+//		boolean create = action.equalsIgnoreCase("create") ? true : false;
+//		QueryVars esq = null;
+//		switch (rt) {
+//		case MASTER_TABLE:
+//			esq = create ? QueryVars.CREATE_MASTER_TABLE : QueryVars.DROP_MASTER_TABLE;
+//			break;
+//		case REPORT_TABLE:
+//			esq = create ? QueryVars.CREATE_REPORT_TABLE : QueryVars.DROP_REPORT_TABLE;
+//			break;
+//		case STEP_LEVEL_REPORT:
+//			esq = create ? QueryVars.CREATE_STEP_LEVEL_REPORT : QueryVars.DROP_STEP_LEVEL_REPORT;
+//			break;
+//		case THREADS:
+//			esq = create ? QueryVars.CREATE_THREADS_TABLE : QueryVars.DROP_THREADS_TABLE;
+//			break;
+//		case RERUN_TABLE:
+//			esq = create ? QueryVars.CREATE_RERUN_TABLE : QueryVars.DROP_RERUN_TABLE;
+//			break;
+//		case JSERROR_TABLE:
+//			esq = create ? QueryVars.CREATE_JSERROR_TABLE : QueryVars.DROP_JSERROR_TABLE;
+//			break;
+//		case COOKIES_TABLE:
+//			esq = create ? QueryVars.CREATE_COOKIE_TABLE : QueryVars.DROP_COOKIES_TABLE;
+//			break;
+//		}
+//		try {
+//			SqlDatabase.runSqlForEmdDb(esq, null);
+//		} catch (SQLException | IOException e) {
+//			log.error(e.getMessage());
+//		}
+//	}
 
 	public static String getCurrentTimestampMySqlFormat(){
 		Date date = new java.util.Date();
@@ -224,7 +224,7 @@ public class DataLibrary {
 			break;
 		}
 		try {
-			if(!SqlDatabase.runSqlForEmdDb(esq, dbVal))
+			if(!SqlDatabase.runSql(esq, dbVal))
 				updateValue(rt, key, val);
 		} catch (SQLException | IOException e) {
 			log.error("Unable to set nor update the key: " + key + " with value " + val);
@@ -330,7 +330,11 @@ public class DataLibrary {
 		case JSERROR_TABLE:
 		case COOKIES_TABLE:
 			break;
-
+		case TESTDATA:
+			dbVal = new String[1];			
+			dbVal[0] = key;
+			esq = QueryVars.GET_TEST_DATA_BY_KEY;
+			break;
 		}
 		arr[0]=esq;
 		arr[1]=dbVal;
@@ -361,7 +365,7 @@ public class DataLibrary {
 			log.error("ERROR UPDATING VALUE FOR: " + rt.toString() + " with Key: " + key + " with value: " + value);
 		}
 		try{
-			SqlDatabase.runSqlForEmdDb(esq, dbVal);
+			SqlDatabase.runSql(esq, dbVal);
 		}catch (SQLException| IOException e){
 			log.error("ERROR UPDATING VALUE FOR: " + rt.toString() + " with Key: " + key + " with value: " + value +  e.getCause());
 		}
@@ -396,7 +400,7 @@ public class DataLibrary {
 
 	public static void runGenericSql(QueryVars esq, String[] val){
 		try{
-			SqlDatabase.runSqlForEmdDb(esq, val);
+			SqlDatabase.runSql(esq, val);
 		}catch (SQLException| IOException e){
 			log.error(e.getCause());
 		}

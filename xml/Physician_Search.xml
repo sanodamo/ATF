@@ -20,6 +20,12 @@
 				<ArgumentVal value="IMASIS_USER_ID" />
 				<ArgumentVal value="IMASIS_PASSWORD" />				
 			</Arguments>
+		</KeyWord>	
+		<KeyWord label="CALLACTION">
+			<Arguments>
+				<ArgumentVal value="Start call" />
+				<ArgumentVal value="" />				
+			</Arguments>
 		</KeyWord>		
 	</KeyWords>
 </Script>

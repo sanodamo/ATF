@@ -9,22 +9,34 @@ public enum Keywords {
 	/*
 	 * NO-Class
 	 */
-	SETGLOBALVARIABLES(null,"Description", "Name","RacfID", "MM/dd/yyyy"),
-	INITIALIZEDATA(null,"Description", "Name","RacfID", "MM/dd/yyyy"),
-	INITIALROUTINES(null,"Description", "Name","RacfID", "MM/dd/yyyy"),
-	SETGLOBALVARBYEXPRESSION(null,"Description", "Name","RacfID", "MM/dd/yyyy"),
-	LOGIN(Login.class,"Description", "Name","RacfID", "MM/dd/yyyy"),
-	CLOSEBROWSER(null,"Description", "Name","RacfID", "MM/dd/yyyy"),
-	NAVIGATETOURL(Route.class,"Description", "Name","RacfID", "MM/dd/yyyy"),
+	SETGLOBALVARIABLES(null,"Description", "Name","UserID", "MM/dd/yyyy"),
+	INITIALIZEDATA(null,"Description", "Name","UserID", "MM/dd/yyyy"),
+	INITIALROUTINES(null,"Description", "Name","UserID", "MM/dd/yyyy"),
+	SETGLOBALVARBYEXPRESSION(null,"Description", "Name","UserID", "MM/dd/yyyy"),
+	LOGIN(Login.class,"Description", "Name","UserID", "MM/dd/yyyy"),
+	CLOSEBROWSER(null,"Description", "Name","UserID", "MM/dd/yyyy"),
+	NAVIGATETOURL(Route.class,"Description", "Name","UserID", "MM/dd/yyyy"),
 
+	CALLACTION(Call.class,"Description", "Name","UserID", "MM/dd/yyyy"),
+	FILLCALLERDETAILS(Call.class,"Description", "Name","UserID", "MM/dd/yyyy"),
+	MEMBERSEARCH(Member.class,"Description", "Name","UserID", "MM/dd/yyyy"),
+	MEMBERSELECT(Member.class,"Description", "Name","UserID", "MM/dd/yyyy"),
 	
-	MEMBERPAGEACTION(Member.class,"Description", "Name","RacfID", "MM/dd/yyyy"),
-	PHYSICIANPAGEACTION(Physician.class,"Description", "Name","RacfID", "MM/dd/yyyy");
+	PHYSICIANSEARCHBYNPI(Physician.class,"Description", "Name","UserID", "MM/dd/yyyy"),
+	PHYSICIANSELECT(Physician.class,"Description", "Name","UserID", "MM/dd/yyyy"),
+	
+	PROVIDERSEARCHBYNPI(Provider.class,"Description", "Name","UserID", "MM/dd/yyyy"),
+	PROVIDERSELECT(Provider.class,"Description", "Name","UserID", "MM/dd/yyyy"),
+	
+	
+	PRODUCTSELECTION(Member.class,"Description", "Name","UserID", "MM/dd/yyyy"),
+	TREATMENTDATESELECTION(Member.class,"Description", "Name","UserID", "MM/dd/yyyy"),
+	SWITCHTAB(CommonActions.class,"Description", "Name","UserID", "MM/dd/yyyy");
 	
 	private final Class<?> className;	
 	private final String description;
 	private final String name;
-	private final String racfid;
+	private final String UserID;
 	private final String date;
 	
 	public static Keywords getKeyword(String kw){
@@ -47,8 +59,8 @@ public enum Keywords {
 		return this.name;
 	}
 	
-	public String getRacfid() {
-		return this.racfid;
+	public String getUserID() {
+		return this.UserID;
 	}
 	
 	public String getDate() {
@@ -56,11 +68,11 @@ public enum Keywords {
 		return df.format(this.date);
 	}
 	
-	private Keywords(Class<?> className, String description, String name, String racfid, String date){
+	private Keywords(Class<?> className, String description, String name, String UserID, String date){
 		this.className = className;
 		this.description = description;
 		this.name = name;
-		this.racfid = racfid;
+		this.UserID = UserID;
 		this.date = date;
 	}
 	
@@ -68,7 +80,7 @@ public enum Keywords {
 		this.className = null;
 		this.description = "No Description";
 		this.name = "No Name";
-		this.racfid = "No Racfid";
+		this.UserID = "No UserID";
 		this.date = "No Date";
 	}
 }

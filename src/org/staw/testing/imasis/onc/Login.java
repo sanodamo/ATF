@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.staw.framework.SeleniumWrapper;
 import org.staw.framework.SeleniumDriver;
 import org.staw.framework.SoftAssertion;
+import org.staw.testing.imasis.constants.DomConstants;
 
 
 public class Login {
@@ -17,10 +18,8 @@ public class Login {
 	}
 	
 	public boolean login(String userName, String password ) {
-		try {
-			myAssert.Success("Logged in");
-			ImasisLoginAction(userName,password);
-			return true;
+		try {			
+			return ImasisLoginAction(userName,password);			
 		}catch(Exception e) {
 			myAssert.Failed("Unable to login");
 			return false;
@@ -32,30 +31,23 @@ public class Login {
 		WebDriver driver = SeleniumDriver.getInstance().getWebDriver();
 				
 		try {
-			WebElement userId = SeleniumWrapper.getElement(By.id("login-username"),myAssert);
+			WebElement userId = SeleniumWrapper.getElement(By.id(DomConstants.Login.IMASIS_LOGIN_USERNAME),myAssert);
 			if(userId!= null){
 				userId.clear();
 				userId.sendKeys(userName.trim());
 			}
 			
-			WebElement loginButton = SeleniumWrapper.getElement(By.id("login-signin"),myAssert);
-			if(loginButton!= null){
-				loginButton.click();
-				SeleniumWrapper.syncBrowser();
-			}
-			
-			WebElement pwd = SeleniumWrapper.getElement(By.id("login-passwd"),myAssert);
+			WebElement pwd = SeleniumWrapper.getElement(By.id(DomConstants.Login.IMASIS_LOGIN_PASSWORD),myAssert);
 			if(pwd!= null){
 				pwd.clear();
 				pwd.sendKeys(password.trim());
 			}
 			
-			loginButton = SeleniumWrapper.getElement(By.id("login-signin"),myAssert);
+			WebElement loginButton = SeleniumWrapper.getElement(By.cssSelector(DomConstants.Login.IMASIS_LOGIN_SUBMIT),myAssert);
 			if(loginButton!= null){
-				loginButton.click();
-				SeleniumWrapper.syncBrowser();
+				loginButton.click();						
 			}
-			
+			SeleniumWrapper.syncBrowser();
 			
 			String message = "Succesfully entered value: " + userId + " and Successfully clicked login ";
 			myAssert.Success(message);

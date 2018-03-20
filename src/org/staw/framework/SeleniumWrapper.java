@@ -49,6 +49,11 @@ public class SeleniumWrapper {
 		return myAssert.Success(" Element clicked");
 	}
 	
+	public static boolean clickOnLink(By type, String Message, SoftAssertion myAssert) {		
+		WebDriver driver = SeleniumDriver.getInstance().getWebDriver();
+		return clickOnLink(driver,type,Message,myAssert);		
+	}
+	
 	public static boolean clickOnLink(WebDriver driver, By type, String Message, SoftAssertion myAssert) {
 		try {
 			SeleniumDriver.fluentWaitFindElement(driver, type, 20).click();
@@ -102,7 +107,7 @@ public class SeleniumWrapper {
 	}
 	
 
-	public static boolean fillTextFieldAndTabOut(WebDriver driver, By element, String whatValue, String fieldName, SoftAssertion myAssert) {
+	public static boolean fillTextFieldAndTabOut(By element, String whatValue, String fieldName, SoftAssertion myAssert) {
 		WebElement oField = getElement(element, myAssert);
 		if(oField != null) {
 			fillTextField(oField, whatValue, fieldName, false, myAssert);
@@ -168,6 +173,17 @@ public class SeleniumWrapper {
 		}
 	}
 
+	public static boolean clickOnElementByIndex(int index, By locator, String message, SoftAssertion myAssert) {
+		WebDriver driver = SeleniumDriver.getInstance().getWebDriver();
+		try {
+			List<WebElement> buttons = SeleniumWrapper.getElements(locator, myAssert);			
+			SeleniumWrapper.javaScriptExecutorClickElement(driver, myAssert,UtilitiesConstants.JAVASCRIPT_CLICK_ELEMENT, buttons.get(index));
+			return myAssert.Success("Successfully clicked " + message + " element");			
+			
+		} catch (Exception e) {
+			return myAssert.Failed("Unable to find " + message + " element");
+		}		
+	}	
 	
 	public static boolean clickOnListElement(String element, By locator, SoftAssertion myAssert) {
 		WebDriver driver = SeleniumDriver.getInstance().getWebDriver();
@@ -218,7 +234,11 @@ public class SeleniumWrapper {
 		return null;
 	}
 	
-	
+	public static boolean selectByValue(By elementType, String whatValue, String fieldName, SoftAssertion myAssert) {
+		WebDriver driver = SeleniumDriver.getInstance().getWebDriver();
+		return selectByAnyMethod(driver,elementType,whatValue,"text", fieldName, myAssert);
+	}
+			
 	public static boolean selectByAnyMethod(WebDriver driver, By elementType, String whatValue, String selectByType,
 			String fieldName, SoftAssertion myAssert) {
 		Select oSelect;
