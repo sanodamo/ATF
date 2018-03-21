@@ -238,7 +238,12 @@ public class SeleniumWrapper {
 		WebDriver driver = SeleniumDriver.getInstance().getWebDriver();
 		return selectByAnyMethod(driver,elementType,whatValue,"text", fieldName, myAssert);
 	}
-			
+
+	public static boolean selectByIndex(By elementType, String whatValue, String fieldName, SoftAssertion myAssert) {
+		WebDriver driver = SeleniumDriver.getInstance().getWebDriver();
+		return selectByAnyMethod(driver,elementType,whatValue,"index", fieldName, myAssert);
+	}
+	
 	public static boolean selectByAnyMethod(WebDriver driver, By elementType, String whatValue, String selectByType,
 			String fieldName, SoftAssertion myAssert) {
 		Select oSelect;

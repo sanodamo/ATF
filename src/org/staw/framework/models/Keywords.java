@@ -28,10 +28,20 @@ public enum Keywords {
 	PROVIDERSEARCHBYNPI(Provider.class,"Description", "Name","UserID", "MM/dd/yyyy"),
 	PROVIDERSELECT(Provider.class,"Description", "Name","UserID", "MM/dd/yyyy"),
 	
+	TREATMENTSELECTION(Modality.class,"Description", "Name","UserID", "MM/dd/yyyy"),
+	PREEXAMQUESTIONS(Modality.class,"Description", "Name","UserID", "MM/dd/yyyy"),
+	
+	APCLINICALQUESTION(Clinical.class,"Description", "Name","UserID", "MM/dd/yyyy"),
+	APCLINICALCOMPLETE(Clinical.class,"Description", "Name","UserID", "MM/dd/yyyy"),
+	APTREATMENTQUESTION(Clinical.class,"Description", "Name","UserID", "MM/dd/yyyy"),
+	
+	APREVIEWCONFIRM(Clinical.class,"Description", "Name","UserID", "MM/dd/yyyy"),
 	
 	PRODUCTSELECTION(Member.class,"Description", "Name","UserID", "MM/dd/yyyy"),
 	TREATMENTDATESELECTION(Member.class,"Description", "Name","UserID", "MM/dd/yyyy"),
-	SWITCHTAB(CommonActions.class,"Description", "Name","UserID", "MM/dd/yyyy");
+	SWITCHTAB(CommonActions.class,"Description", "Name","UserID", "MM/dd/yyyy"),
+	CASEACTIONS(CommonActions.class,"Description", "Name","UserID", "MM/dd/yyyy");
+	
 	
 	private final Class<?> className;	
 	private final String description;

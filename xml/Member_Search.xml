@@ -102,5 +102,89 @@
 				<ArgumentVal value="Modality" />							
 			</Arguments>
 		</KeyWord>
+		<KeyWord label="TREATMENTSELECTION">
+			<Arguments>								
+				<ArgumentVal value="Brachytherapy (CPT 77761)" />
+				<ArgumentVal value="Primary" />
+			</Arguments>
+		</KeyWord>
+		<KeyWord label="PREEXAMQUESTIONS">
+			<Arguments>								
+				<ArgumentVal value="Primary Tumor" />
+				<ArgumentVal value="Breast Cancer (Female)" />
+				<ArgumentVal value="In situ carcinoma" />
+				<ArgumentVal value="Intraductal Carcinoma (DCIS)" />
+				<ArgumentVal value="stage" />
+				<ArgumentVal value="0" />
+				<ArgumentVal value="Definitive" />
+				<ArgumentVal value="Palliative" />
+				<ArgumentVal value="0 - Normal Activity (asymptomatic)" />
+			</Arguments>
+		</KeyWord>
+		<KeyWord label="SWITCHTAB">
+			<Arguments>
+				<ArgumentVal value="Clinical" />							
+			</Arguments>			
+		</KeyWord>
+		<KeyWord label="APCLINICALQUESTION">
+			<Arguments>
+				<ArgumentVal value="Has the patient had breast conserving surgery" />
+				<ArgumentVal value="Yes" />		
+				<ArgumentVal value="radio" />
+			</Arguments>			
+		</KeyWord>
+		<KeyWord label="APCLINICALQUESTION">
+			<Arguments>
+				<ArgumentVal value="Select from the following options" />
+				<ArgumentVal value="Boost after whole breast external beam radiotherapy" />
+				<ArgumentVal value="radio" />							
+			</Arguments>			
+		</KeyWord>		
+		<KeyWord label="APCLINICALCOMPLETE">
+			<Arguments>
+				<ArgumentVal value="Next" />											
+			</Arguments>			
+		</KeyWord>
+		<KeyWord label="APTREATMENTQUESTION">
+			<Arguments>
+				<ArgumentVal value="Select from the following options" />
+				<ArgumentVal value="High-dose rate (HDR) brachytherapy" />
+				<ArgumentVal value="radio" />							
+			</Arguments>			
+		</KeyWord>
+		<KeyWord label="APTREATMENTQUESTION">
+			<Arguments>
+				<ArgumentVal value="Planned total dose" />
+				<ArgumentVal value="10" />
+				<ArgumentVal value="text" />							
+			</Arguments>			
+		</KeyWord>	
+		<KeyWord label="APTREATMENTQUESTION">
+			<Arguments>
+				<ArgumentVal value="Total number of fractions" />
+				<ArgumentVal value="10" />
+				<ArgumentVal value="text" />							
+			</Arguments>			
+		</KeyWord>	
+		<KeyWord label="APCLINICALCOMPLETE">
+			<Arguments>
+				<ArgumentVal value="Next" />											
+			</Arguments>			
+		</KeyWord>
+		<KeyWord label="APREVIEWCONFIRM">
+			<Arguments>
+				<ArgumentVal value="Continue" />											
+			</Arguments>			
+		</KeyWord>	
+		<KeyWord label="CASEACTIONS">
+			<Arguments>
+				<ArgumentVal value="Save" />											
+			</Arguments>			
+		</KeyWord>	
+		<KeyWord label="CASEACTIONS">
+			<Arguments>
+				<ArgumentVal value="Close" />											
+			</Arguments>			
+		</KeyWord>	
 	</KeyWords>
 </Script>
