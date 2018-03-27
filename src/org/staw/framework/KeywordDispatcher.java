@@ -12,24 +12,24 @@ import org.apache.log4j.Logger;
 import org.staw.datarepository.DataLibrary.ReportType;
 import org.staw.datarepository.DataLibrary;
 import org.staw.framework.constants.GlobalConstants;
-import org.staw.framework.models.Keywords;
+import org.staw.framework.models.KeywordRegistry;
 import org.staw.framework.helpers.TestSetupHelper;
 
 import org.staw.framework.constants.BrowserTargetType;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class KeywordRunner {
+public class KeywordDispatcher {
 
 	private static SoftAssertion myAssert;
 	private static SeleniumDriver sd = new SeleniumDriver();
 	private static String sessionId;
 
-	public KeywordRunner(SoftAssertion sr) {
+	public KeywordDispatcher(SoftAssertion sr) {
 		myAssert = sr;
 	}
 
-	public static Logger log = Logger.getLogger(KeywordRunner.class.getName());
+	public static Logger log = Logger.getLogger(KeywordDispatcher.class.getName());
 	
 	private static String getExecutionEnv(){
 		try {
@@ -144,12 +144,12 @@ public class KeywordRunner {
 	
 	
 	public boolean executeKeywords(NodeList keyWords) {
-		Keywords[] loginFunctions = { Keywords.LOGIN };
+		KeywordRegistry[] loginFunctions = { KeywordRegistry.LOGIN };
 	
 		String strKeyword = "";
 		boolean lastKeywordResult = false, currentKeywordResult = false;
 		ArrayList<String> argList = null;
-		Keywords kw;
+		KeywordRegistry kw;
 		 
 		int keywordCount =1;
 		try {
@@ -160,7 +160,7 @@ public class KeywordRunner {
 						break;
 					argList = getInitialInformationFromXml(keywordCount, singleKeyword);
 					strKeyword = singleKeyword.getAttributes().getNamedItem("label").getNodeValue().toUpperCase();
-					kw = Keywords.getKeyword(strKeyword);
+					kw = KeywordRegistry.getKeyword(strKeyword);
 					
 					if (kw != null) {
 						switch (kw) {

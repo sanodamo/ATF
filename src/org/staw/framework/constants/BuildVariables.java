@@ -1,6 +1,6 @@
 package org.staw.framework.constants;
 
-import org.staw.framework.FrameworkHelper;
+import org.staw.framework.helpers.FrameworkHelper;
 
 public class BuildVariables {
 

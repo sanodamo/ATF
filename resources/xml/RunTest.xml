@@ -2,7 +2,7 @@
 <suite name="runAllTest" preserve-order="true">
   <test name="runAllTest">
   	<classes>  		
-  		<class name="org.staw.framework.RunTests"/>
+  		<class name="org.staw.framework.MainTestInvoker"/>
   	</classes>
   </test> <!-- Test -->
 </suite> <!-- Suite -->

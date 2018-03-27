@@ -7,12 +7,12 @@ import org.staw.framework.constants.DriverVariables;
 import org.staw.framework.helpers.TestSetupHelper;
 import org.testng.annotations.Test;
 
-public class Initialize {
+public class InitializeTestSuite {
 	private boolean connectionPoolCreated;
-	private static Initialize instance = new Initialize();
-	private Logger log = Logger.getLogger(Initialize.class.getName());
+	private static InitializeTestSuite instance = new InitializeTestSuite();
+	private Logger log = Logger.getLogger(InitializeTestSuite.class.getName());
 
-	public static Initialize getInstance() {
+	public static InitializeTestSuite getInstance() {
 		return instance;
 	}
 	public boolean isConnectionPoolCreated() {

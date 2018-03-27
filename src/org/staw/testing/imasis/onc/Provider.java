@@ -34,4 +34,11 @@ public class Provider {
 		}
 		return false;
 	}
+	
+	public boolean PlaceOfService(String action) {
+		boolean isSuccess = SeleniumWrapper.selectByValue(By.xpath(DomConstants.Provider.PLACE_OF_SERVICE), action.toUpperCase(), "Place of service", myAssert);
+		SeleniumWrapper.syncBrowser();
+		return isSuccess;
+	}
+	
 }

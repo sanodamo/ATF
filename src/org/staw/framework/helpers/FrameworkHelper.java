@@ -8,7 +8,7 @@ import org.staw.datarepository.DataLibrary.ReportType;
 import org.openqa.selenium.WebDriver;
 import org.staw.datarepository.DataLibrary;
 import org.staw.framework.models.GlobalVariables;
-import org.staw.framework.KeywordRunner;
+import org.staw.framework.KeywordDispatcher;
 import org.staw.framework.SeleniumDriver;
 import org.staw.framework.SoftAssertion;
 import org.staw.framework.ThreadInformation;
@@ -38,6 +38,9 @@ public class FrameworkHelper {
 		inf.put(GlobalConstants.MasterConstant.FM_BROWSER, browser);
 		inf.put(GlobalConstants.MasterConstant.FM_BROWSER_VERSION, browserVersion);
 		inf.put(GlobalConstants.MasterConstant.FM_OPERATING_SYSTEM, osVersion);
+		inf.put(GlobalConstants.MasterConstant.FM_USER_ID, TestSetupHelper.getCurrentUser());
+		inf.put(GlobalConstants.MasterConstant.FM_HOST_NAME, TestSetupHelper.getCurrentHostName());
+		inf.put(GlobalConstants.MasterConstant.FM_START_DATE_AND_TIME,DateExtension.getCurrentTimestampFormat());
 		try {
 			String previousPid = setPreviousID(tcName, browser, browserVersion, osVersion);
 			ThreadInformation.initialize();
@@ -90,7 +93,7 @@ public class FrameworkHelper {
 			try {
 				myAssert.configurePrefix(browser,tcName);
 
-				KeywordRunner allactions = new KeywordRunner(myAssert);
+				KeywordDispatcher allactions = new KeywordDispatcher(myAssert);
 
 				NodeList keywords = null;
 				testCaseName = getTestCase(currRunEnv, tcName);

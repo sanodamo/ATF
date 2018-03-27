@@ -21,7 +21,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.log4j.Logger;
 import org.staw.datarepository.DataLibrary;
 import org.staw.datarepository.DataLibrary.ReportType;
-import org.staw.framework.FrameworkHelper;
+
 import org.staw.framework.constants.BrowserTargetType;
 import org.staw.framework.constants.DriverVariables;
 import org.staw.framework.constants.EnviromentProperties;
@@ -201,6 +201,22 @@ public class TestSetupHelper extends ConfigHelper{
 		return testCaseParameters;
 	}
 	
+	public static String getCurrentUser() {
+		try {
+			return System.getProperty("user.name");
+		} catch (Exception e) {
+			return "N/A";
+		}					
+	}
+	
+	public static String getCurrentHostName() {
+		try {
+			java.net.InetAddress localMachine = java.net.InetAddress.getLocalHost();
+			return localMachine.getHostName();
+		} catch (Exception e) {
+			return "N/A";
+		}					
+	}
 	
 	private static int getNumberOfBrowsers(List<EnvironmentOptions> EOValues, String env){
 		int noOfBrowsers = 1;
@@ -336,12 +352,10 @@ public class TestSetupHelper extends ConfigHelper{
 		return nList;
 	}
 	
-	public static void priliminaryCheck() {
+	public static void buildEnvironment() {
 			
 		String var1 = "";
-		String var2 = "";
-		String var3 = "";
-		
+				
 			String[] runEnv = null;
 			try {
 				runEnv = getLevel().split(",");
@@ -349,18 +363,13 @@ public class TestSetupHelper extends ConfigHelper{
 				e.printStackTrace();
 			}
 			if (runEnv.length == 1) {
-				var1 = var2 = var3 = runEnv[0];
+				var1  = runEnv[0];
 			} else if (runEnv.length == 2) {
-				var1 = runEnv[0];
-				var2 = var3 = runEnv[1];
+				var1 = runEnv[0];				
 			} else if (runEnv.length == 3) {
-				var1 = runEnv[0];
-				var2 = runEnv[1];
-				var3 = runEnv[2];
+				var1 = runEnv[0];				
 			}
 		
-		GlobalVariables.runEnvironment.put(GlobalConstants.RunEnvironment.RUN_ENVIRONMENT_PROP_SHEET, var1);
-		GlobalVariables.runEnvironment.put(GlobalConstants.RunEnvironment.TEST_CASES_TO_RUN, var2);
-		GlobalVariables.runEnvironment.put(GlobalConstants.RunEnvironment.USER_NAME_AND_PASSWORD, var3);
+		GlobalVariables.runEnvironment.put(GlobalConstants.RunEnvironment.RUN_ENVIRONMENT_PROP, var1);	
 	}
 }

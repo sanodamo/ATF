@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 
-<Script xmlns="http://www.w3schools.com/xmlValidation.xsd" name="Member_Search"
+<Script xmlns="http://www.w3schools.com/xmlValidation.xsd" name="CASE_CLOSE_ANTHEMCR_RAD"
 	locale="en" lang="">
 	<KeyWords>
 		<KeyWord label="Initializedata" />
@@ -21,94 +21,102 @@
 				<ArgumentVal value="IMASIS_PASSWORD" />				
 			</Arguments>
 		</KeyWord>	
-		<KeyWord label="CALLACTION">
+		<KeyWord label="CallAction">
 			<Arguments>
 				<ArgumentVal value="Start call" />
 				<ArgumentVal value="" />				
 			</Arguments>
 		</KeyWord>
-		<KeyWord label="FILLCALLERDETAILS">
+		<KeyWord label="FillCallerDetails">
 			<Arguments>
-				<ArgumentVal value="" />
-				<ArgumentVal value="Caller:FirstName" />
-				<ArgumentVal value="Caller:LastName" />
-				<ArgumentVal value="" />
-				<ArgumentVal value="Caller:Phone" />
-				<ArgumentVal value="" />
-				<ArgumentVal value="" />
-				<ArgumentVal value="" />
+				<ArgumentVal value="First Name" />
+				<ArgumentVal value="Caller:FirstName" />				
+			</Arguments>
+		</KeyWord>		
+		<KeyWord label="FillCallerDetails">
+			<Arguments>
+				<ArgumentVal value="Last Name" />
+				<ArgumentVal value="Caller:LastName" />				
 			</Arguments>
 		</KeyWord>	
-		<KeyWord label="SWITCHTAB">
+		
+		<KeyWord label="FillCallerDetails">
+			<Arguments>
+				<ArgumentVal value="Phone" />
+				<ArgumentVal value="Caller:Phone" />				
+			</Arguments>
+		</KeyWord>
+		
+		<KeyWord label="SwitchTab">
 			<Arguments>
 				<ArgumentVal value="Member" />							
 			</Arguments>
 		</KeyWord>
-		<KeyWord label="PRODUCTSELECTION">
+		<KeyWord label="ProductSelection">
 			<Arguments>
 				<ArgumentVal value="RAD" />							
 			</Arguments>
 		</KeyWord>
-		<KeyWord label="TREATMENTDATESELECTION">
+		<KeyWord label="TreatmentDateSelection">
 			<Arguments>
 				<ArgumentVal value="PROSPECTIVE" />							
 			</Arguments>
 		</KeyWord>
-		<KeyWord label="MEMBERSEARCH">
+		<KeyWord label="MemberSearch">
 			<Arguments>				
 				<ArgumentVal value="Anthem CR" />
 				<ArgumentVal value="ActiveMember:Id:CR" />
 			</Arguments>
 		</KeyWord>
-		<KeyWord label="MEMBERSELECT">
+		<KeyWord label="MemberSelect">
 			<Arguments>								
 				<ArgumentVal value="Active Member" />
 			</Arguments>
 		</KeyWord>
-		<KeyWord label="SWITCHTAB">
+		<KeyWord label="SwitchTab">
 			<Arguments>
 				<ArgumentVal value="Physician" />							
 			</Arguments>
 		</KeyWord>
-		<KeyWord label="PHYSICIANSEARCHBYNPI">
+		<KeyWord label="PhysicianSearchByNpi">
 			<Arguments>				
 				<ArgumentVal value="Illinois" />
 				<ArgumentVal value="ActivePhysician:NPI:IL" />
 			</Arguments>
 		</KeyWord>
-		<KeyWord label="PHYSICIANSELECT">
+		<KeyWord label="PhysicianSelect">
 			<Arguments>								
 				<ArgumentVal value="Active Physician" />
 			</Arguments>
 		</KeyWord>
-		<KeyWord label="SWITCHTAB">
+		<KeyWord label="SwitchTab">
 			<Arguments>
 				<ArgumentVal value="Provider" />							
 			</Arguments>
 		</KeyWord>
-		<KeyWord label="PROVIDERSEARCHBYNPI">
+		<KeyWord label="ProviderSearchByNpi">
 			<Arguments>				
 				<ArgumentVal value="Illinois" />
 				<ArgumentVal value="ContractedProvider:NPI:IL" />
 			</Arguments>
 		</KeyWord>
-		<KeyWord label="PROVIDERSELECT">
+		<KeyWord label="ProviderSelect">
 			<Arguments>								
 				<ArgumentVal value="Contracted Provider" />
 			</Arguments>
 		</KeyWord>
-		<KeyWord label="SWITCHTAB">
+		<KeyWord label="SwitchTab">
 			<Arguments>
 				<ArgumentVal value="Modality" />							
 			</Arguments>
 		</KeyWord>
-		<KeyWord label="TREATMENTSELECTION">
+		<KeyWord label="TreatmentSelection">
 			<Arguments>								
 				<ArgumentVal value="Brachytherapy (CPT 77761)" />
 				<ArgumentVal value="Primary" />
 			</Arguments>
 		</KeyWord>
-		<KeyWord label="PREEXAMQUESTIONS">
+		<KeyWord label="PreExamQuestions">
 			<Arguments>								
 				<ArgumentVal value="Primary Tumor" />
 				<ArgumentVal value="Breast Cancer (Female)" />
@@ -121,67 +129,67 @@
 				<ArgumentVal value="0 - Normal Activity (asymptomatic)" />
 			</Arguments>
 		</KeyWord>
-		<KeyWord label="SWITCHTAB">
+		<KeyWord label="SwitchTab">
 			<Arguments>
 				<ArgumentVal value="Clinical" />							
 			</Arguments>			
 		</KeyWord>
-		<KeyWord label="APCLINICALQUESTION">
+		<KeyWord label="ApClinicalQuestion">
 			<Arguments>
 				<ArgumentVal value="Has the patient had breast conserving surgery" />
 				<ArgumentVal value="Yes" />		
 				<ArgumentVal value="radio" />
 			</Arguments>			
 		</KeyWord>
-		<KeyWord label="APCLINICALQUESTION">
+		<KeyWord label="ApClinicalQuestion">
 			<Arguments>
 				<ArgumentVal value="Select from the following options" />
 				<ArgumentVal value="Boost after whole breast external beam radiotherapy" />
 				<ArgumentVal value="radio" />							
 			</Arguments>			
 		</KeyWord>		
-		<KeyWord label="APCLINICALCOMPLETE">
+		<KeyWord label="ApClinicalComplete">
 			<Arguments>
 				<ArgumentVal value="Next" />											
 			</Arguments>			
 		</KeyWord>
-		<KeyWord label="APTREATMENTQUESTION">
+		<KeyWord label="ApTreatmentQuestion">
 			<Arguments>
 				<ArgumentVal value="Select from the following options" />
 				<ArgumentVal value="High-dose rate (HDR) brachytherapy" />
 				<ArgumentVal value="radio" />							
 			</Arguments>			
 		</KeyWord>
-		<KeyWord label="APTREATMENTQUESTION">
+		<KeyWord label="ApTreatmentQuestion">
 			<Arguments>
 				<ArgumentVal value="Planned total dose" />
 				<ArgumentVal value="10" />
 				<ArgumentVal value="text" />							
 			</Arguments>			
 		</KeyWord>	
-		<KeyWord label="APTREATMENTQUESTION">
+		<KeyWord label="ApTreatmentQuestion">
 			<Arguments>
 				<ArgumentVal value="Total number of fractions" />
 				<ArgumentVal value="10" />
 				<ArgumentVal value="text" />							
 			</Arguments>			
 		</KeyWord>	
-		<KeyWord label="APCLINICALCOMPLETE">
+		<KeyWord label="ApClinicalComplete">
 			<Arguments>
 				<ArgumentVal value="Next" />											
 			</Arguments>			
 		</KeyWord>
-		<KeyWord label="APREVIEWCONFIRM">
+		<KeyWord label="ApReviewConfirm">
 			<Arguments>
 				<ArgumentVal value="Continue" />											
 			</Arguments>			
 		</KeyWord>	
-		<KeyWord label="CASEACTIONS">
+		<KeyWord label="CaseActions">
 			<Arguments>
 				<ArgumentVal value="Save" />											
 			</Arguments>			
 		</KeyWord>	
-		<KeyWord label="CASEACTIONS">
+		<KeyWord label="CaseActions">
 			<Arguments>
 				<ArgumentVal value="Close" />											
 			</Arguments>			

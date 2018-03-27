@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
+<Script xmlns="http://www.w3schools.com/xmlValidation.xsd" name="CASE_CLOSE_ANTHEMCR_RAD"
+	locale="en" lang="">
+	<KeyWords>
+		<KeyWord label="Initializedata" />
+		<KeyWord label="SetGlobalVariables">
+			<Arguments>
+				<ArgumentVal value="imasis" />
+				<ArgumentVal value="onc" />
+			</Arguments>
+		</KeyWord>
+		<KeyWord label="NavigateToUrl">
+			<Arguments>
+				<ArgumentVal value="RAD_IMASIS" />
+			</Arguments>
+		</KeyWord>
+		<KeyWord label="Login">
+			<Arguments>
+				<ArgumentVal value="IMASIS_USER_ID" />
+				<ArgumentVal value="IMASIS_PASSWORD" />				
+			</Arguments>
+		</KeyWord>	
+		<KeyWord label="CallAction">
+			<Arguments>
+				<ArgumentVal value="Start call" />
+				<ArgumentVal value="" />				
+			</Arguments>
+		</KeyWord>
+		<KeyWord label="FillCallerDetails">
+			<Arguments>
+				<ArgumentVal value="First Name" />
+				<ArgumentVal value="Caller:FirstName" />				
+			</Arguments>
+		</KeyWord>		
+		<KeyWord label="FillCallerDetails">
+			<Arguments>
+				<ArgumentVal value="Last Name" />
+				<ArgumentVal value="Caller:LastName" />				
+			</Arguments>
+		</KeyWord>	
+		
+		<KeyWord label="FillCallerDetails">
+			<Arguments>
+				<ArgumentVal value="Phone" />
+				<ArgumentVal value="Caller:Phone" />				
+			</Arguments>
+		</KeyWord>
+						
+		<KeyWord label="SwitchTab">
+			<Arguments>
+				<ArgumentVal value="Member" />							
+			</Arguments>
+		</KeyWord>
+		<KeyWord label="ProductSelection">
+			<Arguments>
+				<ArgumentVal value="MOC" />							
+			</Arguments>
+		</KeyWord>
+		<KeyWord label="TreatmentDateSelection">
+			<Arguments>
+				<ArgumentVal value="PROSPECTIVE" />							
+			</Arguments>
+		</KeyWord>
+		<KeyWord label="MemberSearch">
+			<Arguments>				
+				<ArgumentVal value="Anthem CR" />
+				<ArgumentVal value="ActiveMember:Id:CR" />
+			</Arguments>
+		</KeyWord>
+		<KeyWord label="MemberSelect">
+			<Arguments>								
+				<ArgumentVal value="Active Member" />
+			</Arguments>
+		</KeyWord>
+		<KeyWord label="SwitchTab">
+			<Arguments>
+				<ArgumentVal value="Physician" />							
+			</Arguments>
+		</KeyWord>
+		<KeyWord label="PhysicianSearchByNpi">
+			<Arguments>				
+				<ArgumentVal value="Illinois" />
+				<ArgumentVal value="ActivePhysician:NPI:IL" />
+			</Arguments>
+		</KeyWord>
+		<KeyWord label="PhysicianSelect">
+			<Arguments>								
+				<ArgumentVal value="Active Physician" />
+			</Arguments>
+		</KeyWord>
+		<KeyWord label="SwitchTab">
+			<Arguments>
+				<ArgumentVal value="Provider" />							
+			</Arguments>
+		</KeyWord>
+		<KeyWord label="ProviderSearchByNpi">
+			<Arguments>				
+				<ArgumentVal value="Illinois" />
+				<ArgumentVal value="ContractedProvider:NPI:IL" />
+			</Arguments>
+		</KeyWord>
+		<KeyWord label="ProviderSelect">
+			<Arguments>								
+				<ArgumentVal value="Contracted Provider" />
+			</Arguments>
+		</KeyWord>
+		<KeyWord label="PlaceOfService">
+			<Arguments>								
+				<ArgumentVal value="Office" />
+			</Arguments>
+		</KeyWord>		
+		<KeyWord label="SwitchTab">
+			<Arguments>
+				<ArgumentVal value="Clinical" />							
+			</Arguments>			
+		</KeyWord>
+		<KeyWord label="EvitiStart">
+			<Arguments>
+				<ArgumentVal value="" />							
+			</Arguments>			
+		</KeyWord>
+		<KeyWord label="SwitchFrame">
+			<Arguments>
+				<ArgumentVal value="Eviti" />				
+			</Arguments>			
+		</KeyWord>		
+		<KeyWord label="PatientHeightWeight">
+			<Arguments>
+				<ArgumentVal value="177" />
+				<ArgumentVal value="177" />				
+			</Arguments>			
+		</KeyWord>
+		<KeyWord label="RegimenSearch">
+			<Arguments>
+				<ArgumentVal value="Cancer type" />
+				<ArgumentVal value="Breast" />							
+			</Arguments>			
+		</KeyWord>	
+		<KeyWord label="RegimenSearch">
+			<Arguments>
+				<ArgumentVal value="icd" />
+				<ArgumentVal value="C50.021 Malignant neoplasm of nipple and areola, right male breast" />							
+			</Arguments>			
+		</KeyWord>	
+		<KeyWord label="RemoveDrug">
+			<Arguments>			
+				<ArgumentVal value="Trastuzumab / HERCEPTIN (J9355)" />				
+			</Arguments>			
+		</KeyWord>
+		<KeyWord label="AddDrug">
+			<Arguments>			
+				<ArgumentVal value="AVASTIN" />				
+			</Arguments>			
+		</KeyWord>
+		<KeyWord label="SaveAndContinueEviti">
+			<Arguments>
+				<ArgumentVal value="Regimen" />											
+			</Arguments>			
+		</KeyWord>
+		<KeyWord label="SelectDrug">
+			<Arguments>			
+				<ArgumentVal value="Bevacizumab / AVASTIN (C9257, J9035)" />				
+			</Arguments>			
+		</KeyWord>			
+		<KeyWord label="BuildTreatmentPlan">
+			<Arguments>
+				<ArgumentVal value="1" />
+				<ArgumentVal value="Intravenous" />
+				<ArgumentVal value="Intravenous" />
+				<ArgumentVal value="1" />
+				<ArgumentVal value="1" />
+				<ArgumentVal value="1" />
+				<ArgumentVal value="BID" />				
+			</Arguments>			
+		</KeyWord>
+		<KeyWord label="EnterDiagnosis">
+			<Arguments>
+				<ArgumentVal value="Adenocarcinoma" />
+				<ArgumentVal value="IIIB" />
+				<ArgumentVal value="C50.021 Malignant neoplasm of nipple and areola, right male breast" />
+				<ArgumentVal value="Adjuvant/ Post-operative" />
+				<ArgumentVal value="Curative" />
+				<ArgumentVal value="0 - Normal activity (asymptomatic)." />					
+			</Arguments>			
+		</KeyWord>
+		<KeyWord label="EnterBiomarker">
+			<Arguments>
+				<ArgumentVal value="Estrogen Receptor" />
+				<ArgumentVal value="Negative" />							
+			</Arguments>			
+		</KeyWord>
+		<KeyWord label="EnterBiomarker">
+			<Arguments>
+				<ArgumentVal value="her2" />
+				<ArgumentVal value="FISH or CISH Equivocal" />							
+			</Arguments>			
+		</KeyWord>
+		<KeyWord label="EnterBiomarker">
+			<Arguments>
+				<ArgumentVal value="menopausal" />
+				<ArgumentVal value="Peri-menopausal" />							
+			</Arguments>			
+		</KeyWord>
+		<KeyWord label="EnterBiomarker">
+			<Arguments>
+				<ArgumentVal value="progesterone" />
+				<ArgumentVal value="Negative" />							
+			</Arguments>			
+		</KeyWord>
+		<KeyWord label="SaveAndContinueEviti">
+			<Arguments>
+				<ArgumentVal value="diagnosis" />											
+			</Arguments>			
+		</KeyWord>	
+		<KeyWord label="SaveAndContinueEviti">
+			<Arguments>
+				<ArgumentVal value="review" />											
+			</Arguments>			
+		</KeyWord>
+		<KeyWord label="SaveAndContinueEviti">
+			<Arguments>
+				<ArgumentVal value="complete" />											
+			</Arguments>			
+		</KeyWord>		
+		<KeyWord label="SwitchTab">
+			<Arguments>
+				<ArgumentVal value="drugsummary" />							
+			</Arguments>			
+		</KeyWord>
+		<KeyWord label="EditRegimen">
+			<Arguments>
+				<ArgumentVal value="" />							
+			</Arguments>			
+		</KeyWord>	
+		<KeyWord label="EditOutcome">
+			<Arguments>
+				<ArgumentVal value="met" />							
+			</Arguments>			
+		</KeyWord>		
+		<KeyWord label="CaseActions">
+			<Arguments>
+				<ArgumentVal value="Save" />											
+			</Arguments>			
+		</KeyWord>	
+		<!-- <KeyWord label="CASEACTIONS">
+			<Arguments>
+				<ArgumentVal value="Close" />											
+			</Arguments>			
+		</KeyWord> -->
+		<KeyWord label="SwitchFrame">
+			<Arguments>
+				<ArgumentVal value="default" />				
+			</Arguments>			
+		</KeyWord>	
+	</KeyWords>
+</Script>

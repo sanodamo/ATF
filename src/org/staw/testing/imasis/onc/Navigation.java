@@ -9,11 +9,11 @@ import org.staw.framework.SoftAssertion;
 import org.staw.framework.helpers.EnviromentSetupHelper;
 
 
-public class Route {
-	public static Logger logger = Logger.getLogger(Route.class.getName());
+public class Navigation {
+	public static Logger logger = Logger.getLogger(Navigation.class.getName());
 	private static SoftAssertion myAssert;
 	
-	public Route(SoftAssertion myAssert) {
+	public Navigation(SoftAssertion myAssert) {
 		this.myAssert = myAssert;
 		
 	}

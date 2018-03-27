@@ -5,7 +5,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import org.staw.testing.imasis.onc.*;
 
-public enum Keywords {
+public enum KeywordRegistry {
 	/*
 	 * NO-Class
 	 */
@@ -15,7 +15,7 @@ public enum Keywords {
 	SETGLOBALVARBYEXPRESSION(null,"Description", "Name","UserID", "MM/dd/yyyy"),
 	LOGIN(Login.class,"Description", "Name","UserID", "MM/dd/yyyy"),
 	CLOSEBROWSER(null,"Description", "Name","UserID", "MM/dd/yyyy"),
-	NAVIGATETOURL(Route.class,"Description", "Name","UserID", "MM/dd/yyyy"),
+	NAVIGATETOURL(Navigation.class,"Description", "Name","UserID", "MM/dd/yyyy"),
 
 	CALLACTION(Call.class,"Description", "Name","UserID", "MM/dd/yyyy"),
 	FILLCALLERDETAILS(Call.class,"Description", "Name","UserID", "MM/dd/yyyy"),
@@ -27,7 +27,7 @@ public enum Keywords {
 	
 	PROVIDERSEARCHBYNPI(Provider.class,"Description", "Name","UserID", "MM/dd/yyyy"),
 	PROVIDERSELECT(Provider.class,"Description", "Name","UserID", "MM/dd/yyyy"),
-	
+	PLACEOFSERVICE(Provider.class,"Description", "Name","UserID", "MM/dd/yyyy"),
 	TREATMENTSELECTION(Modality.class,"Description", "Name","UserID", "MM/dd/yyyy"),
 	PREEXAMQUESTIONS(Modality.class,"Description", "Name","UserID", "MM/dd/yyyy"),
 	
@@ -37,10 +37,25 @@ public enum Keywords {
 	
 	APREVIEWCONFIRM(Clinical.class,"Description", "Name","UserID", "MM/dd/yyyy"),
 	
+	EVITISTART(Clinical.class,"Description", "Name","UserID", "MM/dd/yyyy"),
+	PATIENTHEIGHTWEIGHT(Clinical.class,"Description", "Name","UserID", "MM/dd/yyyy"),
+	REGIMENSEARCH(Clinical.class,"Description", "Name","UserID", "MM/dd/yyyy"),
+	BUILDTREATMENTPLAN(Clinical.class,"Description", "Name","UserID", "MM/dd/yyyy"),
+	ENTERDIAGNOSIS(Clinical.class,"Description", "Name","UserID", "MM/dd/yyyy"),
+	ENTERBIOMARKER(Clinical.class,"Description", "Name","UserID", "MM/dd/yyyy"),
+	SAVEANDCONTINUEEVITI(Clinical.class,"Description", "Name","UserID", "MM/dd/yyyy"),
+	REMOVEDRUG(Clinical.class,"Description", "Name","UserID", "MM/dd/yyyy"),
+	ADDDRUG(Clinical.class,"Description", "Name","UserID", "MM/dd/yyyy"),
+	EDITOUTCOME(Clinical.class,"Description", "Name","UserID", "MM/dd/yyyy"),
+	SELECTDRUG(Clinical.class,"Description", "Name","UserID", "MM/dd/yyyy"),
+	EDITREGIMEN(Clinical.class,"Description", "Name","UserID", "MM/dd/yyyy"),
+	
 	PRODUCTSELECTION(Member.class,"Description", "Name","UserID", "MM/dd/yyyy"),
 	TREATMENTDATESELECTION(Member.class,"Description", "Name","UserID", "MM/dd/yyyy"),
 	SWITCHTAB(CommonActions.class,"Description", "Name","UserID", "MM/dd/yyyy"),
-	CASEACTIONS(CommonActions.class,"Description", "Name","UserID", "MM/dd/yyyy");
+	CASEACTIONS(CommonActions.class,"Description", "Name","UserID", "MM/dd/yyyy"),
+	SWITCHFRAME(CommonActions.class,"Description", "Name","UserID", "MM/dd/yyyy");
+	
 	
 	
 	private final Class<?> className;	
@@ -49,9 +64,9 @@ public enum Keywords {
 	private final String UserID;
 	private final String date;
 	
-	public static Keywords getKeyword(String kw){
+	public static KeywordRegistry getKeyword(String kw){
 		try{
-			return Keywords.valueOf(kw);
+			return KeywordRegistry.valueOf(kw);
 		}catch(IllegalArgumentException | NullPointerException e){
 			return null;
 		}
@@ -78,7 +93,7 @@ public enum Keywords {
 		return df.format(this.date);
 	}
 	
-	private Keywords(Class<?> className, String description, String name, String UserID, String date){
+	private KeywordRegistry(Class<?> className, String description, String name, String UserID, String date){
 		this.className = className;
 		this.description = description;
 		this.name = name;
@@ -86,7 +101,7 @@ public enum Keywords {
 		this.date = date;
 	}
 	
-	private Keywords(){
+	private KeywordRegistry(){
 		this.className = null;
 		this.description = "No Description";
 		this.name = "No Name";

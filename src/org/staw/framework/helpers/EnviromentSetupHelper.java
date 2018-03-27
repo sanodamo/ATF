@@ -58,7 +58,7 @@ public class EnviromentSetupHelper extends ConfigHelper {
 	}
 	
 	public static String getTestRunningEnvironmentVariable(){
-		return GlobalVariables.runEnvironment.get(GlobalConstants.RunEnvironment.RUN_ENVIRONMENT_PROP_SHEET);
+		return GlobalVariables.runEnvironment.get(GlobalConstants.RunEnvironment.RUN_ENVIRONMENT_PROP);
 	}
 	
 	Properties getConfigProperties() {

@@ -32,6 +32,14 @@ private static SoftAssertion myAssert;
 				case "clinical":
 					isSuccess = SeleniumWrapper.clickOnLink(By.id(DomConstants.Tabs.CLINICAL), "clinical tab", myAssert);
 					break;
+				case "drugsummary":
+					SeleniumWrapper.syncBrowser();
+					SeleniumWrapper.syncBrowser();
+					SeleniumWrapper.syncBrowser();
+					SeleniumWrapper.syncBrowser();
+					isSuccess = SeleniumWrapper.clickOnLink(By.id(DomConstants.Tabs.DRUGSUMMARY), "DrugSummary tab", myAssert);
+					break;
+					
 				default:
 					return myAssert.Failed("Unable to find " + tabName + " element");
 					
@@ -45,25 +53,32 @@ private static SoftAssertion myAssert;
 	}
 	
 	public boolean CaseActions(String option) {
-		boolean isSuccess = false;
 		try {
+			SeleniumWrapper.syncBrowser();
+			SeleniumWrapper.syncBrowser();
 			switch(option.toLowerCase()) {
 				case "save":
-					isSuccess = SeleniumWrapper.clickOnLink(By.xpath(DomConstants.CaseActions.SAVE), "Save Case", myAssert);
-					SeleniumWrapper.syncBrowser();
-					break;
+					return SeleniumWrapper.clickOnLink(By.xpath(DomConstants.CaseActions.SAVE), "Save Case", myAssert);					
 				case "close":
-					isSuccess = SeleniumWrapper.clickOnLink(By.xpath(DomConstants.CaseActions.CLOSE), "Close Case", myAssert);
-					break;
+					return SeleniumWrapper.clickOnLink(By.xpath(DomConstants.CaseActions.CLOSE), "Close Case", myAssert);					
 				default:
-					break;
+					return myAssert.Failed("Unable to click " + option + " element");
 			}
 		}catch(Exception e) {
 			return myAssert.Failed("Unable to click " + option + " element");
-		}
+		}			
 		
+	}
+	
+	public boolean SwitchFrame(String frame) {
+		By frameLocator = null;
 		SeleniumWrapper.syncBrowser();
-		return isSuccess;
+		switch(frame.toLowerCase()) {
+			case "eviti":
+				frameLocator = By.cssSelector("iframe.evitiIframe");
+				break;
+		}
+		return SeleniumWrapper.switchFrame(frame, frameLocator,myAssert);
 	}
 	
 }

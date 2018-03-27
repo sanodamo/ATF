@@ -18,6 +18,7 @@ import javax.management.ObjectName;
 
 import org.apache.log4j.Logger;
 import org.staw.framework.helpers.DatabaseHelper;
+import org.staw.framework.helpers.DateExtension;
 
 import com.zaxxer.hikari.HikariDataSource;
 import com.zaxxer.hikari.HikariPoolMXBean;
@@ -57,7 +58,7 @@ public class SqlDatabase {
 		try {
 			DatabaseHelper dbHelper = new DatabaseHelper("database");
 			
-			location = "AutomationDatabase.qa.sqlserver";
+			location = "AutomationDatabase.qa";
 			
 			dataSource.setDriverClassName("net.sourceforge.jtds.jdbc.Driver");
 			dataSource.setJdbcUrl(dbHelper.getProperty(location + ".url"));
@@ -68,15 +69,10 @@ public class SqlDatabase {
 			dataSource.setMaximumPoolSize(10);
 			dataSource.setMaxLifetime(60000);
 			dataSource.setInitializationFailTimeout(60000);
-//			oracleDataSource.setConnectionTimeout(60000);
-			dataSource.setLeakDetectionThreshold(30000);
-			//dataSource.addDataSourceProperty("oracle.net.CONNECT_TIMEOUT", 60000);
-			//dataSource.addDataSourceProperty("oracle.jdbc.ReadTimeout", 60000);
+
+			dataSource.setLeakDetectionThreshold(30000);			
 			dataSource.setLoginTimeout(30000);
 			dataSource.setIdleTimeout(30000);
-//			oracleDataSource.addDataSourceProperty("cachePrepStmts", "true");
-//			oracleDataSource.addDataSourceProperty("prepStmtCacheSize", "250");
-//			oracleDataSource.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
 			dataSource.setPoolName("AutomationHikariPool");
 			dataSource.addDataSourceProperty("useServerPrepStmts", true);
 			dataSource.setConnectionTestQuery("SELECT 1");
@@ -96,7 +92,7 @@ public class SqlDatabase {
 		dataSource.close();
 	}
 
-	public static String getValFromReport(QueryVars esq, String[] arr)
+	public static String getVal(QueryVars esq, String[] arr)
 			throws FileNotFoundException, SQLException, IOException {
 		String columnValue = "";
 
@@ -122,7 +118,7 @@ public class SqlDatabase {
 		}
 		return columnValue;
 	}
-//
+
 	public static String[][] getResultSet(QueryVars esq, String[] val)
 			throws FileNotFoundException, SQLException, IOException {
 		String[][] resultSetVal = null;
@@ -158,7 +154,7 @@ public class SqlDatabase {
 		}
 		return resultSetVal;
 	}
-//
+
 	private static PreparedStatement getStatement(Connection conn, QueryVars sqlType, String[] val)
 			throws SQLException, IOException, FileNotFoundException {
 		PreparedStatement stm = null;
@@ -169,32 +165,22 @@ public class SqlDatabase {
 		case GET_TEST_DATA_BY_KEY:
 		
 		case GET_STEP_LEVEL_REPORT_VALUES_BY_P_ID:
-		case GET_REPORT_ALL_INFORMATION_BY_PID:
+		
 		case GET_REPORT_TABLE_RESULT_BY_PID:
 		case GET_THREADS_TESTNAME:
 		case GET_THREADS_BROWSER:
 		case GET_THREADS_BROWSER_VERSION:
 		case GET_THREADS_OS:
-		case INSERT_INTO_USERS:
-		case UPDATE_SCRIPTS:
-		case GET_SELENIUM_USER_USER_AND_PASSWORD:
-		case GET_SELENIUM_USER_USER_ID:		
-		case GET_REPORT_TABLE_ALL_INFORMATION_BY_TESTNAME_BROWSER_BROWSER_VERION_OS:
-		case GET_MASTER_TABLE_APP_SERVER_URL:
-		case INSERT_INTO_USER_REGRISTRATION:
-		case INSERT_INTO_USER_SALES_FORCE:
-		case GET_REPORT_APP_SERVER_INFORMATION_BY_URL:
 		case GET_REPORT_TABLE_RESULT_BY_TESTNAME:		
 		case INSERT_INTO_MASTER_TABLE:
 		case UPDATE_THREADS_TESTNAME:
 		case UPDATE_THREADS_BROWSER:
 		case UPDATE_THREADS_BROWSER_VERSION:
 		case UPDATE_THREADS_OS:
+		case UPDATE_THREADS_USER_ID:
+		case UPDATE_THREADS_HOST_NAME:
 		case UPDATE_MASTER_TABLE:
 		case UPDATE_REPORT_TABLE_RESULT:
-		case UPDATE_REPORT_TABLE_SAUCE_VIDEO:
-		case UPDATE_REPORT_TABLE_SPLUNK_SESSION:
-		case UPDATE_REPORT_TABLE_SILO:
 		case UPDATE_REPORT_TABLE_BUILD:
 		case UPDATE_REPORT_TABLE_CONTENT_VERSION:
 		case UPDATE_REPORT_TABLE_O_COOKIE:
@@ -211,78 +197,24 @@ public class SqlDatabase {
 		case GET_REPORT_TABLE_STEPS_FAILED:
 		case GET_REPORT_TABLE_TOTAL_EXECUTION_TIME:
 		case GET_REPORT_TABLE_RESULT:
-		case GET_REPORT_TABLE_SAUCE_VIDEO:
-		case GET_REPORT_TABLE_SPLUNK_SESSION:
-		case GET_REPORT_TABLE_SILO:
 		case GET_REPORT_TABLE_BUILD:
 		case GET_REPORT_TABLE_CONTENT_VERSION:
 		case GET_REPORT_TABLE_O_COOKIE:		
-		case INSERT_INTO_PLANS:
-		case GET_MASTER_TABLE_COUNT_OF_KEY:
 		case GET_MASTER_TABLE_INFO_OF_KEY:
-		case GET_MASTER_TABLE_COUNT_OF_KEY_AND_VALUE:		
-		case GET_THREADS_TABLE_ALL_BROWSERS_RUN_IN_SUITE:
-		case GET_REPORT_ALL_INFORMATION:
-		case GET_REPORT_BUILD_NUMBER:
-		case GET_REPORT_LIST_OF_ALL_TEST_PASSED:
-		case GET_REPORT_LIST_OF_ALL_TEST_FAILED:
-		case GET_REPORT_TOTAL_STEPS:
-		case GET_THREADS_ALL_SCRIPTS_RUN_IN_SUITE_INCLUDING_RERUN:
-		case GET_THREADS_ALL_SCRIPTS_RUN_IN_SUITE_NOT_INCLUDING_RERUN_COUNT:
-		case GET_REPORT_TOTAL_STEPS_PASSED:
-		case GET_THREADS_UNIQUE_SCRIPTS_RUN_IN_SUITE:
-		case GET_THREADS_INFORMATION:
-		case GET_JSERRORS_SIZE:
 		case GET_JSERRORS_ALL_INFORMATION:
 		case GET_COOKIES_ALL_INFORMATION:
-		case GET_THREADS_UNIQUE_PID:		
-		case GET_THREADS_INFO_BY_PID:
-		case GET_THREADS_SCRIPT_RESULT_BY_SCRIPT_INFORMATION:
-		case GET_MASTER_TABLE_PROD_APP_SERVER_SILO_BY_PID:
-		case GET_MASTER_TABLE_QA_APP_SERVER_SILO_BY_PID:
-		case GET_REPORT_TABLE_TOTAL_BROWSERS_FROM_SUITE:
-		case GET_THREADS_TABLE_BROWSER_RESULT_COUNT_BY_BROWSER_OS_INFO:		
-		case GET_THREADS_P_ID_BY_TEST_NAME_AND_BUILD_KEY:
-		case GET_MASTER_TABLE_PROD_APP_SERVER_SILO_AND_COMPONENT:
-		case GET_MASTER_TABLE_QA_APP_SERVER_SILO_AND_COMPONENT:
-		case GET_MASTER_TABLE_PROD_APP_SERVER_URL:
-		case GET_BROWSERS_ENV_OPTIONS:
-		case GET_EMULATORS_ENV_OPTIONS:		
-		case GET_WEB_KS_ORDER_ID:	
-		case GET_BUILD_BROWSER_STATISTICS:
+		case GET_THREADS_INFO_BY_PID:		
 			setStatementValues(stm, DataType.STRING, 0, val.length, val);
 			break;
-			
-		case GET_SALESFORCE_USER_ID:
-		case GET_NETWORK_DATA_FIELDS_FROM_ND_ID:
-			setStatementValues(stm, DataType.INT, 0, val.length, val);
+		case UPDATE_THREADS_START_TIME:			
+			setStatementValues(stm, DataType.TIMESTAMP, 0, 1, val);
+			setStatementValues(stm, DataType.STRING, 1, val.length, val);
 			break;
-
-		case INSERT_INTO_SCRIPTS:
-			stm.setInt(1, Integer.parseInt(val[0]));
-			stm.setString(2, val[1]);
-			setStatementValues(stm, DataType.INT, 2, val.length, val);
-			break;
-
-		case INSERT_INTO_CREDIT_CARD:
-			Integer[] intNums = { 0, 4, 5, 6 };
-			for (int i = 0; i < val.length; i++) {
-				if (Arrays.asList(intNums).contains(i) && sqlType.equals(QueryVars.INSERT_INTO_CREDIT_CARD))
-					stm.setInt(i + 1, Integer.parseInt(val[i]));
-				else
-					stm.setString(i + 1, val[i]);
-			}
-			break;
-
-		case INSERT_INTO_PROD_APP_SERVERS:
-		case INSERT_INTO_QA_APP_SERVERS:
-		case INSERT_INTO_ITEMS:
 		case INSERT_INTO_THREADS:
 		case INSERT_INTO_RERUN_TABLE:
 		case UPDATE_REPORT_TABLE_TOTAL_STEPS:
 		case UPDATE_REPORT_TABLE_STEPS_PASSED:
 		case UPDATE_REPORT_TABLE_STEPS_FAILED:
-		case INSERT_INTO_SCRIPT_PATH:
 			stm.setInt(1, Integer.parseInt(val[0]));
 			setStatementValues(stm, DataType.STRING, 1, val.length, val);
 			break;
@@ -321,38 +253,8 @@ public class SqlDatabase {
 		case GET_STEP_LEVEL_PARAMETERS:
 		case GET_STEP_LEVEL_DESCRIPTION:
 		case GET_STEP_LEVEL_RESULT:
-		case GET_NETWORK_DATA_SCRIPT_VALUES_FROM_PAGE_AND_SCRIPT_NAME:
 			setStatementValues(stm, DataType.STRING, 0, 2, val);
 			setStatementValues(stm, DataType.INT, 2, val.length, val);
-			break;
-
-		case INSERT_INTO_BUILD:
-			setStatementValues(stm, DataType.INT, 0, 1, val);
-			setStatementValues(stm, DataType.STRING, 1, 3, val);
-			setStatementValues(stm, DataType.INT, 3, 4, val);
-			setStatementValues(stm, DataType.TIMESTAMP, 4, val.length, val);
-			break;
-
-		case INSERT_INTO_BUILD_INFO:
-			setStatementValues(stm, DataType.BIGINT, 0, 1, val);
-			setStatementValues(stm, DataType.STRING, 1, 7, val);
-			setStatementValues(stm, DataType.INT, 7, 11, val);
-			setStatementValues(stm, DataType.STRING, 11, val.length, val);
-			break;
-
-		case INSERT_INTO_BUILD_SCRIPTS:
-			setStatementValues(stm, DataType.BIGINT, 0, 1, val);
-			setStatementValues(stm, DataType.STRING, 1, val.length, val);
-			break;
-
-		case UPDATE_SCRIPT_PATH:
-			setStatementValues(stm, DataType.STRING, 0, 1, val);
-			setStatementValues(stm, DataType.INT, 1, val.length, val);
-			break;
-			
-		case INSERT_INTO_BUILD_BROWSER_STASTICS:
-			setStatementValues(stm, DataType.STRING, 0, 4, val);
-			setStatementValues(stm, DataType.INT, 4, val.length, val);
 			break;
 
 		default:
@@ -361,7 +263,7 @@ public class SqlDatabase {
 		return stm;
 	}
 
-	public static void getPoolInfo() throws MalformedObjectNameException {
+	/*public static void getPoolInfo() throws MalformedObjectNameException {
 		MBeanServer mBeanServer = ManagementFactory.getPlatformMBeanServer();
 		ObjectName poolName = new ObjectName("com.zaxxer.hikari:type=Pool(" + dataSource.getPoolName() + ")");
 		log.info(poolName.getCanonicalName());
@@ -369,8 +271,8 @@ public class SqlDatabase {
 
 		log.info("Total Connections: " + poolProxy.getTotalConnections() + "\n Active Connections : "
 				+ poolProxy.getActiveConnections() + "\n Idle Connections: " + poolProxy.getIdleConnections());
-	}
-//
+	}*/
+
 	private static void setStatementValues(PreparedStatement stm, DataType type, int start, int end, String[] val) {
 		try {
 			for (int i = start; i < end; i++) {
@@ -394,7 +296,7 @@ public class SqlDatabase {
 					} catch (Exception e) {
 						log.error(
 								"Error setting timestamp for statement: " + stm.toString() + " with value: " + val[i]);
-						stm.setTimestamp(i + 1, Timestamp.valueOf(DataLibrary.getCurrentTimestampMySqlFormat()));
+						stm.setTimestamp(i + 1, Timestamp.valueOf(DateExtension.getCurrentTimestampFormat()));
 					}
 					break;
 
@@ -415,7 +317,7 @@ public class SqlDatabase {
 			e.printStackTrace();
 		}
 	}
-//
+
 	public static boolean runSql(QueryVars sqlType, String[] val)
 			throws SQLException, IOException, FileNotFoundException {
 		try (Connection conn = getConnection(); PreparedStatement stm = getStatement(conn, sqlType, val);) {
@@ -424,12 +326,7 @@ public class SqlDatabase {
 			stm.execute();
 			return true;
 		} catch (Exception e) {
-//			if(!sqlType.getSql().contains(ReportType.MASTER_TABLE.name()))
-//				if(!sqlType.getSql().contains(ReportType.COOKIES_TABLE.name().replace("_TABLE", ""))) {
-//					log.error("Error executing query: " + sqlType.getSql() + ". Query tried INSERT once and failed. Error " + e.getMessage());
-//				}
 			throw(e);
-		}
-		//return false;
+		}		
 	}
 }

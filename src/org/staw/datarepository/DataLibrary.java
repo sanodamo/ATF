@@ -16,6 +16,7 @@ import org.apache.commons.lang.WordUtils;
 import org.apache.log4j.Logger;
 import org.staw.framework.ThreadInformation;
 import org.staw.framework.constants.GlobalConstants;
+import org.staw.framework.helpers.DateExtension;
 
 
 public class DataLibrary {
@@ -25,61 +26,10 @@ public class DataLibrary {
 	}
 
 	private static Logger log = Logger.getLogger(DataLibrary.class.getName());
-
-//	public static void createAllTables(){
-////		destroyAllTables();
-//		for(ReportType type: ReportType.values()){
-//			DataLibrary.initialize("create", type);
-//		}
-//	}
-//
-//	public static void destroyAllTables(){
-//		for(ReportType type: ReportType.values()){
-//			DataLibrary.initialize("drop", type);
-//		}
-//	}
-
-//	public static void initialize(String action, ReportType rt) {
-//		boolean create = action.equalsIgnoreCase("create") ? true : false;
-//		QueryVars esq = null;
-//		switch (rt) {
-//		case MASTER_TABLE:
-//			esq = create ? QueryVars.CREATE_MASTER_TABLE : QueryVars.DROP_MASTER_TABLE;
-//			break;
-//		case REPORT_TABLE:
-//			esq = create ? QueryVars.CREATE_REPORT_TABLE : QueryVars.DROP_REPORT_TABLE;
-//			break;
-//		case STEP_LEVEL_REPORT:
-//			esq = create ? QueryVars.CREATE_STEP_LEVEL_REPORT : QueryVars.DROP_STEP_LEVEL_REPORT;
-//			break;
-//		case THREADS:
-//			esq = create ? QueryVars.CREATE_THREADS_TABLE : QueryVars.DROP_THREADS_TABLE;
-//			break;
-//		case RERUN_TABLE:
-//			esq = create ? QueryVars.CREATE_RERUN_TABLE : QueryVars.DROP_RERUN_TABLE;
-//			break;
-//		case JSERROR_TABLE:
-//			esq = create ? QueryVars.CREATE_JSERROR_TABLE : QueryVars.DROP_JSERROR_TABLE;
-//			break;
-//		case COOKIES_TABLE:
-//			esq = create ? QueryVars.CREATE_COOKIE_TABLE : QueryVars.DROP_COOKIES_TABLE;
-//			break;
-//		}
-//		try {
-//			SqlDatabase.runSqlForEmdDb(esq, null);
-//		} catch (SQLException | IOException e) {
-//			log.error(e.getMessage());
-//		}
-//	}
-
-	public static String getCurrentTimestampMySqlFormat(){
-		Date date = new java.util.Date();
-		return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Timestamp(date.getTime()));
-	}
 	
 	public static void setValue(ReportType rt, String key, String val) {
 		val = val == null || val.equals("") || val.isEmpty()? "N/A" : val;
-		String time = getCurrentTimestampMySqlFormat();
+		String time = DateExtension.getCurrentTimestampFormat();
 		QueryVars esq = null;
 		String[] dbVal = null;
 		String p_id = ThreadInformation.getValue(GlobalConstants.MasterConstant.FM_P_ID);
@@ -87,10 +37,10 @@ public class DataLibrary {
 		case THREADS:
 			switch(key){
 			case GlobalConstants.MasterConstant.FM_P_ID:
-				dbVal = new String[6];
+				dbVal = new String[9];
 				dbVal[0] = Long.toString(Thread.currentThread().getId());
 				dbVal[1] = p_id;
-				for(int i=2; i<6; i++)dbVal[i] = "N/A";
+				for(int i=2; i<8; i++)dbVal[i] = "N/A";
 				esq = QueryVars.INSERT_INTO_THREADS;
 				break;
 			case GlobalConstants.MasterConstant.FM_TESTNAME:
@@ -104,6 +54,15 @@ public class DataLibrary {
 				break;
 			case GlobalConstants.MasterConstant.FM_OPERATING_SYSTEM:
 				esq = QueryVars.UPDATE_THREADS_OS;
+				break;
+			case GlobalConstants.MasterConstant.FM_USER_ID:
+				esq = QueryVars.UPDATE_THREADS_USER_ID;
+				break;
+			case GlobalConstants.MasterConstant.FM_HOST_NAME:
+				esq = QueryVars.UPDATE_THREADS_HOST_NAME;
+				break;
+			case GlobalConstants.MasterConstant.FM_START_DATE_AND_TIME:
+				esq = QueryVars.UPDATE_THREADS_START_TIME;
 				break;
 			}
 			if(!key.equals(GlobalConstants.MasterConstant.FM_P_ID)){
@@ -237,7 +196,7 @@ public class DataLibrary {
 		QueryVars esq = (QueryVars)arr[0];
 		String[] dbVal = (String[])arr[1];
 		try {
-			returnVal = SqlDatabase.getValFromReport(esq, dbVal);
+			returnVal = SqlDatabase.getVal(esq, dbVal);
 		} catch (SQLException | IOException e) {
 			log.error(e.getMessage());
 		}
@@ -391,7 +350,7 @@ public class DataLibrary {
 		QueryVars esq = (QueryVars)arr[0];
 		String[] dbVal = (String[])arr[1];
 		try {
-			returnVal = SqlDatabase.getValFromReport(esq, dbVal).equals("") ? false : true;
+			returnVal = SqlDatabase.getVal(esq, dbVal).equals("") ? false : true;
 		} catch (SQLException | IOException e) {
 			log.error(e.getMessage());
 		}
@@ -414,10 +373,7 @@ public class DataLibrary {
 			if(insertVals != null) break;
 			Date startExecution = new Date();
 			DateFormat df = new SimpleDateFormat("MM/dd/yy HH:mm:ss");
-			String vidLink = "";
-			/*
-			 * Start Every test as Failed
-			 */
+			
 			DataLibrary.setValue(ReportType.MASTER_TABLE, GlobalConstants.MasterConstant.FM_TEST_START_TIME, Long.toString(System.currentTimeMillis()));
 			DataLibrary.setValue(ReportType.MASTER_TABLE, GlobalConstants.MasterConstant.FM_START_DATE_AND_TIME, df.format(startExecution));
 			DataLibrary.setValue(ReportType.MASTER_TABLE, GlobalConstants.MasterConstant.FM_TEST_RESULT, WordUtils.capitalize("FAILED"));			
@@ -501,78 +457,5 @@ public class DataLibrary {
 			return DataLibrary.getValue(rt, key);
 		else
 			return "N/A";
-	}
-	
-//	public static void archivePlanAndBuildData(){
-//		try{
-//			DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
-//			DateFormat df2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//			String buildTimestamp = "";
-//			Date date = df.parse(BuildVariables.getBuildTimestamp());
-//			buildTimestamp = df2.format(date);
-//			String planId = "";
-//			String planName = JobProperties.getCurrentJob().getJobName();
-//			String[][] doesPlanNameExist = DataLibrary.getSqlResult(QueryVars.GET_BAMBOO_PLAN_NAME_BY_PLAN_NAME, new String[]{planName});
-//			if(doesPlanNameExist == null || doesPlanNameExist.length <= 1){
-//				DataLibrary.runGenericSql(QueryVars.INSERT_INTO_PLANS, new String[]{planName});
-//			}
-//			String[][] planIdArr = DataLibrary.getSqlResult(QueryVars.GET_PLAN_ID_BY_PLAN_NAME, new String[]{planName});
-//			if(planIdArr.length >1){
-//				planId = planIdArr[1][0];
-//			}else{
-//				planId="10000000000";
-//				log.error("Unable to get ID for plan: " + planName + " But found plan already exists in table");
-//			}
-//			runGenericSql(QueryVars.INSERT_INTO_BUILD, 
-//					new String[]{
-//							planId, 
-//							BuildVariables.getBuildFullKey(), 
-//							BuildVariables.getBuildKey(), 
-//							BuildVariables.getBuildNumber(), 
-//							buildTimestamp
-//					});
-//		}catch(Exception e){
-//			e.printStackTrace();
-//			log.error("Error Archving Initial Data");
-//		}
-//	}
-	
-//	public static void archiveBuildInfoData(Suite suite) {
-//		try{
-//			String trigger = BuildVariables.getBuildTrigger() == null? BuildVariables.getScheduleTrigger() : BuildVariables.getBuildTrigger();
-//			String[][] buildId = DataLibrary.getSqlResult(QueryVars.GET_BUILD_ID_FROM_BUILD_BY_BUILD_FULL_KEY, new String[]{BuildVariables.getBuildFullKey()});
-//			if(buildId == null || buildId.length <=1){
-//				log.error("Unable to get build ID from build table!");
-//			}else{
-//				runGenericSql(QueryVars.INSERT_INTO_BUILD_INFO, 
-//						new String[]{
-//								buildId[1][0],
-//								BuildVariables.getBuildResultKey(), 
-//								BuildVariables.getBuildResultUrl(), 
-//								trigger, 
-//								BuildVariables.buildRunEnvForDatabase(), 
-//								BuildVariables.buildBrowserPermutation(), 
-//								suite.getDuration(), 
-//								Integer.toString(suite.getTotalScriptsCount()), 
-//								Integer.toString(suite.getTotalScriptsPassedCount()), 
-//								Integer.toString(suite.getTotalUniqueScriptsCount()), 
-//								Integer.toString(suite.getTotalUniqueScriptsPassedCount()),
-//								suite.getResult()
-//						});
-//			}
-//		}catch(Exception e){
-//			e.printStackTrace();
-//			log.error("Error Archving Data");
-//		}
-//	}
-	
-//	public static void storeScriptInBuildScripts(){
-//		String[][] buildId = DataLibrary.getSqlResult(QueryVars.GET_BUILD_ID_FROM_BUILD_BY_BUILD_FULL_KEY, new String[]{BuildVariables.getBuildFullKey()});
-//		if(buildId == null || buildId.length <=1){
-//			log.error("Unable to get build ID from build table for each test script!");
-//		}else{
-//			DataLibrary.runGenericSql(QueryVars.INSERT_INTO_BUILD_SCRIPTS, new String[]{buildId[1][0], 
-//					ThreadInformation.getValue(HashMapConstants.MasterConstant.FM_P_ID)});
-//		}
-//	}
+	}	
 }

@@ -1,8 +1,5 @@
 package org.staw.testing.imasis.onc;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import org.openqa.selenium.By;
 import org.staw.framework.SeleniumWrapper;
 import org.staw.framework.SoftAssertion;
@@ -43,24 +40,35 @@ public class Member {
 	}
 	
 	public boolean ProductSelection(String product) {
-		
-		if(product.equalsIgnoreCase("rad")) {
-			return SeleniumWrapper.clickOnElement(By.cssSelector(DomConstants.Product.RAD_PRODUCT_SELECTION), myAssert);
-		}
-		return false;
+		try {
+			switch(product.toLowerCase()) {
+				case "rad":
+					return SeleniumWrapper.clickOnElement(By.cssSelector(DomConstants.Product.RAD_PRODUCT_SELECTION), myAssert);
+				case "moc":
+					return SeleniumWrapper.clickOnElement(By.cssSelector(DomConstants.Product.MOC_PRODUCT_SELECTION), myAssert);
+				default:
+					return myAssert.Failed("Unable to select " + product + " element");	
+			}
+		}catch(Exception e) {
+			return myAssert.Failed("Unable to select " + product + " element");
+		}		
 	}
 	
 	public boolean TreatmentDateSelection(String val) {
 		
 		String dateOfService = DateExtension.CurrentDate();
 		String planningDate= DateExtension.CurrentDate();
-		if(val.equalsIgnoreCase("prospective")) {			
-		}			
-		boolean isSuccess = SeleniumWrapper.fillTextFieldAndTabOut(By.id(DomConstants.TreatmentDates.DATE_OF_SERVICE), dateOfService, "Date of service", myAssert);
-		SeleniumWrapper.syncBrowser();
-		if(isSuccess)
-			isSuccess = SeleniumWrapper.fillTextFieldAndTabOut(By.id(DomConstants.TreatmentDates.PLANNING_DATE), planningDate, "Planning Date", myAssert);
-		
+		boolean isSuccess = false;
+		try {		
+			if(val.equalsIgnoreCase("prospective")) {			
+			}			
+			isSuccess = SeleniumWrapper.fillTextFieldAndTabOut(By.id(DomConstants.TreatmentDates.DATE_OF_SERVICE), dateOfService, "Date of service", myAssert);
+			SeleniumWrapper.syncBrowser();
+			if(isSuccess)
+				isSuccess = SeleniumWrapper.fillTextFieldAndTabOut(By.id(DomConstants.TreatmentDates.PLANNING_DATE), planningDate, "Planning Date", myAssert);
+		}catch(Exception e) {
+			return myAssert.Failed("Unable to select treatment/planning " + val + " element");
+		}
 		return isSuccess;
 	}
 	

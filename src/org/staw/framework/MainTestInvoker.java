@@ -13,8 +13,8 @@ import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-public class RunTests extends CoreTestCase{
-	public static Logger logger = Logger.getLogger(RunTests.class.getName());
+public class MainTestInvoker extends CoreTestCase{
+	public static Logger logger = Logger.getLogger(MainTestInvoker.class.getName());
 	
 	@Override
 	@BeforeSuite
@@ -23,7 +23,7 @@ public class RunTests extends CoreTestCase{
 	}
 	
 
-	@Test(dataProvider = "getTestCaseNamesAndEnvOptions", dataProviderClass = RunTests.class)
+	@Test(dataProvider = "getTestCaseNamesAndEnvOptions", dataProviderClass = MainTestInvoker.class)
 	public void CreateTest(String tcName, String browser, String browserVersion, String osVersion, String env){
 		if(runRegularTest()){
 			HashMap<String, String> testParameters = new HashMap<>();
@@ -31,8 +31,8 @@ public class RunTests extends CoreTestCase{
 			testParameters.put("tcName", tcName);
 			testParameters.put("browser", browser);
 			testParameters.put("browserVersion", browserVersion);
-			testParameters.put("osVersion", osVersion);
-			testParameters.put("UserId", "");
+			testParameters.put("osVersion", osVersion);			
+			testParameters.put("UserId", TestSetupHelper.getCurrentUser());
 			super.runTest(tcName, uniqueName, env, "org.staw.framework.ExecuteTests", testParameters);
 		}
 	}
@@ -47,7 +47,7 @@ public class RunTests extends CoreTestCase{
 	}
 
 	private boolean runRegularTest(){
-		return Initialize.getInstance().isConnectionPoolCreated() && TestSetupHelper.getRunJob().equalsIgnoreCase("regularjob");
+		return InitializeTestSuite.getInstance().isConnectionPoolCreated() && TestSetupHelper.getRunJob().equalsIgnoreCase("regularjob");
 	}
 	
 	
@@ -55,7 +55,7 @@ public class RunTests extends CoreTestCase{
 	@DataProvider()
 	public static Object[][] getTestCaseNamesAndEnvOptions() throws IOException {
 		
-		TestSetupHelper.priliminaryCheck();		
+		TestSetupHelper.buildEnvironment();		
 		return TestSetupHelper.getParameters(retrieveTestCasesToExecute(), TestSetupHelper.getEnvironmentOptions());
 			
 	}

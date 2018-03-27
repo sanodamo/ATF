@@ -2,7 +2,7 @@
 <suite name="Initialize">
   <test name="Initialize">
   	<classes>
-  		<class name="org.staw.framework.Initialize"/>  		
+  		<class name="org.staw.framework.InitializeTestSuite"/>  		
   	</classes>
   </test> <!-- Test -->
 </suite> <!-- Suite -->

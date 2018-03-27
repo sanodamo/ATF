@@ -2,10 +2,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.atf</groupId>
+	<groupId>org.staw</groupId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
-	<name>ATF</name>
+	<name>STAW</name>
 	<description>Automation Test Framework</description>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -294,5 +294,5 @@
 			</snapshots>
 		</repository>					
 	</repositories>
-	<artifactId>ATF</artifactId>
+	<artifactId>STAW</artifactId>
 </project>

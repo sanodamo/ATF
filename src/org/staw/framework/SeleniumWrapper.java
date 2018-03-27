@@ -30,6 +30,21 @@ public class SeleniumWrapper {
 		LOADING, INTERACTIVE, COMPLETE;
 	}
 	
+	public static boolean switchFrame(String frame, By locator, SoftAssertion myAssert) {
+		
+		try {
+			WebDriver driver = SeleniumDriver.getInstance().getWebDriver();
+			driver.switchTo().defaultContent();
+			if(!frame.equalsIgnoreCase("default") && locator != null) {					
+				driver.switchTo().frame(driver.findElement(locator));
+			}
+			return myAssert.Success("switched to the frame " + frame);
+		}
+		catch(Exception e) {
+			return myAssert.Failed("Unable to switch the frame " + frame);
+		}
+	}
+
 	public static boolean clickOnElement(WebElement webElement, By type, String Message, SoftAssertion myAssert) {
 		try {
 			SeleniumDriver.fluentWaitFindElement(webElement, type, 20).click();
@@ -97,8 +112,8 @@ public class SeleniumWrapper {
 	}
 
 	
-	public static boolean fillTextField(WebDriver driver, By element, String whatValue, String fieldName,
-			boolean isSubmit, SoftAssertion myAssert) {
+	public static boolean fillTextField(By element, String whatValue, String fieldName,	boolean isSubmit, SoftAssertion myAssert) {
+		WebDriver driver = SeleniumDriver.getInstance().getWebDriver();
 		WebElement oField = getElement(element, myAssert);
 		if(oField != null) {
 			return fillTextField(oField, whatValue, fieldName, isSubmit, myAssert);
@@ -106,12 +121,16 @@ public class SeleniumWrapper {
 		return myAssert.Failed("Unable to find " + fieldName + " field.");
 	}
 	
+	public static boolean fillTextFieldAndTabOut(By element, String whatValue, String fieldName, SoftAssertion myAssert) {		
+		return fillTextField(element, whatValue, fieldName, Keys.TAB , myAssert);
+	}
 
-	public static boolean fillTextFieldAndTabOut(By element, String whatValue, String fieldName, SoftAssertion myAssert) {
+	public static boolean fillTextField(By element, String whatValue, String fieldName,Keys key, SoftAssertion myAssert) {
 		WebElement oField = getElement(element, myAssert);
 		if(oField != null) {
 			fillTextField(oField, whatValue, fieldName, false, myAssert);
-			oField.sendKeys(Keys.TAB);
+			syncBrowser();
+			oField.sendKeys(key);
 			return myAssert.Success("Successfully entered " + whatValue + " in field " + fieldName);
 		}
 		return myAssert.Failed("Unable to find " + fieldName + " field.");
@@ -670,6 +689,6 @@ public class SeleniumWrapper {
 							);
 		}
 		return false;
-	}
+	}	
 	
 }

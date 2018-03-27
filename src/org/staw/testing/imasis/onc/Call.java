@@ -28,15 +28,24 @@ public class Call {
 		return isSuccess;	
 	}
 	
-	public boolean FillCallerDetails(String callType, String firstName, String lastName, String location, String phone,
-			String extension, String unableToContract, String comments) {
+	public boolean FillCallerDetails(String action, String value) {
+		try {
 			SeleniumWrapper.syncBrowser();			
-			boolean isValid = true;
-			isValid = isValid && SeleniumWrapper.fillTextFieldAndTabOut(By.id(DomConstants.Call.FIRST_NAME), firstName, "firstName", myAssert);
-			isValid = isValid && SeleniumWrapper.fillTextFieldAndTabOut(By.id(DomConstants.Call.LAST_NAME), lastName, "lastName", myAssert);
-			isValid = isValid && SeleniumWrapper.fillTextFieldAndTabOut(By.id(DomConstants.Call.PHONE), phone, "phone", myAssert);
+			switch(StringExtensions.removeSpace(action)) {
+				case "firstname":
+					return SeleniumWrapper.fillTextFieldAndTabOut(By.id(DomConstants.Call.FIRST_NAME), value, "firstName", myAssert);
+				case "lastname":
+					return SeleniumWrapper.fillTextFieldAndTabOut(By.id(DomConstants.Call.LAST_NAME), value, "lastName", myAssert);
+				case "phone":
+					return SeleniumWrapper.fillTextFieldAndTabOut(By.id(DomConstants.Call.PHONE), value, "phone", myAssert);					
+			}				
 			
-			return isValid;		
+			return myAssert.Failed("Unable to add caller information");
+		}
+		catch(Exception e) {
+			return myAssert.Failed("Unable to add caller information");
+		}
+				
 	}
 
 }

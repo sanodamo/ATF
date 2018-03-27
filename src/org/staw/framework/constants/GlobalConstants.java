@@ -3,11 +3,8 @@ package org.staw.framework.constants;
 public class GlobalConstants {
 	
 	public class RunEnvironment{
-		public static final String RUN_ENVIRONMENT_PROP_SHEET = "runEnvironmentPropSheet";
-  		public static final String TEST_CASES_TO_RUN = "testCasesToRunExcelSheet";
-  		public static final String USER_NAME_AND_PASSWORD = "userNameAndPasswordExcelSheet";
-  		
-  		
+		public static final String RUN_ENVIRONMENT_PROP = "runEnvironmentProp";
+  		  		
   		public static final String PROD = "prod";	
   		public static final String QA = "qa";
   		public static final String LOCAL_DEV = "local_dev";
@@ -22,7 +19,8 @@ public class GlobalConstants {
 		public static final String FM_BROWSER = "testbrowser";
 		public static final String FM_BROWSER_VERSION = "browserversion";
 		public static final String FM_OPERATING_SYSTEM = "os";
-		public static final String FM_USER_ID = "UserId";
+		public static final String FM_USER_ID = "USERID";
+		public static final String FM_HOST_NAME = "HOSTNAME";
   		public static final String FM_TEST_CRASHED = "testCrashed";
   		public static final String FM_SESSION_ID = "sessionId";
 		public static final String FM_CURRENT_KEYWORD_STEP = "Step_Count";
