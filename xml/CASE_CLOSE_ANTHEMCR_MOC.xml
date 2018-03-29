@@ -3,166 +3,166 @@
 <Script xmlns="http://www.w3schools.com/xmlValidation.xsd" name="CASE_CLOSE_ANTHEMCR_RAD"
 	locale="en" lang="">
 	<KeyWords>		
-		<KeyWord label="Initialize">
+		<KeyWord method="Initialize">
 			<Parameters>
 				<Parameter value="imasis" />
 				<Parameter value="onc" />
 			</Parameters>
 		</KeyWord>
-		<KeyWord label="NavigateToUrl">
+		<KeyWord method="NavigateToUrl" class="org.staw.testing.imasis.Navigation">
 			<Parameters>
 				<Parameter value="RAD_IMASIS" />
 			</Parameters>
 		</KeyWord>
-		<KeyWord label="Login">
+		<KeyWord method="Login" class="org.staw.testing.imasis.Login">
 			<Parameters>
-				<Parameter value="IMASIS_USER_ID" />
-				<Parameter value="IMASIS_PASSWORD" />				
+				<Parameter value="IMASIS_RN_USER_ID" />
+				<Parameter value="IMASIS_RN_PASSWORD" />				
 			</Parameters>
 		</KeyWord>	
-		<KeyWord label="CallAction">
+		<KeyWord method="CallAction" class="org.staw.testing.imasis.Call">
 			<Parameters>
 				<Parameter value="Start call" />
 				<Parameter value="" />				
 			</Parameters>
 		</KeyWord>
-		<KeyWord label="FillCallerDetails">
+		<KeyWord method="FillCallerDetails" class="org.staw.testing.imasis.Call">
 			<Parameters>
 				<Parameter value="First Name" />
 				<Parameter value="Caller:FirstName" />				
 			</Parameters>
 		</KeyWord>		
-		<KeyWord label="FillCallerDetails">
+		<KeyWord method="FillCallerDetails" class="org.staw.testing.imasis.Call">
 			<Parameters>
 				<Parameter value="Last Name" />
 				<Parameter value="Caller:LastName" />				
 			</Parameters>
 		</KeyWord>	
 		
-		<KeyWord label="FillCallerDetails">
+		<KeyWord method="FillCallerDetails" class="org.staw.testing.imasis.Call">
 			<Parameters>
 				<Parameter value="Phone" />
 				<Parameter value="Caller:Phone" />				
 			</Parameters>
 		</KeyWord>
 						
-		<KeyWord label="SwitchTab">
+		<KeyWord method="SwitchTab" class="org.staw.testing.imasis.CommonActions">
 			<Parameters>
 				<Parameter value="Member" />							
 			</Parameters>
 		</KeyWord>
-		<KeyWord label="ProductSelection">
+		<KeyWord method="ProductSelection" class="org.staw.testing.imasis.Member">
 			<Parameters>
 				<Parameter value="MOC" />							
 			</Parameters>
 		</KeyWord>
-		<KeyWord label="TreatmentDateSelection">
+		<KeyWord method="TreatmentDateSelection" class="org.staw.testing.imasis.Member">
 			<Parameters>
 				<Parameter value="PROSPECTIVE" />							
 			</Parameters>
 		</KeyWord>
-		<KeyWord label="MemberSearch">
+		<KeyWord method="MemberSearch" class="org.staw.testing.imasis.Member">
 			<Parameters>				
 				<Parameter value="Anthem CR" />
 				<Parameter value="ActiveMember:Id:CR" />
 			</Parameters>
 		</KeyWord>
-		<KeyWord label="MemberSelect">
+		<KeyWord method="MemberSelect" class="org.staw.testing.imasis.Member">
 			<Parameters>								
 				<Parameter value="Active Member" />
 			</Parameters>
 		</KeyWord>
-		<KeyWord label="SwitchTab">
+		<KeyWord method="SwitchTab" class="org.staw.testing.imasis.CommonActions">
 			<Parameters>
 				<Parameter value="Physician" />							
 			</Parameters>
 		</KeyWord>
-		<KeyWord label="PhysicianSearchByNpi">
+		<KeyWord method="PhysicianSearchByNpi" class="org.staw.testing.imasis.Physician">
 			<Parameters>				
 				<Parameter value="Illinois" />
 				<Parameter value="ActivePhysician:NPI:IL" />
 			</Parameters>
 		</KeyWord>
-		<KeyWord label="PhysicianSelect">
+		<KeyWord method="PhysicianSelect" class="org.staw.testing.imasis.Physician">
 			<Parameters>								
 				<Parameter value="Active Physician" />
 			</Parameters>
 		</KeyWord>
-		<KeyWord label="SwitchTab">
+		<KeyWord method="SwitchTab" class="org.staw.testing.imasis.CommonActions">
 			<Parameters>
 				<Parameter value="Provider" />							
 			</Parameters>
 		</KeyWord>
-		<KeyWord label="ProviderSearchByNpi">
+		<KeyWord method="ProviderSearchByNpi" class="org.staw.testing.imasis.Provider">
 			<Parameters>				
 				<Parameter value="Illinois" />
 				<Parameter value="ContractedProvider:NPI:IL" />
 			</Parameters>
 		</KeyWord>
-		<KeyWord label="ProviderSelect">
+		<KeyWord method="ProviderSelect" class="org.staw.testing.imasis.Provider">
 			<Parameters>								
 				<Parameter value="Contracted Provider" />
 			</Parameters>
 		</KeyWord>
-		<KeyWord label="PlaceOfService">
+		<KeyWord method="PlaceOfService" class="org.staw.testing.imasis.Provider">
 			<Parameters>								
 				<Parameter value="Office" />
 			</Parameters>
 		</KeyWord>		
-		<KeyWord label="SwitchTab">
+		<KeyWord method="SwitchTab" class="org.staw.testing.imasis.CommonActions">
 			<Parameters>
 				<Parameter value="Clinical" />							
 			</Parameters>			
 		</KeyWord>
-		<KeyWord label="EvitiStart">
+		<KeyWord method="EvitiStart" class="org.staw.testing.imasis.Clinical">
 			<Parameters>
 				<Parameter value="" />							
 			</Parameters>			
 		</KeyWord>
-		<KeyWord label="SwitchFrame">
+		<KeyWord method="SwitchFrame" class="org.staw.testing.imasis.CommonActions">
 			<Parameters>
 				<Parameter value="Eviti" />				
 			</Parameters>			
 		</KeyWord>		
-		<KeyWord label="PatientHeightWeight">
+		<KeyWord method="PatientHeightWeight" class="org.staw.testing.imasis.Clinical">
 			<Parameters>
 				<Parameter value="177" />
 				<Parameter value="177" />				
 			</Parameters>			
 		</KeyWord>
-		<KeyWord label="RegimenSearch">
+		<KeyWord method="RegimenSearch" class="org.staw.testing.imasis.Clinical">
 			<Parameters>
 				<Parameter value="Cancer type" />
 				<Parameter value="Breast" />							
 			</Parameters>			
 		</KeyWord>	
-		<KeyWord label="RegimenSearch">
+		<KeyWord method="RegimenSearch" class="org.staw.testing.imasis.Clinical">
 			<Parameters>
 				<Parameter value="icd" />
 				<Parameter value="C50.021 Malignant neoplasm of nipple and areola, right male breast" />							
 			</Parameters>			
 		</KeyWord>	
-		<KeyWord label="RemoveDrug">
+		<KeyWord method="RemoveDrug" class="org.staw.testing.imasis.Clinical">
 			<Parameters>			
 				<Parameter value="Trastuzumab / HERCEPTIN (J9355)" />				
 			</Parameters>			
 		</KeyWord>
-		<KeyWord label="AddDrug">
+		<KeyWord method="AddDrug" class="org.staw.testing.imasis.Clinical">
 			<Parameters>			
 				<Parameter value="AVASTIN" />				
 			</Parameters>			
 		</KeyWord>
-		<KeyWord label="SaveAndContinueEviti">
+		<KeyWord method="SaveAndContinueEviti" class="org.staw.testing.imasis.Clinical">
 			<Parameters>
 				<Parameter value="Regimen" />											
 			</Parameters>			
 		</KeyWord>
-		<KeyWord label="SelectDrug">
+		<KeyWord method="SelectDrug" class="org.staw.testing.imasis.Clinical">
 			<Parameters>			
 				<Parameter value="Bevacizumab / AVASTIN (C9257, J9035)" />				
 			</Parameters>			
 		</KeyWord>			
-		<KeyWord label="BuildTreatmentPlan">
+		<KeyWord method="BuildTreatmentPlan" class="org.staw.testing.imasis.Clinical">
 			<Parameters>
 				<Parameter value="1" />
 				<Parameter value="Intravenous" />
@@ -173,7 +173,7 @@
 				<Parameter value="BID" />				
 			</Parameters>			
 		</KeyWord>
-		<KeyWord label="EnterDiagnosis">
+		<KeyWord method="EnterDiagnosis" class="org.staw.testing.imasis.Clinical">
 			<Parameters>
 				<Parameter value="Adenocarcinoma" />
 				<Parameter value="IIIB" />
@@ -183,71 +183,71 @@
 				<Parameter value="0 - Normal activity (asymptomatic)." />					
 			</Parameters>			
 		</KeyWord>
-		<KeyWord label="EnterBiomarker">
+		<KeyWord method="EnterBiomarker" class="org.staw.testing.imasis.Clinical">
 			<Parameters>
 				<Parameter value="Estrogen Receptor" />
 				<Parameter value="Negative" />							
 			</Parameters>			
 		</KeyWord>
-		<KeyWord label="EnterBiomarker">
+		<KeyWord method="EnterBiomarker" class="org.staw.testing.imasis.Clinical">
 			<Parameters>
 				<Parameter value="her2" />
 				<Parameter value="FISH or CISH Equivocal" />							
 			</Parameters>			
 		</KeyWord>
-		<KeyWord label="EnterBiomarker">
+		<KeyWord method="EnterBiomarker" class="org.staw.testing.imasis.Clinical">
 			<Parameters>
 				<Parameter value="menopausal" />
 				<Parameter value="Peri-menopausal" />							
 			</Parameters>			
 		</KeyWord>
-		<KeyWord label="EnterBiomarker">
+		<KeyWord method="EnterBiomarker" class="org.staw.testing.imasis.Clinical">
 			<Parameters>
 				<Parameter value="progesterone" />
 				<Parameter value="Negative" />							
 			</Parameters>			
 		</KeyWord>
-		<KeyWord label="SaveAndContinueEviti">
+		<KeyWord method="SaveAndContinueEviti" class="org.staw.testing.imasis.Clinical">
 			<Parameters>
 				<Parameter value="diagnosis" />											
 			</Parameters>			
 		</KeyWord>	
-		<KeyWord label="SaveAndContinueEviti">
+		<KeyWord method="SaveAndContinueEviti" class="org.staw.testing.imasis.Clinical">
 			<Parameters>
 				<Parameter value="review" />											
 			</Parameters>			
 		</KeyWord>
-		<KeyWord label="SaveAndContinueEviti">
+		<KeyWord method="SaveAndContinueEviti" class="org.staw.testing.imasis.Clinical">
 			<Parameters>
 				<Parameter value="complete" />											
 			</Parameters>			
 		</KeyWord>		
-		<KeyWord label="SwitchTab">
+		<KeyWord method="SwitchTab" class="org.staw.testing.imasis.CommonActions">
 			<Parameters>
 				<Parameter value="drugsummary" />							
 			</Parameters>			
 		</KeyWord>
-		<KeyWord label="EditRegimen">
+		<KeyWord method="EditRegimen" class="org.staw.testing.imasis.Clinical">
 			<Parameters>
 				<Parameter value="" />							
 			</Parameters>			
 		</KeyWord>	
-		<KeyWord label="EditOutcome">
+		<KeyWord method="EditOutcome" class="org.staw.testing.imasis.Clinical">
 			<Parameters>
 				<Parameter value="met" />							
 			</Parameters>			
 		</KeyWord>		
-		<KeyWord label="CaseActions">
+		<KeyWord method="CaseActions" class="org.staw.testing.imasis.CommonActions">
 			<Parameters>
 				<Parameter value="Save" />											
 			</Parameters>			
 		</KeyWord>	
-		<!-- <KeyWord label="CASEACTIONS">
+		<!-- <KeyWord method="CASEACTIONS">
 			<Parameters>
 				<Parameter value="Close" />											
 			</Parameters>			
 		</KeyWord> -->
-		<KeyWord label="SwitchFrame">
+		<KeyWord method="SwitchFrame" class="org.staw.testing.imasis.CommonActions">
 			<Parameters>
 				<Parameter value="default" />				
 			</Parameters>			

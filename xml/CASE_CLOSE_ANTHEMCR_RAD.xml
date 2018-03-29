@@ -3,119 +3,119 @@
 <Script xmlns="http://www.w3schools.com/xmlValidation.xsd" name="CASE_CLOSE_ANTHEMCR_RAD"
 	locale="en" lang="">
 	<KeyWords>
-		<KeyWord label="Initialize">
+		<KeyWord method="Initialize">
 			<Parameters>
 				<Parameter value="imasis" />
 				<Parameter value="onc" />
 			</Parameters>
 		</KeyWord>
-		<KeyWord label="NavigateToUrl">
+		<KeyWord method="NavigateToUrl" class="org.staw.testing.imasis.Navigation">
 			<Parameters>
 				<Parameter value="RAD_IMASIS" />
 			</Parameters>
 		</KeyWord>
-		<KeyWord label="Login">
+		<KeyWord method="Login" class="org.staw.testing.imasis.Login">
 			<Parameters>
-				<Parameter value="IMASIS_USER_ID" />
-				<Parameter value="IMASIS_PASSWORD" />				
+				<Parameter value="IMASIS_RN_USER_ID" />
+				<Parameter value="IMASIS_RN_PASSWORD" />				
 			</Parameters>
 		</KeyWord>	
-		<KeyWord label="CallAction">
+		<KeyWord method="CallAction" class="org.staw.testing.imasis.Call">
 			<Parameters>
 				<Parameter value="Start call" />
 				<Parameter value="" />				
 			</Parameters>
 		</KeyWord>
-		<KeyWord label="FillCallerDetails">
+		<KeyWord method="FillCallerDetails" class="org.staw.testing.imasis.Call">
 			<Parameters>
 				<Parameter value="First Name" />
 				<Parameter value="Caller:FirstName" />				
 			</Parameters>
 		</KeyWord>		
-		<KeyWord label="FillCallerDetails">
+		<KeyWord method="FillCallerDetails" class="org.staw.testing.imasis.Call">
 			<Parameters>
 				<Parameter value="Last Name" />
 				<Parameter value="Caller:LastName" />				
 			</Parameters>
 		</KeyWord>	
 		
-		<KeyWord label="FillCallerDetails">
+		<KeyWord method="FillCallerDetails" class="org.staw.testing.imasis.Call">
 			<Parameters>
 				<Parameter value="Phone" />
 				<Parameter value="Caller:Phone" />				
 			</Parameters>
 		</KeyWord>
 		
-		<KeyWord label="SwitchTab">
+		<KeyWord method="SwitchTab" class="org.staw.testing.imasis.CommonActions">
 			<Parameters>
 				<Parameter value="Member" />							
 			</Parameters>
 		</KeyWord>
-		<KeyWord label="ProductSelection">
+		<KeyWord method="ProductSelection" class="org.staw.testing.imasis.Member">
 			<Parameters>
 				<Parameter value="RAD" />							
 			</Parameters>
 		</KeyWord>
-		<KeyWord label="TreatmentDateSelection">
+		<KeyWord method="TreatmentDateSelection" class="org.staw.testing.imasis.Member">
 			<Parameters>
 				<Parameter value="PROSPECTIVE" />							
 			</Parameters>
 		</KeyWord>
-		<KeyWord label="MemberSearch">
+		<KeyWord method="MemberSearch" class="org.staw.testing.imasis.Member">
 			<Parameters>				
 				<Parameter value="Anthem CR" />
 				<Parameter value="ActiveMember:Id:CR" />
 			</Parameters>
 		</KeyWord>
-		<KeyWord label="MemberSelect">
+		<KeyWord method="MemberSelect" class="org.staw.testing.imasis.Member">
 			<Parameters>								
 				<Parameter value="Active Member" />
 			</Parameters>
 		</KeyWord>
-		<KeyWord label="SwitchTab">
+		<KeyWord method="SwitchTab" class="org.staw.testing.imasis.CommonActions">
 			<Parameters>
 				<Parameter value="Physician" />							
 			</Parameters>
 		</KeyWord>
-		<KeyWord label="PhysicianSearchByNpi">
+		<KeyWord method="PhysicianSearchByNpi" class="org.staw.testing.imasis.Physician">
 			<Parameters>				
 				<Parameter value="Illinois" />
 				<Parameter value="ActivePhysician:NPI:IL" />
 			</Parameters>
 		</KeyWord>
-		<KeyWord label="PhysicianSelect">
+		<KeyWord method="PhysicianSelect" class="org.staw.testing.imasis.Physician">
 			<Parameters>								
 				<Parameter value="Active Physician" />
 			</Parameters>
 		</KeyWord>
-		<KeyWord label="SwitchTab">
+		<KeyWord method="SwitchTab" class="org.staw.testing.imasis.CommonActions">
 			<Parameters>
 				<Parameter value="Provider" />							
 			</Parameters>
 		</KeyWord>
-		<KeyWord label="ProviderSearchByNpi">
+		<KeyWord method="ProviderSearchByNpi" class="org.staw.testing.imasis.Provider">
 			<Parameters>				
 				<Parameter value="Illinois" />
 				<Parameter value="ContractedProvider:NPI:IL" />
 			</Parameters>
 		</KeyWord>
-		<KeyWord label="ProviderSelect">
+		<KeyWord method="ProviderSelect" class="org.staw.testing.imasis.Provider">
 			<Parameters>								
 				<Parameter value="Contracted Provider" />
 			</Parameters>
 		</KeyWord>
-		<KeyWord label="SwitchTab">
+		<KeyWord method="SwitchTab" class="org.staw.testing.imasis.CommonActions">
 			<Parameters>
 				<Parameter value="Modality" />							
 			</Parameters>
 		</KeyWord>
-		<KeyWord label="TreatmentSelection">
+		<KeyWord method="TreatmentSelection" class="org.staw.testing.imasis.Modality">
 			<Parameters>								
 				<Parameter value="Brachytherapy (CPT 77761)" />
 				<Parameter value="Primary" />
 			</Parameters>
 		</KeyWord>
-		<KeyWord label="PreExamQuestions">
+		<KeyWord method="PreExamQuestions" class="org.staw.testing.imasis.Modality">
 			<Parameters>								
 				<Parameter value="Primary Tumor" />
 				<Parameter value="Breast Cancer (Female)" />
@@ -128,67 +128,67 @@
 				<Parameter value="0 - Normal Activity (asymptomatic)" />
 			</Parameters>
 		</KeyWord>
-		<KeyWord label="SwitchTab">
+		<KeyWord method="SwitchTab" class="org.staw.testing.imasis.CommonActions">
 			<Parameters>
 				<Parameter value="Clinical" />							
 			</Parameters>			
 		</KeyWord>
-		<KeyWord label="ApClinicalQuestion">
+		<KeyWord method="ApClinicalQuestion" class="org.staw.testing.imasis.Clinical">
 			<Parameters>
 				<Parameter value="Has the patient had breast conserving surgery" />
 				<Parameter value="Yes" />		
 				<Parameter value="radio" />
 			</Parameters>			
 		</KeyWord>
-		<KeyWord label="ApClinicalQuestion">
+		<KeyWord method="ApClinicalQuestion" class="org.staw.testing.imasis.Clinical">
 			<Parameters>
 				<Parameter value="Select from the following options" />
 				<Parameter value="Boost after whole breast external beam radiotherapy" />
 				<Parameter value="radio" />							
 			</Parameters>			
 		</KeyWord>		
-		<KeyWord label="ApClinicalComplete">
+		<KeyWord method="ApClinicalComplete" class="org.staw.testing.imasis.Clinical">
 			<Parameters>
 				<Parameter value="Next" />											
 			</Parameters>			
 		</KeyWord>
-		<KeyWord label="ApTreatmentQuestion">
+		<KeyWord method="ApTreatmentQuestion" class="org.staw.testing.imasis.Clinical">
 			<Parameters>
 				<Parameter value="Select from the following options" />
 				<Parameter value="High-dose rate (HDR) brachytherapy" />
 				<Parameter value="radio" />							
 			</Parameters>			
 		</KeyWord>
-		<KeyWord label="ApTreatmentQuestion">
+		<KeyWord method="ApTreatmentQuestion" class="org.staw.testing.imasis.Clinical">
 			<Parameters>
 				<Parameter value="Planned total dose" />
 				<Parameter value="10" />
 				<Parameter value="text" />							
 			</Parameters>			
 		</KeyWord>	
-		<KeyWord label="ApTreatmentQuestion">
+		<KeyWord method="ApTreatmentQuestion" class="org.staw.testing.imasis.Clinical">
 			<Parameters>
 				<Parameter value="Total number of fractions" />
 				<Parameter value="10" />
 				<Parameter value="text" />							
 			</Parameters>			
 		</KeyWord>	
-		<KeyWord label="ApClinicalComplete">
+		<KeyWord method="ApClinicalComplete" class="org.staw.testing.imasis.Clinical">
 			<Parameters>
 				<Parameter value="Next" />											
 			</Parameters>			
 		</KeyWord>
-		<KeyWord label="ApReviewConfirm">
+		<KeyWord method="ApReviewConfirm" class="org.staw.testing.imasis.Clinical">
 			<Parameters>
 				<Parameter value="Continue" />											
 			</Parameters>			
 		</KeyWord>	
-		<KeyWord label="CaseActions">
+		<KeyWord method="CaseActions" class="org.staw.testing.imasis.CommonActions">
 			<Parameters>
 				<Parameter value="Save" />											
 			</Parameters>			
 		</KeyWord>	
-		<KeyWord label="CaseActions">
+		<KeyWord method="CaseActions" class="org.staw.testing.imasis.CommonActions">
 			<Parameters>
 				<Parameter value="Close" />											
 			</Parameters>			

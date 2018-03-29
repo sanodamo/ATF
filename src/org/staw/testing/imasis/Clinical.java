@@ -217,6 +217,7 @@ public class Clinical {
 	public boolean enterBiomarker(String biomarker, String value) {
 		boolean isSuccess = false;
 		try {
+			SeleniumWrapper.syncBrowser();
 			switch(StringExtensions.removeSpace(biomarker)) {
 				case "estrogenreceptor":
 					isSuccess = selectListItem(value,biomarker, By.xpath(DomConstants.MocClinical.ESTROGEN_RECEPTOR_SELECT),By.xpath(DomConstants.MocClinical.BIOMARKER_OPTIONS) );

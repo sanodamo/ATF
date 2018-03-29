@@ -10,8 +10,8 @@ public class EnviromentProperties {
 	public static final String RAD_IMASIS=csHelper.getProperty("RAD_IMASIS");
 	public static final String TIME_SLICE_MS = csHelper.getProperty("TIME_SLICE_MS");
 	public static final String TIME_OUT_SECONDS = csHelper.getProperty("TIME_OUT_SECONDS");
-	public static final String IMASIS_USER_ID=csHelper.getProperty("IMASIS_USER_ID");
-	public static final String IMASIS_PASSWORD=csHelper.getProperty("IMASIS_PASSWORD");
+	public static final String IMASIS_RN_USER_ID=csHelper.getProperty("IMASIS_RN_USER_ID");
+	public static final String IMASIS_RN_PASSWORD=csHelper.getProperty("IMASIS_RN_PASSWORD");
 	
 		
 	

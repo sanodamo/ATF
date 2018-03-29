@@ -26,7 +26,8 @@
     		<element name="Parameters" type="ns:Args" maxOccurs="1" minOccurs="0">
     		</element>
     	</sequence>
-    	<attribute name="label" type="string" use="required"></attribute>
+    	<attribute name="method" type="string" use="required"></attribute>
+    	<attribute name="class" type="string" use="optional"></attribute>
     </complexType>
 
     <complexType name="Args">

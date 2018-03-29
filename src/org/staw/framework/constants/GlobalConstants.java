@@ -2,6 +2,10 @@ package org.staw.framework.constants;
 
 public class GlobalConstants {
 	
+	public class KeywordName{
+		public static final String INITIALIZE = "Initialize";
+	}
+	
 	public class RunEnvironment{
 		public static final String RUN_ENVIRONMENT_PROP = "runEnvironmentProp";
   		  		

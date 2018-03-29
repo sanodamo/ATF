@@ -6,38 +6,24 @@ import java.lang.invoke.MethodType;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import org.apache.log4j.Logger;
 import org.staw.datarepository.dao.TestContext.TestContextProvider;
-import org.staw.framework.constants.BrowserTargetType;
 import org.staw.framework.constants.GlobalConstants;
 import org.staw.framework.helpers.TestSetupHelper;
-import org.staw.framework.models.KeywordRegistry;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class KeywordDispatcher {
 
 	private static SoftAssertion myAssert;
-	private static String sessionId;
-
 	public KeywordDispatcher(SoftAssertion sr) {
 		myAssert = sr;
 	}
 
 	public static Logger log = Logger.getLogger(KeywordDispatcher.class.getName());
 	
-	private static String getExecutionEnv(){
-		try {
-			return TestSetupHelper.getRunEnvironemnt();
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-	
-	private static boolean keywordResult(ArrayList<String> argList, Class<?> className, String methodName) {
+	private static boolean InvokeMethod(ArrayList<String> argList, Class<?> className, String methodName) {
 		int argListSize = 0;
 		if (argList != null)
 			argListSize = argList.size();
@@ -110,7 +96,7 @@ public class KeywordDispatcher {
 		ArrayList<String> argumentList = new ArrayList<>();
 		ArrayList<String> returnList = null;
 		NodeList nodeArgs;
-		String currKeyWord = singleKeyword.getAttributes().getNamedItem("label").getNodeValue();
+		String currKeyWord = singleKeyword.getAttributes().getNamedItem("method").getNodeValue();
 		
 		nodeArgs = singleKeyword.getChildNodes();
 		if(nodeArgs.getLength() != 0){
@@ -137,37 +123,37 @@ public class KeywordDispatcher {
 	}
 	
 	
-	public boolean executeKeywords(NodeList keyWords) {
-		KeywordRegistry[] loginFunctions = { KeywordRegistry.LOGIN };
-	
-		String strKeyword = "";
+	public boolean executeKeywords(NodeList keyWords) {		
+		String methodName = "";		
+		Class<?> keywordClass = null;
+		
 		boolean lastKeywordResult = false, currentKeywordResult = false;
 		ArrayList<String> argList = null;
-		KeywordRegistry kw;
-		 
+				 
 		int keywordCount =1;
 		try {
 			for (int i = 0; i < keyWords.getLength(); i++) {
 				Node singleKeyword = keyWords.item(i);
-				if (singleKeyword.getNodeType() == Node.ELEMENT_NODE) {
-					if ((sessionId == null || sessionId.isEmpty()) && getExecutionEnv().contains(BrowserTargetType.REMOTE.getTargetType()))
-						break;
+				if (singleKeyword.getNodeType() == Node.ELEMENT_NODE) {					
 					argList = getKeywordDataFromXml(keywordCount, singleKeyword);
-					strKeyword = singleKeyword.getAttributes().getNamedItem("label").getNodeValue().toUpperCase();
-					kw = KeywordRegistry.getKeyword(strKeyword);
-					
-					if (kw != null) {
-						switch (kw) {
+					methodName = singleKeyword.getAttributes().getNamedItem("method").getNodeValue().toUpperCase();
+					Node classAttr =  singleKeyword.getAttributes().getNamedItem("class");
+					if(classAttr != null) {
+						keywordClass = Class.forName(classAttr.getNodeValue());
+					}
+														
+					if (methodName != null) {
+						switch (methodName) {
 												
-						case INITIALIZE:
+						case GlobalConstants.KeywordName.INITIALIZE:
 							currentKeywordResult = true;													
 							break;
 						
 						default:
-							try {
-								currentKeywordResult = keywordResult(argList, kw.getClassName(), kw.name());
+							try {							
+								currentKeywordResult = InvokeMethod(argList, keywordClass, methodName);
 							} catch (Throwable e) {
-								log.error("Keyword failed to execute: " + kw.getName() + ". Localized Message: " + e.getLocalizedMessage() + " Message: "
+								log.error("Keyword failed to execute: " + methodName + ". Localized Message: " + e.getLocalizedMessage() + " Message: "
 										+ e.getMessage());
 								e.printStackTrace();
 							}
@@ -176,8 +162,7 @@ public class KeywordDispatcher {
 					}
 					
 					myAssert.assertTrue(currentKeywordResult);
-					if((lastKeywordResult == false && currentKeywordResult == false) && i>0) break;
-					if(currentKeywordResult == false && Arrays.asList(loginFunctions).contains(kw)) break;
+					if((lastKeywordResult == false && currentKeywordResult == false) && i>0) break;					
 					lastKeywordResult = currentKeywordResult;
 					myAssert.Success("");
 					myAssert.Failed("");
