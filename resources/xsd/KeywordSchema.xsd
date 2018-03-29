@@ -23,7 +23,7 @@
 
     <complexType name="kWord">
     	<sequence>
-    		<element name="Arguments" type="ns:Args" maxOccurs="1" minOccurs="0">
+    		<element name="Parameters" type="ns:Args" maxOccurs="1" minOccurs="0">
     		</element>
     	</sequence>
     	<attribute name="label" type="string" use="required"></attribute>
@@ -31,7 +31,7 @@
 
     <complexType name="Args">
     	<sequence>
-    		<element name="ArgumentVal" type="ns:ArgVal" maxOccurs="unbounded" minOccurs="0"></element>
+    		<element name="Parameter" type="ns:ArgVal" maxOccurs="unbounded" minOccurs="0"></element>
     	</sequence>
     </complexType>
 
