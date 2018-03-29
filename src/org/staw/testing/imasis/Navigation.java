@@ -1,4 +1,4 @@
-package org.staw.testing.imasis.onc;
+package org.staw.testing.imasis;
 
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;

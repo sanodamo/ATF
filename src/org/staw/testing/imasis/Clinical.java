@@ -1,4 +1,4 @@
-package org.staw.testing.imasis.onc;
+package org.staw.testing.imasis;
 
 import java.util.List;
 
@@ -33,6 +33,7 @@ public class Clinical {
 	
 	public boolean APClinicalComplete(String element) {
 		try {
+			SeleniumWrapper.syncBrowser();
 			WebDriver driver = SeleniumDriver.getInstance().getWebDriver();
 			WebElement next =  SeleniumWrapper.getElement(By.xpath(DomConstants.RadClinical.CLINICAL_NEXT_BUTTON), myAssert);
 			SeleniumWrapper.javaScriptExecutorClickElement(driver, myAssert,UtilitiesConstants.JAVASCRIPT_CLICK_ELEMENT, next);

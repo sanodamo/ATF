@@ -8,7 +8,7 @@ import org.apache.log4j.Logger;
 public class DatabaseHelper extends ConfigHelper {
 	private String propFile;
 	private Properties dbPropFile;
-	private static Logger log = Logger.getLogger(DatabaseHelper.class.getName());
+	
 	public DatabaseHelper(String propFile) {
 		setPropFile(propFile);
 		dbPropFile = getConfigProperties();

@@ -9,20 +9,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.apache.log4j.Logger;
-import org.staw.datarepository.DataLibrary.ReportType;
-import org.staw.datarepository.DataLibrary;
-import org.staw.framework.constants.GlobalConstants;
-import org.staw.framework.models.KeywordRegistry;
-import org.staw.framework.helpers.TestSetupHelper;
-
+import org.staw.datarepository.dao.TestContext.TestContextProvider;
 import org.staw.framework.constants.BrowserTargetType;
+import org.staw.framework.constants.GlobalConstants;
+import org.staw.framework.helpers.TestSetupHelper;
+import org.staw.framework.models.KeywordRegistry;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class KeywordDispatcher {
 
 	private static SoftAssertion myAssert;
-	private static SeleniumDriver sd = new SeleniumDriver();
 	private static String sessionId;
 
 	public KeywordDispatcher(SoftAssertion sr) {
@@ -109,7 +106,7 @@ public class KeywordDispatcher {
 	}
 	
 
-	private static ArrayList<String> getInitialInformationFromXml(int keywordCount, Node singleKeyword) {
+	private static ArrayList<String> getKeywordDataFromXml(int keywordCount, Node singleKeyword) {
 		ArrayList<String> argumentList = new ArrayList<>();
 		ArrayList<String> returnList = null;
 		NodeList nodeArgs;
@@ -129,15 +126,12 @@ public class KeywordDispatcher {
 			returnList = TestSetupHelper.getParametersValue(argumentList);
 		else
 			returnList = null;
-		
-		DataLibrary.setValue(ReportType.MASTER_TABLE, GlobalConstants.MasterConstant.FM_CURRENT_KEYWORD_STEP, Integer.toString(keywordCount));
-		DataLibrary.setValue(ReportType.MASTER_TABLE, GlobalConstants.MasterConstant.FM_CURRENT_KEYWORD, currKeyWord);
-		try {
-			DataLibrary.setValue(ReportType.MASTER_TABLE, GlobalConstants.MasterConstant.FM_CURRENT_KEYWORD_PARAMETERS, returnList.toString().replace("[", "").replace("]", ""));
-		} catch (Exception e) {
-			DataLibrary.setValue(ReportType.MASTER_TABLE, GlobalConstants.MasterConstant.FM_CURRENT_KEYWORD_PARAMETERS, "");
-		}
-		DataLibrary.setValue(ReportType.STEP_LEVEL_REPORT, GlobalConstants.AssertionAndTestStepConstant.STEP_COUNT, Integer.toString(keywordCount));
+				
+		TestContextProvider.SetValue(GlobalConstants.ContextConstant.CURRENT_KEYWORD_STEP, Integer.toString(keywordCount));
+		TestContextProvider.SetValue(GlobalConstants.ContextConstant.CURRENT_KEYWORD, currKeyWord);
+		TestContextProvider.SetValue(GlobalConstants.ContextConstant.CURRENT_KEYWORD_PARAMETERS,
+				returnList != null && returnList.size() > 0 ? returnList.toString().replace("[", "").replace("]", ""): "");
+				
 		
 		return returnList;
 	}
@@ -158,24 +152,17 @@ public class KeywordDispatcher {
 				if (singleKeyword.getNodeType() == Node.ELEMENT_NODE) {
 					if ((sessionId == null || sessionId.isEmpty()) && getExecutionEnv().contains(BrowserTargetType.REMOTE.getTargetType()))
 						break;
-					argList = getInitialInformationFromXml(keywordCount, singleKeyword);
+					argList = getKeywordDataFromXml(keywordCount, singleKeyword);
 					strKeyword = singleKeyword.getAttributes().getNamedItem("label").getNodeValue().toUpperCase();
 					kw = KeywordRegistry.getKeyword(strKeyword);
 					
 					if (kw != null) {
 						switch (kw) {
+												
+						case INITIALIZE:
+							currentKeywordResult = true;													
+							break;
 						
-						case INITIALROUTINES:
-						case INITIALIZEDATA:
-							currentKeywordResult = true;
-														
-							break;
-
-						case SETGLOBALVARIABLES:
-						case SETGLOBALVARBYEXPRESSION:
-							currentKeywordResult = true;
-							break;
-
 						default:
 							try {
 								currentKeywordResult = keywordResult(argList, kw.getClassName(), kw.name());

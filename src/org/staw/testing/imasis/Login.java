@@ -1,4 +1,4 @@
-package org.staw.testing.imasis.onc;
+package org.staw.testing.imasis;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;

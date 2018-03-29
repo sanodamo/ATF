@@ -1,30 +1,35 @@
 package org.staw.framework;
 
-import java.util.HashMap;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.apache.log4j.Logger;
-import org.staw.datarepository.DataLibrary.ReportType;
-import org.staw.datarepository.DataLibrary;
+import org.staw.datarepository.dao.TestContext.TestContextProvider;
 import org.staw.framework.constants.GlobalConstants;
 import org.staw.framework.helpers.FrameworkHelper;
+import org.staw.framework.helpers.TestSetupHelper;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
-public class ExecuteTests { // NO_UCD (unused code)
+public class ExecuteTests { 
 
 	static SoftAssertion myAssert;
 	
+	 
+	
 	public static Logger log = Logger.getLogger(ExecuteTests.class.getName());
-
+	
 	@BeforeMethod
 	@Parameters({ "tcName", "browser", "browserVersion", "osVersion", "UserId" })
 	public void initSoftAssert(String tcName, String browser, String browserVersion, String osVersion, String UserId) {
 		myAssert = FrameworkHelper.initialize(tcName, browser, browserVersion, osVersion);		
-		HashMap<String, String> insertVals = new HashMap<>();
-		insertVals.put(GlobalConstants.MasterConstant.FM_USER_ID, UserId);
-	    DataLibrary.storeInitialInformation(ReportType.MASTER_TABLE, insertVals);
+				    
+	    TestContextProvider.SetValue(GlobalConstants.ContextConstant.USER_ID, TestSetupHelper.getCurrentHostName());
+	    TestContextProvider.SetValue(GlobalConstants.ContextConstant.TEST_START_TIME, Long.toString(System.currentTimeMillis()));
+	    TestContextProvider.SetValue(GlobalConstants.ContextConstant.START_DATE_AND_TIME, new SimpleDateFormat("MM/dd/yy HH:mm:ss").format(new Date()));
+	       
 	}
 
 

@@ -2,7 +2,7 @@ package org.staw.framework;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
-import org.staw.datarepository.SqlDatabase;
+import org.staw.datarepository.DataAccessProvider;
 import org.staw.framework.constants.DriverVariables;
 import org.staw.framework.helpers.TestSetupHelper;
 import org.testng.annotations.Test;
@@ -27,8 +27,8 @@ public class InitializeTestSuite {
 	public void initialize() {
 		try {
 			PropertyConfigurator.configure(DriverVariables.getFilePath(DriverVariables.LOG4J_PROP));
-			new TestSetupHelper();
-			getInstance().setConnectionPoolCreated(SqlDatabase.startConnectionPool());			
+			new TestSetupHelper();			
+			getInstance().setConnectionPoolCreated(DataAccessProvider.startConnectionPool());
 		} catch (Exception e) {
 			e.printStackTrace();
 			log.error("Error Initializing data");

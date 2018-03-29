@@ -1,26 +1,31 @@
 package org.staw.framework.helpers;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.UUID;
 
 import org.apache.log4j.Logger;
-import org.staw.datarepository.DataLibrary.ReportType;
 import org.openqa.selenium.WebDriver;
-import org.staw.datarepository.DataLibrary;
-import org.staw.framework.models.GlobalVariables;
+import org.staw.datarepository.dao.TestContext.TestContextMapper;
+import org.staw.datarepository.dao.TestContext.TestContextProvider;
+import org.staw.datarepository.dao.TestRun.TestRun;
+import org.staw.datarepository.dao.TestRun.TestRunProvider;
 import org.staw.framework.KeywordDispatcher;
 import org.staw.framework.SeleniumDriver;
 import org.staw.framework.SoftAssertion;
-import org.staw.framework.ThreadInformation;
+import org.staw.framework.ExecutionIdentity;
 import org.staw.framework.constants.GlobalConstants;
+import org.staw.framework.models.GlobalVariables;
 import org.w3c.dom.NodeList;
-import org.staw.framework.helpers.EnviromentSetupHelper;
 
 public class FrameworkHelper {
 
 	public static Logger log = Logger.getLogger(FrameworkHelper.class.getName());
 	private static SoftAssertion myAssert;
 	private static String executionEnv = "";
+ 
 	
 	public static String getSessionPid() {
 		return String.valueOf(UUID.randomUUID());
@@ -28,38 +33,44 @@ public class FrameworkHelper {
 	
 	public static SoftAssertion initialize(String tcName, String browser, String browserVersion, String osVersion) {
 		Thread.currentThread().setName("Thread-"+tcName+"_"+browser+"_"+browserVersion+"_"+osVersion);
+		myAssert = new SoftAssertion();
+		
+		
+		
+		//To-Do Delete
 		tcName = tcName.trim();
 		browser = browser.trim();
 		browserVersion = browserVersion.trim();
 		osVersion = osVersion.trim();
-		myAssert = new SoftAssertion();
+		
 		HashMap<String, String> inf = new HashMap<>();
-		inf.put(GlobalConstants.MasterConstant.FM_TESTNAME, tcName);
-		inf.put(GlobalConstants.MasterConstant.FM_BROWSER, browser);
-		inf.put(GlobalConstants.MasterConstant.FM_BROWSER_VERSION, browserVersion);
-		inf.put(GlobalConstants.MasterConstant.FM_OPERATING_SYSTEM, osVersion);
-		inf.put(GlobalConstants.MasterConstant.FM_USER_ID, TestSetupHelper.getCurrentUser());
-		inf.put(GlobalConstants.MasterConstant.FM_HOST_NAME, TestSetupHelper.getCurrentHostName());
-		inf.put(GlobalConstants.MasterConstant.FM_START_DATE_AND_TIME,DateExtension.getCurrentTimestampFormat());
+		inf.put(GlobalConstants.ContextConstant.TEST_NAME, tcName);
+		inf.put(GlobalConstants.ContextConstant.BROWSER, browser);
+		inf.put(GlobalConstants.ContextConstant.BROWSER_VERSION, browserVersion);
+		inf.put(GlobalConstants.ContextConstant.OPERATING_SYSTEM, osVersion);
+		inf.put(GlobalConstants.ContextConstant.USER_ID, TestSetupHelper.getCurrentUser());
+		inf.put(GlobalConstants.ContextConstant.HOST_NAME, TestSetupHelper.getCurrentHostName());
+		inf.put(GlobalConstants.ContextConstant.START_DATE_AND_TIME,DateExtension.getCurrentTimestampFormat());
+		//
 		try {
-			String previousPid = setPreviousID(tcName, browser, browserVersion, osVersion);
-			ThreadInformation.initialize();
-			ThreadInformation.setValue(GlobalConstants.MasterConstant.FM_P_ID, getSessionPid());
 			
-			//DataLibrary.storeScriptInBuildScripts();
-			DataLibrary.setValue(ReportType.RERUN_TABLE, ThreadInformation.getValue(GlobalConstants.MasterConstant.FM_P_ID), previousPid);
-			DataLibrary.setValue(ReportType.THREADS, GlobalConstants.MasterConstant.FM_P_ID, ThreadInformation.getValue(GlobalConstants.MasterConstant.FM_P_ID));
-			
-			for(String key: inf.keySet()){
-				ThreadInformation.setValue(key, inf.get(key));
-				DataLibrary.setValue(ReportType.THREADS, key, inf.get(key));
-			}
-
+			ExecutionIdentity.initialize();
+			ExecutionIdentity.setValue(GlobalConstants.ContextConstant.EXECUTION_ID, getSessionPid());
+									
+						
+			TestRun test = new TestRun();
+			test.setTestCaseName(tcName);
+			test.setBrowserName(browser);
+			test.setBrowserVersion(browserVersion);
+			test.setOsName(osVersion);
+			test.setUserId(TestSetupHelper.getCurrentUser());
+			test.setHostName(TestSetupHelper.getCurrentHostName());
+			test.setStartDateTime(new Date());
+						
+			TestRunProvider.Save(test);
 			
 			executionEnv = TestSetupHelper.getRunEnvironemnt();
 			SeleniumDriver.getInstance().getDriver(tcName, browser, browserVersion, osVersion, executionEnv, myAssert);
-			DataLibrary.storeInitialInformation(ReportType.MASTER_TABLE, null);
-			DataLibrary.storeInitialInformation(ReportType.REPORT_TABLE, null);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -67,41 +78,29 @@ public class FrameworkHelper {
 		}
 		return myAssert;
 	}
-	
-	private static String setPreviousID(String tcName, String browser, String browserVersion, String osVersion) {
-		String previousPid = "";
-		if(GlobalVariables.pId.containsKey(Long.toString(Thread.currentThread().getId()))){
-			String currentKey = tcName+browser+browserVersion+osVersion;
-			String previousKey = ThreadInformation.getValue(GlobalConstants.MasterConstant.FM_TESTNAME) + ThreadInformation.getValue(GlobalConstants.MasterConstant.FM_BROWSER) 
-			+ ThreadInformation.getValue(GlobalConstants.MasterConstant.FM_BROWSER_VERSION) + ThreadInformation.getValue(GlobalConstants.MasterConstant.FM_OPERATING_SYSTEM);
-			if(ThreadInformation.containsKey(GlobalConstants.MasterConstant.FM_P_ID) && currentKey.toLowerCase().equals(previousKey.toLowerCase())){
-				previousPid = ThreadInformation.getValue(GlobalConstants.MasterConstant.FM_P_ID);
-			}else{
-				previousPid = Integer.toString(-1);
-			}
-		} else {
-			previousPid = Integer.toString(-1);
-		}
-		return previousPid;
-	}
-	
+		
 	public static boolean runTests(String tcName, String browser, String browserVersion, String osVersion){
 		WebDriver driver = SeleniumDriver.getInstance().getWebDriver();
 		String testCaseName = "";
 		String currRunEnv = EnviromentSetupHelper.getTestRunningEnvironmentVariable();
 		if(driver != null) {
 			try {
-				myAssert.configurePrefix(browser,tcName);
-
+								
+				TestContextProvider.SetValue(GlobalConstants.ContextConstant.TEST_RESULT, Boolean.toString(true));
+				TestContextProvider.SetValue(GlobalConstants.ContextConstant.PASS_STEP_COUNT, "0");
+				TestContextProvider.SetValue(GlobalConstants.ContextConstant.FAIL_STEP_COUNT, "0");
+		    	
 				KeywordDispatcher allactions = new KeywordDispatcher(myAssert);
 
 				NodeList keywords = null;
 				testCaseName = getTestCase(currRunEnv, tcName);
-				keywords = TestSetupHelper.readTestCase(testCaseName.trim() + ".xml");
+				keywords = TestSetupHelper.readKeywords(testCaseName.trim() + ".xml");
 				if (keywords == null) {
 					
 					myAssert.assertTrue(false);
-					DataLibrary.setValue(ReportType.MASTER_TABLE, GlobalConstants.MasterConstant.FM_TEST_CRASHED, Boolean.toString(true));
+															
+					TestContextProvider.SetValue(GlobalConstants.ContextConstant.TEST_CRASHED, "true");
+					
 					SeleniumDriver.getInstance().removeDriver(tcName);
 					log.error("No Actions node found");
 					return false;
@@ -130,9 +129,8 @@ public class FrameworkHelper {
 			browser = browser.trim();
 			browserVersion = browserVersion.trim();
 			osVersion = osVersion.trim();
-			StringBuilder output = new StringBuilder();
-			
-			DataLibrary.storeFinalTestInformationForReport(tcName, browser, browserVersion, osVersion);
+						
+			finalizeTestInformation(tcName, browser, browserVersion, osVersion);
 			
 			try {
 				
@@ -144,5 +142,50 @@ public class FrameworkHelper {
 			}
 		}
 	}
+	
+	
+	public static void finalizeTestInformation(String tcName, String browser, String browserVersion, String osVersion) {
+		
+		long totalExecutionTime;
+		long testEndTime = System.currentTimeMillis();
+		long startTime = 0L;
+		
+		try{
+			startTime = Long.parseLong(TestContextProvider.GetValue(GlobalConstants.ContextConstant.TEST_START_TIME));
+		}catch(NumberFormatException e){
+			log.error("Unable to get Test start time when storing final report information. Error: " + e.getCause());
+		}
+				
+		totalExecutionTime = testEndTime - startTime;
+		String time = getExecutionTime(totalExecutionTime);
+		
+		int totalSteps =0;
+		int stepsPassed = 0;
+		try{
+			totalSteps = Integer.parseInt(TestContextProvider.GetValue(GlobalConstants.ContextConstant.TOTAL_EXECUTION_STEPS));
+			stepsPassed = Integer.parseInt(TestContextProvider.GetValue(GlobalConstants.ContextConstant.PASS_STEP_COUNT));
+		}catch(NumberFormatException e){
+			log.error("Unable to get Total Execution Steps. Error: " + e.getMessage()); 
+			e.printStackTrace();
+		}
+		TestContextProvider.SetValue(GlobalConstants.ContextConstant.STEPS_FAILED, Integer.toString(totalSteps-stepsPassed));
+		TestContextProvider.SetValue(GlobalConstants.ContextConstant.TOTAL_EXECUTION_TIME, time);			
+	}
+
+	public static String getExecutionTime(long totalExecutionTime){
+		long secondsInMilli = 1000;
+		long minutesInMilli = secondsInMilli * 60;
+		long hoursInMilli = minutesInMilli * 60;
+		long elapsedHours = totalExecutionTime / hoursInMilli;
+		totalExecutionTime = totalExecutionTime % hoursInMilli;
+		long elapsedMinutes = totalExecutionTime / minutesInMilli;
+		totalExecutionTime = totalExecutionTime % minutesInMilli;
+		long elapsedSeconds = totalExecutionTime / secondsInMilli;
+		NumberFormat f = new DecimalFormat("00");
+		if(elapsedHours == 0)
+			return "00:" + f.format(elapsedMinutes) +":" + f.format(elapsedSeconds);
+		else
+			return f.format(elapsedHours) +":" + f.format(elapsedMinutes) +":" + f.format(elapsedSeconds);
+	}	
 	
 }

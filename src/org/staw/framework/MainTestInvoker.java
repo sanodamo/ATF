@@ -47,7 +47,7 @@ public class MainTestInvoker extends CoreTestCase{
 	}
 
 	private boolean runRegularTest(){
-		return InitializeTestSuite.getInstance().isConnectionPoolCreated() && TestSetupHelper.getRunJob().equalsIgnoreCase("regularjob");
+		return InitializeTestSuite.getInstance().isConnectionPoolCreated();
 	}
 	
 	

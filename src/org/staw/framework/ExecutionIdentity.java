@@ -5,7 +5,7 @@ import java.util.HashMap;
 import org.staw.framework.models.GlobalVariables;
 
 
-public class ThreadInformation {
+public class ExecutionIdentity {
 
 	public static void initialize() {
 		GlobalVariables.pId.put(Long.toString(Thread.currentThread().getId()), new HashMap<>());

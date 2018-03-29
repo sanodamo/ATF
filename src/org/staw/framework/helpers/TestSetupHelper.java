@@ -19,9 +19,9 @@ import javax.xml.validation.Validator;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.log4j.Logger;
-import org.staw.datarepository.DataLibrary;
-import org.staw.datarepository.DataLibrary.ReportType;
-
+import org.staw.datarepository.dao.TestContext.TestContextProvider;
+import org.staw.datarepository.dao.TestData.TestData;
+import org.staw.datarepository.dao.TestData.TestDataProvider;
 import org.staw.framework.constants.BrowserTargetType;
 import org.staw.framework.constants.DriverVariables;
 import org.staw.framework.constants.EnviromentProperties;
@@ -34,12 +34,12 @@ import org.xml.sax.SAXException;
 
 public class TestSetupHelper extends ConfigHelper{
 	private static Logger logger = Logger.getLogger(TestSetupHelper.class.getName());
-	private static Properties setupHelperPropFile;
+	private static Properties PropFile;
 	private static boolean filefound = false;
 	
 	
 	public TestSetupHelper() {
-		setupHelperPropFile = getConfigProperties();
+		PropFile = getConfigProperties();
 	}
 
 	
@@ -57,7 +57,7 @@ public class TestSetupHelper extends ConfigHelper{
 	@Override
 	String getProperty(String prop) {
 		try{
-			String propVal = setupHelperPropFile.getProperty(prop).toString();
+			String propVal = PropFile.getProperty(prop).toString();
 			return propVal;
 		}catch(Exception e){
 			return "";
@@ -70,39 +70,22 @@ public class TestSetupHelper extends ConfigHelper{
 		String[] validEnv = new String[executionEnvs];
 		for(int i=0; i<executionEnvs;i++)
 			validEnv[i] = BrowserTargetType.values()[i].getTargetType().toUpperCase();
-		if(Arrays.asList(validEnv).contains(setupHelperPropFile.getProperty("RunningEnvironment").toUpperCase().trim())){
-			return setupHelperPropFile.getProperty("RunningEnvironment");
+		if(Arrays.asList(validEnv).contains(PropFile.getProperty("RunningEnvironment").toUpperCase().trim())){
+			return PropFile.getProperty("RunningEnvironment");
 		}
-		logger.error("INVALID RUN ENVIRONMENT. PLEASE DOUBLE CHECK THE 'RunningEnvironment' IN THE CONFIG.PROPERTIES.");
+		logger.error("INVALID RUN ENVIRONMENT");
 		throw new Exception();
 	}
 	
-	public static String getRunJob(){
-		String runningJob = "RegularJob";
-		try{
-			switch(setupHelperPropFile.getProperty("RunJob").toLowerCase().trim().replace(" ", "")){
-			default:
-				runningJob = "RegularJob";
-				break; 
-			}
-
-		}catch(Exception e) 
-		{
-			e.printStackTrace();
-			logger.error("Unable to get the Job type: " + e.getMessage());
-		}
-
-		return runningJob;
-
-	}
+	
 	
 	public static String getTestCases(){
-		return setupHelperPropFile.getProperty("RunTest");
+		return PropFile.getProperty("RunTest");
 	}	
 	
 	public static String getLevel() throws Exception{
 		try{
-			String lvl = setupHelperPropFile.getProperty("Level");
+			String lvl = PropFile.getProperty("Level");
 			EnviromentSetupHelper.RunningEnvironment.getVariable(lvl);
 			return lvl;
 		}catch(Exception e){
@@ -132,7 +115,7 @@ public class TestSetupHelper extends ConfigHelper{
 	public static List<EnvironmentOptions> getEnvironmentOptions() {
 		List<EnvironmentOptions> listOfEnv = new ArrayList<EnvironmentOptions>();
 		String runEnvNumber = getRunEnvNumber();
-		String[] envOptions = setupHelperPropFile.getProperty("EnvironmentOptions"+runEnvNumber).split(",");
+		String[] envOptions = PropFile.getProperty("EnvironmentOptions"+runEnvNumber).split(",");
 		if (ArrayUtils.isNotEmpty(envOptions)) {
 			for (String option: envOptions) {
 				String[] tempEnvOptions = getEnvOptions(option);
@@ -157,21 +140,17 @@ public class TestSetupHelper extends ConfigHelper{
 	
 	public static String getEnvironmentCombination(){
 		try{
-			String env = setupHelperPropFile.getProperty("RunEnvironment");
+			String env = PropFile.getProperty("RunEnvironment");
 			
 			return env;
 		}catch(Exception e){
-			throw new NumberFormatException("RUN COMBINATION IN CONFIG IN NOT A DIGIT");
+			throw new NumberFormatException("ERROR IN GETTING RUN COMBINATION IN CONFIG");
 		}
 	}
 	
 	private static String[] getEnvOptions(String option){
-		String[] envOptions = new String[3];
-		envOptions[0] = "chrome";
-		envOptions[1] = "59.0";
-		envOptions[2] = "Windows 10";
-				
-		return envOptions;
+		if(option.isEmpty()) {return null;}
+		return option.split(":");		
 	}
 	
 	
@@ -244,37 +223,20 @@ public class TestSetupHelper extends ConfigHelper{
 		return file;
 	}
 	
-	private static ArrayList<String> splitArgument(String arg){
-		ArrayList<String> argumentList = new ArrayList<>();
-		String[] args = arg.split(",");
-		for(String ar: args){
-			argumentList.add(ar);
-		}
-		return argumentList;
-	}
-	
 	public static ArrayList<String> getParametersValue(ArrayList<String> args) {
 		ArrayList<String> argValue = new ArrayList<String>();
-		Field masterHashMapField = null;
-		Field constantsVarField = null;	
+		
+		Field constantsField = null;	
 		String testData;
 				
 		for (String arg: args) {
 			arg = arg.trim();
 			try {
-								
+															
 				try{
-					masterHashMapField = GlobalConstants.MasterConstant.class.getField(arg);
-					if(masterHashMapField != null) {
-						//add to arglist
-					}
-					
-				}catch(Exception e){}
-				
-				try{
-					constantsVarField = EnviromentProperties.class.getDeclaredField(arg);
-					if(constantsVarField != null) {
-						argValue.add((String) constantsVarField.get(null));
+					constantsField = EnviromentProperties.class.getDeclaredField(arg);
+					if(constantsField != null) {
+						argValue.add((String) constantsField.get(null));
 						continue;
 					}
 					
@@ -282,7 +244,10 @@ public class TestSetupHelper extends ConfigHelper{
 				
 				try {
 					if(!arg.isEmpty()) {
-						testData = DataLibrary.getValue(ReportType.TESTDATA, arg);
+						
+						TestData predefinedData = TestDataProvider.GetValue(arg);
+						testData = predefinedData.getValue();
+						
 						if(!testData.isEmpty()) {
 							argValue.add(testData);
 							continue;
@@ -296,7 +261,7 @@ public class TestSetupHelper extends ConfigHelper{
 				
 			} catch (Exception e) {				
 				argValue.add(arg);
-				logger.error("Please provide a valid argument. Unable to parse argument: " + arg);				
+				logger.error("Please provide a valid parameter. Unable to parse parameter: " + arg);				
 			}
 		}
 		
@@ -304,11 +269,10 @@ public class TestSetupHelper extends ConfigHelper{
 	}
 	
 
-	public static boolean validateXml(File xml) throws SAXException, IOException, ParserConfigurationException{
+	public static boolean validateSchema(File xml) throws SAXException, IOException, ParserConfigurationException {
 		try {
 			SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-			Schema schema = factory
-					.newSchema(new File(DriverVariables.getFilePath(DriverVariables.XSD)));
+			Schema schema = factory.newSchema(new File(DriverVariables.getFilePath(DriverVariables.XSD)));
 			Validator validator = schema.newValidator();
 			validator.validate(new StreamSource(xml));
 		} catch (IOException e) {
@@ -321,17 +285,17 @@ public class TestSetupHelper extends ConfigHelper{
 		return true;
 	}
 	
-	public static NodeList readTestCase(String tcFileName) {
+	public static NodeList readKeywords(String testCaseFileName) {
 		NodeList nList = null;
 		try {
-			File fXmlFile = getTestCasePath(tcFileName);
+			File KeywordFile = getTestCasePath(testCaseFileName);
 			
-			if (fXmlFile == null){
-				logger.error("Unable to find test case with name: " + tcFileName);
+			if (KeywordFile == null){
+				logger.error("Unable to find test case with name: " + testCaseFileName);
 				return nList;
 			}
 			try {
-				if (!validateXml(fXmlFile))
+				if (!validateSchema(KeywordFile))
 					return nList;
 			} catch (SAXException | IOException | ParserConfigurationException e) {
 				logger.error(e.getMessage());
@@ -339,11 +303,12 @@ public class TestSetupHelper extends ConfigHelper{
 			}
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-			Document doc = dBuilder.parse(fXmlFile);
+			Document doc = dBuilder.parse(KeywordFile);
 			doc.getDocumentElement().normalize();
 			nList = doc.getElementsByTagName("KeyWord");
 			int totalSteps = doc.getElementsByTagName("KeyWord").getLength();
-			DataLibrary.setValue(ReportType.REPORT_TABLE, GlobalConstants.MasterConstant.FM_TOTAL_EXECUTION_STEPS, Integer.toString(totalSteps));
+							
+			TestContextProvider.SetValue(GlobalConstants.ContextConstant.TOTAL_EXECUTION_STEPS,  Integer.toString(totalSteps));
 			
 		} catch (Exception e) {
 			logger.error("Unable to read xml document, Error: " + e.getMessage());

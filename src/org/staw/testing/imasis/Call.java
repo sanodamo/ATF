@@ -1,7 +1,6 @@
-package org.staw.testing.imasis.onc;
+package org.staw.testing.imasis;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.staw.framework.SeleniumWrapper;
 import org.staw.framework.SoftAssertion;
 import org.staw.framework.helpers.StringExtensions;

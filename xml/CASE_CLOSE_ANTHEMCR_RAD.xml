@@ -3,196 +3,195 @@
 <Script xmlns="http://www.w3schools.com/xmlValidation.xsd" name="CASE_CLOSE_ANTHEMCR_RAD"
 	locale="en" lang="">
 	<KeyWords>
-		<KeyWord label="Initializedata" />
-		<KeyWord label="SetGlobalVariables">
-			<Arguments>
-				<ArgumentVal value="imasis" />
-				<ArgumentVal value="onc" />
-			</Arguments>
+		<KeyWord label="Initialize">
+			<Parameters>
+				<Parameter value="imasis" />
+				<Parameter value="onc" />
+			</Parameters>
 		</KeyWord>
 		<KeyWord label="NavigateToUrl">
-			<Arguments>
-				<ArgumentVal value="RAD_IMASIS" />
-			</Arguments>
+			<Parameters>
+				<Parameter value="RAD_IMASIS" />
+			</Parameters>
 		</KeyWord>
 		<KeyWord label="Login">
-			<Arguments>
-				<ArgumentVal value="IMASIS_USER_ID" />
-				<ArgumentVal value="IMASIS_PASSWORD" />				
-			</Arguments>
+			<Parameters>
+				<Parameter value="IMASIS_USER_ID" />
+				<Parameter value="IMASIS_PASSWORD" />				
+			</Parameters>
 		</KeyWord>	
 		<KeyWord label="CallAction">
-			<Arguments>
-				<ArgumentVal value="Start call" />
-				<ArgumentVal value="" />				
-			</Arguments>
+			<Parameters>
+				<Parameter value="Start call" />
+				<Parameter value="" />				
+			</Parameters>
 		</KeyWord>
 		<KeyWord label="FillCallerDetails">
-			<Arguments>
-				<ArgumentVal value="First Name" />
-				<ArgumentVal value="Caller:FirstName" />				
-			</Arguments>
+			<Parameters>
+				<Parameter value="First Name" />
+				<Parameter value="Caller:FirstName" />				
+			</Parameters>
 		</KeyWord>		
 		<KeyWord label="FillCallerDetails">
-			<Arguments>
-				<ArgumentVal value="Last Name" />
-				<ArgumentVal value="Caller:LastName" />				
-			</Arguments>
+			<Parameters>
+				<Parameter value="Last Name" />
+				<Parameter value="Caller:LastName" />				
+			</Parameters>
 		</KeyWord>	
 		
 		<KeyWord label="FillCallerDetails">
-			<Arguments>
-				<ArgumentVal value="Phone" />
-				<ArgumentVal value="Caller:Phone" />				
-			</Arguments>
+			<Parameters>
+				<Parameter value="Phone" />
+				<Parameter value="Caller:Phone" />				
+			</Parameters>
 		</KeyWord>
 		
 		<KeyWord label="SwitchTab">
-			<Arguments>
-				<ArgumentVal value="Member" />							
-			</Arguments>
+			<Parameters>
+				<Parameter value="Member" />							
+			</Parameters>
 		</KeyWord>
 		<KeyWord label="ProductSelection">
-			<Arguments>
-				<ArgumentVal value="RAD" />							
-			</Arguments>
+			<Parameters>
+				<Parameter value="RAD" />							
+			</Parameters>
 		</KeyWord>
 		<KeyWord label="TreatmentDateSelection">
-			<Arguments>
-				<ArgumentVal value="PROSPECTIVE" />							
-			</Arguments>
+			<Parameters>
+				<Parameter value="PROSPECTIVE" />							
+			</Parameters>
 		</KeyWord>
 		<KeyWord label="MemberSearch">
-			<Arguments>				
-				<ArgumentVal value="Anthem CR" />
-				<ArgumentVal value="ActiveMember:Id:CR" />
-			</Arguments>
+			<Parameters>				
+				<Parameter value="Anthem CR" />
+				<Parameter value="ActiveMember:Id:CR" />
+			</Parameters>
 		</KeyWord>
 		<KeyWord label="MemberSelect">
-			<Arguments>								
-				<ArgumentVal value="Active Member" />
-			</Arguments>
+			<Parameters>								
+				<Parameter value="Active Member" />
+			</Parameters>
 		</KeyWord>
 		<KeyWord label="SwitchTab">
-			<Arguments>
-				<ArgumentVal value="Physician" />							
-			</Arguments>
+			<Parameters>
+				<Parameter value="Physician" />							
+			</Parameters>
 		</KeyWord>
 		<KeyWord label="PhysicianSearchByNpi">
-			<Arguments>				
-				<ArgumentVal value="Illinois" />
-				<ArgumentVal value="ActivePhysician:NPI:IL" />
-			</Arguments>
+			<Parameters>				
+				<Parameter value="Illinois" />
+				<Parameter value="ActivePhysician:NPI:IL" />
+			</Parameters>
 		</KeyWord>
 		<KeyWord label="PhysicianSelect">
-			<Arguments>								
-				<ArgumentVal value="Active Physician" />
-			</Arguments>
+			<Parameters>								
+				<Parameter value="Active Physician" />
+			</Parameters>
 		</KeyWord>
 		<KeyWord label="SwitchTab">
-			<Arguments>
-				<ArgumentVal value="Provider" />							
-			</Arguments>
+			<Parameters>
+				<Parameter value="Provider" />							
+			</Parameters>
 		</KeyWord>
 		<KeyWord label="ProviderSearchByNpi">
-			<Arguments>				
-				<ArgumentVal value="Illinois" />
-				<ArgumentVal value="ContractedProvider:NPI:IL" />
-			</Arguments>
+			<Parameters>				
+				<Parameter value="Illinois" />
+				<Parameter value="ContractedProvider:NPI:IL" />
+			</Parameters>
 		</KeyWord>
 		<KeyWord label="ProviderSelect">
-			<Arguments>								
-				<ArgumentVal value="Contracted Provider" />
-			</Arguments>
+			<Parameters>								
+				<Parameter value="Contracted Provider" />
+			</Parameters>
 		</KeyWord>
 		<KeyWord label="SwitchTab">
-			<Arguments>
-				<ArgumentVal value="Modality" />							
-			</Arguments>
+			<Parameters>
+				<Parameter value="Modality" />							
+			</Parameters>
 		</KeyWord>
 		<KeyWord label="TreatmentSelection">
-			<Arguments>								
-				<ArgumentVal value="Brachytherapy (CPT 77761)" />
-				<ArgumentVal value="Primary" />
-			</Arguments>
+			<Parameters>								
+				<Parameter value="Brachytherapy (CPT 77761)" />
+				<Parameter value="Primary" />
+			</Parameters>
 		</KeyWord>
 		<KeyWord label="PreExamQuestions">
-			<Arguments>								
-				<ArgumentVal value="Primary Tumor" />
-				<ArgumentVal value="Breast Cancer (Female)" />
-				<ArgumentVal value="In situ carcinoma" />
-				<ArgumentVal value="Intraductal Carcinoma (DCIS)" />
-				<ArgumentVal value="stage" />
-				<ArgumentVal value="0" />
-				<ArgumentVal value="Definitive" />
-				<ArgumentVal value="Palliative" />
-				<ArgumentVal value="0 - Normal Activity (asymptomatic)" />
-			</Arguments>
+			<Parameters>								
+				<Parameter value="Primary Tumor" />
+				<Parameter value="Breast Cancer (Female)" />
+				<Parameter value="In situ carcinoma" />
+				<Parameter value="Intraductal Carcinoma (DCIS)" />
+				<Parameter value="stage" />
+				<Parameter value="0" />
+				<Parameter value="Definitive" />
+				<Parameter value="Palliative" />
+				<Parameter value="0 - Normal Activity (asymptomatic)" />
+			</Parameters>
 		</KeyWord>
 		<KeyWord label="SwitchTab">
-			<Arguments>
-				<ArgumentVal value="Clinical" />							
-			</Arguments>			
+			<Parameters>
+				<Parameter value="Clinical" />							
+			</Parameters>			
 		</KeyWord>
 		<KeyWord label="ApClinicalQuestion">
-			<Arguments>
-				<ArgumentVal value="Has the patient had breast conserving surgery" />
-				<ArgumentVal value="Yes" />		
-				<ArgumentVal value="radio" />
-			</Arguments>			
+			<Parameters>
+				<Parameter value="Has the patient had breast conserving surgery" />
+				<Parameter value="Yes" />		
+				<Parameter value="radio" />
+			</Parameters>			
 		</KeyWord>
 		<KeyWord label="ApClinicalQuestion">
-			<Arguments>
-				<ArgumentVal value="Select from the following options" />
-				<ArgumentVal value="Boost after whole breast external beam radiotherapy" />
-				<ArgumentVal value="radio" />							
-			</Arguments>			
+			<Parameters>
+				<Parameter value="Select from the following options" />
+				<Parameter value="Boost after whole breast external beam radiotherapy" />
+				<Parameter value="radio" />							
+			</Parameters>			
 		</KeyWord>		
 		<KeyWord label="ApClinicalComplete">
-			<Arguments>
-				<ArgumentVal value="Next" />											
-			</Arguments>			
+			<Parameters>
+				<Parameter value="Next" />											
+			</Parameters>			
 		</KeyWord>
 		<KeyWord label="ApTreatmentQuestion">
-			<Arguments>
-				<ArgumentVal value="Select from the following options" />
-				<ArgumentVal value="High-dose rate (HDR) brachytherapy" />
-				<ArgumentVal value="radio" />							
-			</Arguments>			
+			<Parameters>
+				<Parameter value="Select from the following options" />
+				<Parameter value="High-dose rate (HDR) brachytherapy" />
+				<Parameter value="radio" />							
+			</Parameters>			
 		</KeyWord>
 		<KeyWord label="ApTreatmentQuestion">
-			<Arguments>
-				<ArgumentVal value="Planned total dose" />
-				<ArgumentVal value="10" />
-				<ArgumentVal value="text" />							
-			</Arguments>			
+			<Parameters>
+				<Parameter value="Planned total dose" />
+				<Parameter value="10" />
+				<Parameter value="text" />							
+			</Parameters>			
 		</KeyWord>	
 		<KeyWord label="ApTreatmentQuestion">
-			<Arguments>
-				<ArgumentVal value="Total number of fractions" />
-				<ArgumentVal value="10" />
-				<ArgumentVal value="text" />							
-			</Arguments>			
+			<Parameters>
+				<Parameter value="Total number of fractions" />
+				<Parameter value="10" />
+				<Parameter value="text" />							
+			</Parameters>			
 		</KeyWord>	
 		<KeyWord label="ApClinicalComplete">
-			<Arguments>
-				<ArgumentVal value="Next" />											
-			</Arguments>			
+			<Parameters>
+				<Parameter value="Next" />											
+			</Parameters>			
 		</KeyWord>
 		<KeyWord label="ApReviewConfirm">
-			<Arguments>
-				<ArgumentVal value="Continue" />											
-			</Arguments>			
+			<Parameters>
+				<Parameter value="Continue" />											
+			</Parameters>			
 		</KeyWord>	
 		<KeyWord label="CaseActions">
-			<Arguments>
-				<ArgumentVal value="Save" />											
-			</Arguments>			
+			<Parameters>
+				<Parameter value="Save" />											
+			</Parameters>			
 		</KeyWord>	
 		<KeyWord label="CaseActions">
-			<Arguments>
-				<ArgumentVal value="Close" />											
-			</Arguments>			
+			<Parameters>
+				<Parameter value="Close" />											
+			</Parameters>			
 		</KeyWord>	
 	</KeyWords>
 </Script>

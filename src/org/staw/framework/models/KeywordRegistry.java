@@ -3,16 +3,13 @@ package org.staw.framework.models;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import org.staw.testing.imasis.onc.*;
+
+import org.staw.testing.imasis.*;
 
 public enum KeywordRegistry {
-	/*
-	 * NO-Class
-	 */
-	SETGLOBALVARIABLES(null,"Description", "Name","UserID", "MM/dd/yyyy"),
-	INITIALIZEDATA(null,"Description", "Name","UserID", "MM/dd/yyyy"),
-	INITIALROUTINES(null,"Description", "Name","UserID", "MM/dd/yyyy"),
-	SETGLOBALVARBYEXPRESSION(null,"Description", "Name","UserID", "MM/dd/yyyy"),
+		
+	INITIALIZE(null,"Description", "Name","UserID", "MM/dd/yyyy"),	
+	
 	LOGIN(Login.class,"Description", "Name","UserID", "MM/dd/yyyy"),
 	CLOSEBROWSER(null,"Description", "Name","UserID", "MM/dd/yyyy"),
 	NAVIGATETOURL(Navigation.class,"Description", "Name","UserID", "MM/dd/yyyy"),

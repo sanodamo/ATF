@@ -2,256 +2,255 @@
 
 <Script xmlns="http://www.w3schools.com/xmlValidation.xsd" name="CASE_CLOSE_ANTHEMCR_RAD"
 	locale="en" lang="">
-	<KeyWords>
-		<KeyWord label="Initializedata" />
-		<KeyWord label="SetGlobalVariables">
-			<Arguments>
-				<ArgumentVal value="imasis" />
-				<ArgumentVal value="onc" />
-			</Arguments>
+	<KeyWords>		
+		<KeyWord label="Initialize">
+			<Parameters>
+				<Parameter value="imasis" />
+				<Parameter value="onc" />
+			</Parameters>
 		</KeyWord>
 		<KeyWord label="NavigateToUrl">
-			<Arguments>
-				<ArgumentVal value="RAD_IMASIS" />
-			</Arguments>
+			<Parameters>
+				<Parameter value="RAD_IMASIS" />
+			</Parameters>
 		</KeyWord>
 		<KeyWord label="Login">
-			<Arguments>
-				<ArgumentVal value="IMASIS_USER_ID" />
-				<ArgumentVal value="IMASIS_PASSWORD" />				
-			</Arguments>
+			<Parameters>
+				<Parameter value="IMASIS_USER_ID" />
+				<Parameter value="IMASIS_PASSWORD" />				
+			</Parameters>
 		</KeyWord>	
 		<KeyWord label="CallAction">
-			<Arguments>
-				<ArgumentVal value="Start call" />
-				<ArgumentVal value="" />				
-			</Arguments>
+			<Parameters>
+				<Parameter value="Start call" />
+				<Parameter value="" />				
+			</Parameters>
 		</KeyWord>
 		<KeyWord label="FillCallerDetails">
-			<Arguments>
-				<ArgumentVal value="First Name" />
-				<ArgumentVal value="Caller:FirstName" />				
-			</Arguments>
+			<Parameters>
+				<Parameter value="First Name" />
+				<Parameter value="Caller:FirstName" />				
+			</Parameters>
 		</KeyWord>		
 		<KeyWord label="FillCallerDetails">
-			<Arguments>
-				<ArgumentVal value="Last Name" />
-				<ArgumentVal value="Caller:LastName" />				
-			</Arguments>
+			<Parameters>
+				<Parameter value="Last Name" />
+				<Parameter value="Caller:LastName" />				
+			</Parameters>
 		</KeyWord>	
 		
 		<KeyWord label="FillCallerDetails">
-			<Arguments>
-				<ArgumentVal value="Phone" />
-				<ArgumentVal value="Caller:Phone" />				
-			</Arguments>
+			<Parameters>
+				<Parameter value="Phone" />
+				<Parameter value="Caller:Phone" />				
+			</Parameters>
 		</KeyWord>
 						
 		<KeyWord label="SwitchTab">
-			<Arguments>
-				<ArgumentVal value="Member" />							
-			</Arguments>
+			<Parameters>
+				<Parameter value="Member" />							
+			</Parameters>
 		</KeyWord>
 		<KeyWord label="ProductSelection">
-			<Arguments>
-				<ArgumentVal value="MOC" />							
-			</Arguments>
+			<Parameters>
+				<Parameter value="MOC" />							
+			</Parameters>
 		</KeyWord>
 		<KeyWord label="TreatmentDateSelection">
-			<Arguments>
-				<ArgumentVal value="PROSPECTIVE" />							
-			</Arguments>
+			<Parameters>
+				<Parameter value="PROSPECTIVE" />							
+			</Parameters>
 		</KeyWord>
 		<KeyWord label="MemberSearch">
-			<Arguments>				
-				<ArgumentVal value="Anthem CR" />
-				<ArgumentVal value="ActiveMember:Id:CR" />
-			</Arguments>
+			<Parameters>				
+				<Parameter value="Anthem CR" />
+				<Parameter value="ActiveMember:Id:CR" />
+			</Parameters>
 		</KeyWord>
 		<KeyWord label="MemberSelect">
-			<Arguments>								
-				<ArgumentVal value="Active Member" />
-			</Arguments>
+			<Parameters>								
+				<Parameter value="Active Member" />
+			</Parameters>
 		</KeyWord>
 		<KeyWord label="SwitchTab">
-			<Arguments>
-				<ArgumentVal value="Physician" />							
-			</Arguments>
+			<Parameters>
+				<Parameter value="Physician" />							
+			</Parameters>
 		</KeyWord>
 		<KeyWord label="PhysicianSearchByNpi">
-			<Arguments>				
-				<ArgumentVal value="Illinois" />
-				<ArgumentVal value="ActivePhysician:NPI:IL" />
-			</Arguments>
+			<Parameters>				
+				<Parameter value="Illinois" />
+				<Parameter value="ActivePhysician:NPI:IL" />
+			</Parameters>
 		</KeyWord>
 		<KeyWord label="PhysicianSelect">
-			<Arguments>								
-				<ArgumentVal value="Active Physician" />
-			</Arguments>
+			<Parameters>								
+				<Parameter value="Active Physician" />
+			</Parameters>
 		</KeyWord>
 		<KeyWord label="SwitchTab">
-			<Arguments>
-				<ArgumentVal value="Provider" />							
-			</Arguments>
+			<Parameters>
+				<Parameter value="Provider" />							
+			</Parameters>
 		</KeyWord>
 		<KeyWord label="ProviderSearchByNpi">
-			<Arguments>				
-				<ArgumentVal value="Illinois" />
-				<ArgumentVal value="ContractedProvider:NPI:IL" />
-			</Arguments>
+			<Parameters>				
+				<Parameter value="Illinois" />
+				<Parameter value="ContractedProvider:NPI:IL" />
+			</Parameters>
 		</KeyWord>
 		<KeyWord label="ProviderSelect">
-			<Arguments>								
-				<ArgumentVal value="Contracted Provider" />
-			</Arguments>
+			<Parameters>								
+				<Parameter value="Contracted Provider" />
+			</Parameters>
 		</KeyWord>
 		<KeyWord label="PlaceOfService">
-			<Arguments>								
-				<ArgumentVal value="Office" />
-			</Arguments>
+			<Parameters>								
+				<Parameter value="Office" />
+			</Parameters>
 		</KeyWord>		
 		<KeyWord label="SwitchTab">
-			<Arguments>
-				<ArgumentVal value="Clinical" />							
-			</Arguments>			
+			<Parameters>
+				<Parameter value="Clinical" />							
+			</Parameters>			
 		</KeyWord>
 		<KeyWord label="EvitiStart">
-			<Arguments>
-				<ArgumentVal value="" />							
-			</Arguments>			
+			<Parameters>
+				<Parameter value="" />							
+			</Parameters>			
 		</KeyWord>
 		<KeyWord label="SwitchFrame">
-			<Arguments>
-				<ArgumentVal value="Eviti" />				
-			</Arguments>			
+			<Parameters>
+				<Parameter value="Eviti" />				
+			</Parameters>			
 		</KeyWord>		
 		<KeyWord label="PatientHeightWeight">
-			<Arguments>
-				<ArgumentVal value="177" />
-				<ArgumentVal value="177" />				
-			</Arguments>			
+			<Parameters>
+				<Parameter value="177" />
+				<Parameter value="177" />				
+			</Parameters>			
 		</KeyWord>
 		<KeyWord label="RegimenSearch">
-			<Arguments>
-				<ArgumentVal value="Cancer type" />
-				<ArgumentVal value="Breast" />							
-			</Arguments>			
+			<Parameters>
+				<Parameter value="Cancer type" />
+				<Parameter value="Breast" />							
+			</Parameters>			
 		</KeyWord>	
 		<KeyWord label="RegimenSearch">
-			<Arguments>
-				<ArgumentVal value="icd" />
-				<ArgumentVal value="C50.021 Malignant neoplasm of nipple and areola, right male breast" />							
-			</Arguments>			
+			<Parameters>
+				<Parameter value="icd" />
+				<Parameter value="C50.021 Malignant neoplasm of nipple and areola, right male breast" />							
+			</Parameters>			
 		</KeyWord>	
 		<KeyWord label="RemoveDrug">
-			<Arguments>			
-				<ArgumentVal value="Trastuzumab / HERCEPTIN (J9355)" />				
-			</Arguments>			
+			<Parameters>			
+				<Parameter value="Trastuzumab / HERCEPTIN (J9355)" />				
+			</Parameters>			
 		</KeyWord>
 		<KeyWord label="AddDrug">
-			<Arguments>			
-				<ArgumentVal value="AVASTIN" />				
-			</Arguments>			
+			<Parameters>			
+				<Parameter value="AVASTIN" />				
+			</Parameters>			
 		</KeyWord>
 		<KeyWord label="SaveAndContinueEviti">
-			<Arguments>
-				<ArgumentVal value="Regimen" />											
-			</Arguments>			
+			<Parameters>
+				<Parameter value="Regimen" />											
+			</Parameters>			
 		</KeyWord>
 		<KeyWord label="SelectDrug">
-			<Arguments>			
-				<ArgumentVal value="Bevacizumab / AVASTIN (C9257, J9035)" />				
-			</Arguments>			
+			<Parameters>			
+				<Parameter value="Bevacizumab / AVASTIN (C9257, J9035)" />				
+			</Parameters>			
 		</KeyWord>			
 		<KeyWord label="BuildTreatmentPlan">
-			<Arguments>
-				<ArgumentVal value="1" />
-				<ArgumentVal value="Intravenous" />
-				<ArgumentVal value="Intravenous" />
-				<ArgumentVal value="1" />
-				<ArgumentVal value="1" />
-				<ArgumentVal value="1" />
-				<ArgumentVal value="BID" />				
-			</Arguments>			
+			<Parameters>
+				<Parameter value="1" />
+				<Parameter value="Intravenous" />
+				<Parameter value="Intravenous" />
+				<Parameter value="1" />
+				<Parameter value="1" />
+				<Parameter value="1" />
+				<Parameter value="BID" />				
+			</Parameters>			
 		</KeyWord>
 		<KeyWord label="EnterDiagnosis">
-			<Arguments>
-				<ArgumentVal value="Adenocarcinoma" />
-				<ArgumentVal value="IIIB" />
-				<ArgumentVal value="C50.021 Malignant neoplasm of nipple and areola, right male breast" />
-				<ArgumentVal value="Adjuvant/ Post-operative" />
-				<ArgumentVal value="Curative" />
-				<ArgumentVal value="0 - Normal activity (asymptomatic)." />					
-			</Arguments>			
+			<Parameters>
+				<Parameter value="Adenocarcinoma" />
+				<Parameter value="IIIB" />
+				<Parameter value="C50.021 Malignant neoplasm of nipple and areola, right male breast" />
+				<Parameter value="Adjuvant/ Post-operative" />
+				<Parameter value="Curative" />
+				<Parameter value="0 - Normal activity (asymptomatic)." />					
+			</Parameters>			
 		</KeyWord>
 		<KeyWord label="EnterBiomarker">
-			<Arguments>
-				<ArgumentVal value="Estrogen Receptor" />
-				<ArgumentVal value="Negative" />							
-			</Arguments>			
+			<Parameters>
+				<Parameter value="Estrogen Receptor" />
+				<Parameter value="Negative" />							
+			</Parameters>			
 		</KeyWord>
 		<KeyWord label="EnterBiomarker">
-			<Arguments>
-				<ArgumentVal value="her2" />
-				<ArgumentVal value="FISH or CISH Equivocal" />							
-			</Arguments>			
+			<Parameters>
+				<Parameter value="her2" />
+				<Parameter value="FISH or CISH Equivocal" />							
+			</Parameters>			
 		</KeyWord>
 		<KeyWord label="EnterBiomarker">
-			<Arguments>
-				<ArgumentVal value="menopausal" />
-				<ArgumentVal value="Peri-menopausal" />							
-			</Arguments>			
+			<Parameters>
+				<Parameter value="menopausal" />
+				<Parameter value="Peri-menopausal" />							
+			</Parameters>			
 		</KeyWord>
 		<KeyWord label="EnterBiomarker">
-			<Arguments>
-				<ArgumentVal value="progesterone" />
-				<ArgumentVal value="Negative" />							
-			</Arguments>			
+			<Parameters>
+				<Parameter value="progesterone" />
+				<Parameter value="Negative" />							
+			</Parameters>			
 		</KeyWord>
 		<KeyWord label="SaveAndContinueEviti">
-			<Arguments>
-				<ArgumentVal value="diagnosis" />											
-			</Arguments>			
+			<Parameters>
+				<Parameter value="diagnosis" />											
+			</Parameters>			
 		</KeyWord>	
 		<KeyWord label="SaveAndContinueEviti">
-			<Arguments>
-				<ArgumentVal value="review" />											
-			</Arguments>			
+			<Parameters>
+				<Parameter value="review" />											
+			</Parameters>			
 		</KeyWord>
 		<KeyWord label="SaveAndContinueEviti">
-			<Arguments>
-				<ArgumentVal value="complete" />											
-			</Arguments>			
+			<Parameters>
+				<Parameter value="complete" />											
+			</Parameters>			
 		</KeyWord>		
 		<KeyWord label="SwitchTab">
-			<Arguments>
-				<ArgumentVal value="drugsummary" />							
-			</Arguments>			
+			<Parameters>
+				<Parameter value="drugsummary" />							
+			</Parameters>			
 		</KeyWord>
 		<KeyWord label="EditRegimen">
-			<Arguments>
-				<ArgumentVal value="" />							
-			</Arguments>			
+			<Parameters>
+				<Parameter value="" />							
+			</Parameters>			
 		</KeyWord>	
 		<KeyWord label="EditOutcome">
-			<Arguments>
-				<ArgumentVal value="met" />							
-			</Arguments>			
+			<Parameters>
+				<Parameter value="met" />							
+			</Parameters>			
 		</KeyWord>		
 		<KeyWord label="CaseActions">
-			<Arguments>
-				<ArgumentVal value="Save" />											
-			</Arguments>			
+			<Parameters>
+				<Parameter value="Save" />											
+			</Parameters>			
 		</KeyWord>	
 		<!-- <KeyWord label="CASEACTIONS">
-			<Arguments>
-				<ArgumentVal value="Close" />											
-			</Arguments>			
+			<Parameters>
+				<Parameter value="Close" />											
+			</Parameters>			
 		</KeyWord> -->
 		<KeyWord label="SwitchFrame">
-			<Arguments>
-				<ArgumentVal value="default" />				
-			</Arguments>			
+			<Parameters>
+				<Parameter value="default" />				
+			</Parameters>			
 		</KeyWord>	
 	</KeyWords>
 </Script>

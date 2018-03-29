@@ -1,9 +1,14 @@
 package org.staw.framework;
 
+import java.util.Date;
+
 import org.apache.commons.lang.WordUtils;
 import org.apache.log4j.Logger;
-import org.staw.datarepository.DataLibrary.ReportType;
-import org.staw.datarepository.DataLibrary;
+import org.staw.datarepository.dao.Steps.Step;
+import org.staw.datarepository.dao.Steps.StepProvider;
+import org.staw.datarepository.dao.TestContext.TestContextProvider;
+import org.staw.datarepository.dao.TestRun.TestRun;
+import org.staw.datarepository.dao.TestRun.TestRunProvider;
 import org.staw.framework.constants.AssertTypes;
 import org.staw.framework.constants.GlobalConstants;
 
@@ -15,12 +20,6 @@ public class SoftAssertion extends Assertion {
 		
 		
 	    public static Logger log = Logger.getLogger(SoftAssertion.class.getName());
-	
-	    public void configurePrefix(String browserName, String tcName){
-	    	DataLibrary.setValue(ReportType.MASTER_TABLE, GlobalConstants.MasterConstant.GBL_TEST_RESULT, Boolean.toString(true));
-	    	DataLibrary.setValue(ReportType.MASTER_TABLE, GlobalConstants.MasterConstant.GBL_PASS_STEP_COUNT, "0");
-	    	DataLibrary.setValue(ReportType.MASTER_TABLE, GlobalConstants.MasterConstant.GBL_FAIL_STEP_COUNT, "0");
-	    }
 	    
 		@Override
 		public void executeAssert(IAssert assertCommand){
@@ -28,57 +27,74 @@ public class SoftAssertion extends Assertion {
 			int passStepsCount = 0;
 			int failStepCount = 0;
 			String stepResult = "";
-			String keyword = DataLibrary.getValue(ReportType.MASTER_TABLE, GlobalConstants.MasterConstant.FM_CURRENT_KEYWORD);
-			String keywordParam = DataLibrary.getValue(ReportType.MASTER_TABLE, GlobalConstants.MasterConstant.FM_CURRENT_KEYWORD_PARAMETERS);
+			String currentStepCount = "0";
+						
+			String keyword = TestContextProvider.GetValue(GlobalConstants.ContextConstant.CURRENT_KEYWORD);
+			String keywordParam = TestContextProvider.GetValue(GlobalConstants.ContextConstant.CURRENT_KEYWORD_PARAMETERS);
+			currentStepCount = TestContextProvider.GetValue(GlobalConstants.ContextConstant.CURRENT_KEYWORD_STEP);
+			
 			String keywordDescription = "";
 			try {
 				assertCommand.doAssert();
 				stepResult = WordUtils.capitalize("PASSED");
-				keywordDescription = DataLibrary.getValue(ReportType.MASTER_TABLE, GlobalConstants.MasterConstant.GBL_PASS_MESSAGE);
-				passStepsCount = Integer.parseInt(DataLibrary.getValue(ReportType.MASTER_TABLE, GlobalConstants.MasterConstant.GBL_PASS_STEP_COUNT));
+								
+				keywordDescription = TestContextProvider.GetValue(GlobalConstants.ContextConstant.PASS_MESSAGE);
+				passStepsCount = Integer.parseInt(TestContextProvider.GetValue(GlobalConstants.ContextConstant.PASS_STEP_COUNT));
+						
 				passStepsCount++;
-				DataLibrary.setValue(ReportType.MASTER_TABLE, GlobalConstants.MasterConstant.GBL_PASS_STEP_COUNT, Integer.toString(passStepsCount));
+								
+				TestContextProvider.SetValue(GlobalConstants.ContextConstant.PASS_STEP_COUNT, Integer.toString(passStepsCount));
 			}catch (AssertionError ex){
 				
-				log.error("\n---------------------------------Error--------------------------------------------"
-						+ "\nFailure Detected at Step From TC Name "+ DataLibrary.getValue(ReportType.THREADS, GlobalConstants.MasterConstant.FM_TESTNAME) 
-						+ "\nIn Browser: " + DataLibrary.getValue(ReportType.THREADS, GlobalConstants.MasterConstant.FM_BROWSER) + " version: " 
-						+ DataLibrary.getValue(ReportType.THREADS, GlobalConstants.MasterConstant.FM_BROWSER_VERSION)
-						+ " \nwith Error Message: "+ keywordDescription
-						+ " \nwith keyword: " + keyword
-						+ " \nwith Parameter(s): " + keywordParam
-						+ "\n---------------------------------------------------------------------------------\n");
+				TestRun test = TestRunProvider.GetCurrentTest();							
+				
+				log.error("\n *************** Filed ***********************" + 
+						"\n Test Case --> " + test.getTestCaseName() +  
+						"\n Browser --> " + test.getBrowserName() +
+						"\n Browser Version --> " + test.getBrowserVersion() +
+						"\n OS --> " + test.getOsName() +
+						"\n User ID --> " + test.getUserId() +
+						"\n Host --> " + test.getHostName() +
+						"\n Keyword  --> " + keyword +
+						"\n Arg --> " + keywordParam + "\n"
+						);
+				
+				
 				stepResult = "Failed";
-				keywordDescription = DataLibrary.getValue(ReportType.MASTER_TABLE, GlobalConstants.MasterConstant.GBL_ERROR_MESSAGE);
-				failStepCount = Integer.parseInt(DataLibrary.getValue(ReportType.MASTER_TABLE, GlobalConstants.MasterConstant.GBL_FAIL_STEP_COUNT));
+				
+				keywordDescription = TestContextProvider.GetValue(GlobalConstants.ContextConstant.ERROR_MESSAGE);
+				failStepCount = Integer.parseInt(TestContextProvider.GetValue(GlobalConstants.ContextConstant.FAIL_STEP_COUNT));
+				
 				failStepCount++;
-				DataLibrary.setValue(ReportType.MASTER_TABLE, GlobalConstants.MasterConstant.GBL_FAIL_STEP_COUNT, Integer.toString(failStepCount));
-				DataLibrary.setValue(ReportType.MASTER_TABLE, GlobalConstants.MasterConstant.GBL_TEST_RESULT, Boolean.toString(false));
+				
+				TestContextProvider.SetValue(GlobalConstants.ContextConstant.FAIL_STEP_COUNT, Integer.toString(failStepCount));
+				TestContextProvider.SetValue(GlobalConstants.ContextConstant.TEST_RESULT, "false");
+				
 			}
-			DataLibrary.setValue(ReportType.STEP_LEVEL_REPORT, GlobalConstants.AssertionAndTestStepConstant.KEYWORD, keyword);
-			DataLibrary.setValue(ReportType.STEP_LEVEL_REPORT, GlobalConstants.AssertionAndTestStepConstant.PARAMETER_VALUES, keywordParam);
-			DataLibrary.setValue(ReportType.STEP_LEVEL_REPORT, GlobalConstants.AssertionAndTestStepConstant.DESRIPTION, keywordDescription);
-			DataLibrary.setValue(ReportType.STEP_LEVEL_REPORT, GlobalConstants.AssertionAndTestStepConstant.STEP_RESULT, stepResult);
-			
+					
+			Step step = new Step();
+			step.setStepNumber(Integer.parseInt(currentStepCount));
+			step.setKeyword(keyword);
+			step.setDescription(keywordDescription != null ? keywordDescription : "N/A");
+			step.setParameters(keywordParam != null ? keywordParam : "N/A");
+			step.setResult(stepResult);
+			step.setExecutionTime(new Date());
+						
+			StepProvider.SetValue(step);
 			
 		}
 
 
-	/****************************************************************************************************
-	 * Method: setGblPassFailMessage
-	 * Description: 
-	 * @author 
-	 * @return void
-	 ***************************************************************************************************/ 
+	
 		public void setAssertedMessage(AssertTypes assertType, String message){
 			switch(assertType){
-			case SUCCESS:
-				DataLibrary.setValue(ReportType.MASTER_TABLE, GlobalConstants.MasterConstant.GBL_PASS_MESSAGE, message);			
+			case SUCCESS:							
+				TestContextProvider.SetValue(GlobalConstants.ContextConstant.PASS_MESSAGE, message);
 				break;				
 			case FAILED:
 			case WARNING:			
-			case ERROR:
-				DataLibrary.setValue(ReportType.MASTER_TABLE, GlobalConstants.MasterConstant.GBL_ERROR_MESSAGE, message);
+			case ERROR:				
+				TestContextProvider.SetValue(GlobalConstants.ContextConstant.ERROR_MESSAGE, message);
 				break;
 			}
 		}

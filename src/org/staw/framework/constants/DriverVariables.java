@@ -9,7 +9,7 @@ public enum DriverVariables {
 	INTERNET_EXPLORER_DRIVER("drivers\\iedriver\\IEDriverServer.exe"),
 	GECKO_DRIVER_WIN("\\Drivers\\GeckoDriver\\Windows\\geckodriver.exe"),	
 	LOG4J_PROP("resources\\properties"),
-	XSD("resources\\xsd\\xmlValidation.xsd");
+	XSD("resources\\xsd\\KeywordSchema.xsd");
 	
 	private String path;
 	private DriverVariables(String path){

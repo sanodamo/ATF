@@ -10,7 +10,6 @@ import java.util.logging.Level;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -22,15 +21,14 @@ import org.openqa.selenium.logging.LoggingPreferences;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.FluentWait;
-import org.staw.framework.constants.DriverVariables;
 import org.staw.framework.constants.BrowserTargetType;
+import org.staw.framework.constants.DriverVariables;
 
 public class SeleniumDriver {
 	
 	public static Logger log = Logger.getLogger(SeleniumDriver.class.getName());
 	private ThreadLocal<WebDriver> webDriver = new ThreadLocal<WebDriver>();
-	private static SeleniumDriver instance = new SeleniumDriver();
-	private ThreadLocal<String> sessionId = new ThreadLocal<String>();
+	private static SeleniumDriver instance = new SeleniumDriver();	
 	
     public static SeleniumDriver getInstance(){
     		return instance;
@@ -39,42 +37,19 @@ public class SeleniumDriver {
        
 	public WebDriver getDriver(String tcName, String browser, String browserVersion, String osVersion, String executionEnv, SoftAssertion sa) {
 		
-		BrowserTargetType currType =  BrowserTargetType.getTargetType(executionEnv);
-		DesiredCapabilities capabilities = null;
+		BrowserTargetType currType =  BrowserTargetType.getTargetType(executionEnv);		
 		try {
 			switch(currType){			
 			case INTERNET_EXPLORER:			
-				System.setProperty("webdriver.ie.driver",DriverVariables.getFilePath(DriverVariables.INTERNET_EXPLORER_DRIVER));
-				capabilities = DesiredCapabilities.internetExplorer();
-				capabilities.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS,true);
-				capabilities.setCapability("ignoreZoomSetting", true);
-				this.webDriver.set(new InternetExplorerDriver(capabilities));
+				getIEDriver();
 				break;
 				
 			case FIREFOX:			
-				capabilities = DesiredCapabilities.firefox();				
-				capabilities.setCapability(FirefoxDriver.PROFILE, true);
-				System.setProperty("webdriver.gecko.driver", DriverVariables.getFilePath(DriverVariables.GECKO_DRIVER_WIN));
-				capabilities.setCapability(FirefoxDriver.PROFILE, new FirefoxProfile());
-				LoggingPreferences pref = new LoggingPreferences();
-			    pref.enable(LogType.BROWSER, Level.OFF);
-			    pref.enable(LogType.CLIENT, Level.OFF);
-			    pref.enable(LogType.DRIVER, Level.OFF);
-			    pref.enable(LogType.PERFORMANCE, Level.OFF);
-			    pref.enable(LogType.PROFILER, Level.OFF);
-			    pref.enable(LogType.SERVER, Level.OFF);
-			    capabilities.setCapability(CapabilityType.LOGGING_PREFS, pref);
-				webDriver.set(new FirefoxDriver(capabilities));
+				getFFDriver();
 				break; 
 				
-			case CHROME:			
-								
-				System.setProperty("webdriver.chrome.driver",DriverVariables.getFilePath(DriverVariables.CHROME_DRIVER_WINDOWS));				
-		        capabilities = DesiredCapabilities.chrome();
-		        LoggingPreferences loggingprefs = new LoggingPreferences();
-		        loggingprefs.enable(LogType.BROWSER, Level.SEVERE);
-		        capabilities.setCapability(CapabilityType.LOGGING_PREFS, loggingprefs);		       
-				this.webDriver.set(new ChromeDriver(capabilities));
+			case CHROME:										
+				getChromeDriver();
 				break;
 				
 			case SAFARI:
@@ -95,6 +70,42 @@ public class SeleniumDriver {
 			return null;
 		}
 		return null;
+	}
+
+
+	private void getChromeDriver() {		
+		System.setProperty("webdriver.chrome.driver",DriverVariables.getFilePath(DriverVariables.CHROME_DRIVER_WINDOWS));				
+		DesiredCapabilities capabilities = DesiredCapabilities.chrome();
+		LoggingPreferences loggingprefs = new LoggingPreferences();
+		loggingprefs.enable(LogType.BROWSER, Level.SEVERE);
+		capabilities.setCapability(CapabilityType.LOGGING_PREFS, loggingprefs);		       
+		this.webDriver.set(new ChromeDriver(capabilities));
+	}
+
+
+	private void getFFDriver() {		 
+		DesiredCapabilities capabilities = DesiredCapabilities.firefox();				
+		capabilities.setCapability(FirefoxDriver.PROFILE, true);
+		System.setProperty("webdriver.gecko.driver", DriverVariables.getFilePath(DriverVariables.GECKO_DRIVER_WIN));
+		capabilities.setCapability(FirefoxDriver.PROFILE, new FirefoxProfile());
+		LoggingPreferences pref = new LoggingPreferences();
+		pref.enable(LogType.BROWSER, Level.OFF);
+		pref.enable(LogType.CLIENT, Level.OFF);
+		pref.enable(LogType.DRIVER, Level.OFF);
+		pref.enable(LogType.PERFORMANCE, Level.OFF);
+		pref.enable(LogType.PROFILER, Level.OFF);
+		pref.enable(LogType.SERVER, Level.OFF);
+		capabilities.setCapability(CapabilityType.LOGGING_PREFS, pref);
+		webDriver.set(new FirefoxDriver(capabilities));
+	}
+
+
+	private void getIEDriver() {		
+		System.setProperty("webdriver.ie.driver",DriverVariables.getFilePath(DriverVariables.INTERNET_EXPLORER_DRIVER));
+		DesiredCapabilities capabilities = DesiredCapabilities.internetExplorer();
+		capabilities.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS,true);
+		capabilities.setCapability("ignoreZoomSetting", true);
+		this.webDriver.set(new InternetExplorerDriver(capabilities));
 	}
 	
 
@@ -158,7 +169,8 @@ public class SeleniumDriver {
         	JavascriptExecutor js = (JavascriptExecutor) driver;
         	Object temp = js.executeScript("return window.jsErrors");
         	if(temp instanceof ArrayList<?>){
-    			ArrayList<Object> dataMap =  (ArrayList<Object>) temp;
+    			@SuppressWarnings("unchecked")
+				ArrayList<Object> dataMap =  (ArrayList<Object>) temp;
         		if(dataMap.size() != 0){
         			for(Object val: dataMap){
         				log.info(val);
