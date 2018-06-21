@@ -25,7 +25,7 @@ public class DataAccessProvider {
 		return null;
 	}
 
-	public static boolean startConnectionPool() {
+	public static boolean initializeDatasource() {
 		String location = "AutomationDatabase";
 		dataSource = new HikariDataSource();
 
