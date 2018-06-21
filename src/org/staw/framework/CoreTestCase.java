@@ -2,8 +2,8 @@ package org.staw.framework;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
 import org.apache.log4j.Logger;
-import org.staw.framework.helpers.TestSetupHelper;
 import org.testng.TestNG;
 import org.testng.xml.XmlClass;
 import org.testng.xml.XmlSuite;
@@ -88,18 +88,8 @@ public class CoreTestCase {
 	public void StartSuite(){
 		setAllTest(new TestNG());
 		setTestSuite(new XmlSuite());
-		setPrevTest("");
-		setCurrTest("");
-		setThreadCount(0);
-		setCount(1);
-		try {
-			setEnvr(TestSetupHelper.getRunEnvironemnt());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 		getAllTest().setJUnit(false);
 		getAllTest().setUseDefaultListeners(false);
-		getAllTest().setOutputDirectory("/local/testNg");
 	}
 	
 	
@@ -107,31 +97,22 @@ public class CoreTestCase {
 		ArrayList<XmlClass> classes = new ArrayList<XmlClass>();
 		XmlTest test = new XmlTest(getTestSuite());
 		setCurrTest(tcName);
-		if(!getPrevTest().equals(getCurrTest()) || getPrevTest().equals(""))
-			setCount(1);
-		else
-			setCount(getCount()+1);
-		test.setName(uniqueTestName);
-		if(testParameters.containsKey("UserId")) testParameters.put("UserId", Integer.toString(getCount()));
+		test.setName(uniqueTestName);		
 		test.setParameters(testParameters);	
 		classes.add(new XmlClass(className));
-		test.setXmlClasses(classes);
-		setThreadCount(getThreadCount()+1);
-		setEnvr(env);
-		setPrevTest(getCurrTest());
+		test.setXmlClasses(classes);		
 	}
 	
 	
 	public void EndSuite() {
-		try {
-					
-			getTestSuite().setName("Local Sequential Tests");			
+		try {					
+			getTestSuite().setName("Regtression Tests");			
 			setSuites(new ArrayList<XmlSuite>());
 			getSuites().add(getTestSuite());
 			getAllTest().setXmlSuites(getSuites());			
 			getAllTest().run();
 		} catch (Exception e) {
-			logger.error("EXCEPTION THROWN TRYING TO RUN SUITE! " + e.getMessage());
+			logger.error("Filed to run suite " + e.getMessage());
 			e.printStackTrace();
 		}
 	}

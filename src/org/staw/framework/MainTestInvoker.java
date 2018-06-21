@@ -23,17 +23,17 @@ public class MainTestInvoker extends CoreTestCase{
 	}
 	
 
-	@Test(dataProvider = "getTestCaseNamesAndEnvOptions", dataProviderClass = MainTestInvoker.class)
-	public void CreateTest(String tcName, String browser, String browserVersion, String osVersion, String env){
+	@Test(dataProvider = "getTestCaseInput", dataProviderClass = MainTestInvoker.class)
+	public void CreateTest(String testName, String browser, String browserVersion, String os, String env){
 		if(runRegularTest()){
-			HashMap<String, String> testParameters = new HashMap<>();
-			String uniqueName = tcName.trim() + "_" + browser.trim() + "_"+ browserVersion.trim() + "_"+ osVersion.trim();
-			testParameters.put("tcName", tcName);
-			testParameters.put("browser", browser);
-			testParameters.put("browserVersion", browserVersion);
-			testParameters.put("osVersion", osVersion);			
-			testParameters.put("UserId", TestSetupHelper.getCurrentUser());
-			super.runTest(tcName, uniqueName, env, "org.staw.framework.ExecuteTests", testParameters);
+			HashMap<String, String> parameters = new HashMap<>();
+			String uniqueName = testName.trim() + "_" + browser.trim() + "_"+ browserVersion.trim() + "_"+ os.trim();
+			parameters.put("testCaseName", testName);
+			parameters.put("browserName", browser);
+			parameters.put("browserVersion", browserVersion);
+			parameters.put("osVersion", os);			
+			parameters.put("UserId", TestSetupHelper.getCurrentUser());
+			super.runTest(testName, uniqueName, env, "org.staw.framework.ExecuteTests", parameters);
 		}
 	}
 	
@@ -47,36 +47,22 @@ public class MainTestInvoker extends CoreTestCase{
 	}
 
 	private boolean runRegularTest(){
-		return InitializeTestSuite.getInstance().isConnectionPoolCreated();
+		return InitializeTestSuite.getInstance().isDatasourceInitialized();
 	}
 	
 	
 	
 	@DataProvider()
-	public static Object[][] getTestCaseNamesAndEnvOptions() throws IOException {
+	public static Object[][] getTestCaseInput() throws IOException {
 		
 		TestSetupHelper.buildEnvironment();		
-		return TestSetupHelper.getParameters(retrieveTestCasesToExecute(), TestSetupHelper.getEnvironmentOptions());
+		return TestSetupHelper.getParameters();
 			
 	}
 		
 	
 	
-	public static List<String> retrieveTestCasesToExecute() throws IOException {
-		List<String> listOfTests = new ArrayList<>();
-		
-		String testCases = TestSetupHelper.getTestCases();
-		if(testCases.contains(",")){
-			String[] tCases = testCases.split(",");
-			for(String tCase: tCases){
-				listOfTests.add(tCase.trim());
-			}
-		}else{
-			listOfTests.add(testCases);
-		}
-		
-		return listOfTests;
-	}
+	
 	
 	
 	

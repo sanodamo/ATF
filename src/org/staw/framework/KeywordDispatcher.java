@@ -10,57 +10,91 @@ import java.util.ArrayList;
 import org.apache.log4j.Logger;
 import org.staw.datarepository.dao.TestContext.TestContextProvider;
 import org.staw.framework.constants.GlobalConstants;
+import org.staw.framework.helpers.StringExtensions;
 import org.staw.framework.helpers.TestSetupHelper;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class KeywordDispatcher {
 
-	private static SoftAssertion myAssert;
-	public KeywordDispatcher(SoftAssertion sr) {
-		myAssert = sr;
+	private static CommonAssertion commonAssertion;
+	public KeywordDispatcher(CommonAssertion commonAssertion) {
+		this.commonAssertion = commonAssertion;
 	}
 
 	public static Logger log = Logger.getLogger(KeywordDispatcher.class.getName());
 	
+	private static Constructor<?> getContructor(Class<?> className) {
+		Constructor<?> constructor = null;
+		Class<?>[] argTypes = { CommonAssertion.class };
+				
+		switch(className.toString()) {
+			default:
+				//argTypes[0] = CommonAssertion.class;
+				break;
+		}
+		
+		try {
+			
+			constructor = className.getDeclaredConstructor(argTypes);
+			
+		} catch (NoSuchMethodException | SecurityException e) {
+			log.info("Failed to create Constructor with CommonAssertion. Trying Constructor with no Args for class: " + className.toString());
+			try{
+				constructor = className.getConstructor();		
+			}catch(NoSuchMethodException | SecurityException ex){
+				log.error("Unable to create Constructor with no args.");
+				ex.printStackTrace();
+			}
+		}
+		
+		return constructor;
+	}
+	
+	private static boolean isEmptyConstructor(Class<?> classes) {
+	    for (Constructor<?> constructor : classes.getConstructors()) {	       
+	        if (constructor.getParameterCount() == 0) { 
+	            return true;
+	        }
+	    }
+	    return false;
+	}
+	
+	
 	private static boolean InvokeMethod(ArrayList<String> argList, Class<?> className, String methodName) {
-		int argListSize = 0;
-		if (argList != null)
-			argListSize = argList.size();
-		boolean keywordResult = false;
+		
+		int argListSize = argList != null ? argList.size() : 0;
+		
+		boolean iskeywordExecuted = false;
 		Class<?>[] paramType;
 		Object[] methodArguments;
 		int methodParameters = 0;
-		boolean createConstWithNoArg = false;
-		Constructor<?> constructor = null;
-		Class<?>[] argTypes = { SoftAssertion.class };
-		try {
-			constructor = className.getDeclaredConstructor(argTypes);
-		} catch (NoSuchMethodException | SecurityException e) {
-			log.info("Unable to create Constructor with SoftAssertion. Trying Constructor with no Args for Method: " + methodName);
-			try{
-				constructor = className.getConstructor();
-				createConstWithNoArg = true;
-			}catch(NoSuchMethodException | SecurityException e2){
-				log.error("Unable to create Constructor with no args.");
-				e2.printStackTrace();
-			}
-		}
-		Object[] arguments = { myAssert };
+					
+		Constructor<?> constructor = getContructor(className);
+		
+		boolean isEmptyContructor = isEmptyConstructor(className);
+		
+		Object[] arguments = { commonAssertion };
+		
 		Method[] methods = className.getDeclaredMethods();
-		for (Method meth : methods) {
-			if (meth.getName().equalsIgnoreCase(methodName.replace("_", ""))) {
-				methodParameters = meth.getParameters().length;
+		
+		for (Method method : methods) {
+			
+			if (StringExtensions.compareMethodName(method.getName(), methodName)) {
+				
+				methodParameters = method.getParameters().length;
 				methodArguments = new Object[methodParameters + 1];
 				paramType = new Class<?>[methodParameters];
+				
 				if (argListSize != methodParameters) {
-					return myAssert.Failed("Expected " + methodParameters + " argument(s) found " + argListSize + " argument(s)");
+					return commonAssertion.Failed("Expected " + methodParameters + " argument(s) found " + argListSize + " argument(s)");
 				}
+				
 				try {
-					for (int i = 0; i < meth.getParameterTypes().length; i++) {
-						paramType[i] = meth.getParameterTypes()[i];
+					for (int i = 0; i < method.getParameterTypes().length; i++) {
+						paramType[i] = method.getParameterTypes()[i];
 					}
-					if(createConstWithNoArg){
+					if(isEmptyContructor){
 						methodArguments[0] = constructor.newInstance();
 					}else{
 						methodArguments[0] = constructor.newInstance(arguments);
@@ -72,23 +106,19 @@ public class KeywordDispatcher {
 					}
 					MethodHandles.Lookup lookup = MethodHandles.publicLookup();
 					MethodType methodType = MethodType.methodType(boolean.class, paramType);
-					MethodHandle handle = lookup.findVirtual(className, meth.getName(), methodType);
-					keywordResult = (boolean) handle.invokeWithArguments(methodArguments);
+					MethodHandle handle = lookup.findVirtual(className, method.getName(), methodType);
+					iskeywordExecuted = (boolean) handle.invokeWithArguments(methodArguments);
 					
 					break;
 				} catch (Throwable e) {
-					log.error("Error with Keyword: " + meth.getName().toUpperCase() + " Test Case  " );
-					keywordResult = false;
+					log.error("Error with Keyword: " + method.getName().toUpperCase() + " Test Case  " );
+					iskeywordExecuted = false;
 					break;
 				}
 			}
 		}
 
-		if (keywordResult) {
-			return true;
-		} else {
-			return false;
-		}
+		return iskeywordExecuted;
 	}
 	
 
@@ -123,7 +153,7 @@ public class KeywordDispatcher {
 	}
 	
 	
-	public boolean executeKeywords(NodeList keyWords) {		
+	public boolean InvokeKeywordMethods(NodeList keyWords) {		
 		String methodName = "";		
 		Class<?> keywordClass = null;
 		
@@ -153,7 +183,7 @@ public class KeywordDispatcher {
 							try {							
 								currentKeywordResult = InvokeMethod(argList, keywordClass, methodName);
 							} catch (Throwable e) {
-								log.error("Keyword failed to execute: " + methodName + ". Localized Message: " + e.getLocalizedMessage() + " Message: "
+								log.error("Keyword failed to execute: " + methodName + ". Message: " + e.getLocalizedMessage() + " Message: "
 										+ e.getMessage());
 								e.printStackTrace();
 							}
@@ -161,16 +191,14 @@ public class KeywordDispatcher {
 						}
 					}
 					
-					myAssert.assertTrue(currentKeywordResult);
+					commonAssertion.assertTrue(currentKeywordResult);
 					if((lastKeywordResult == false && currentKeywordResult == false) && i>0) break;					
-					lastKeywordResult = currentKeywordResult;
-					myAssert.Success("");
-					myAssert.Failed("");
+					lastKeywordResult = currentKeywordResult;					
 					keywordCount++;
 				}
 			}
 		} catch (Exception e) {
-			return myAssert.Failed("Error parsing keyword: " + e.getMessage());
+			return commonAssertion.Failed("Error parsing keyword: " + e.getMessage());
 		}
 		return currentKeywordResult;
 	}

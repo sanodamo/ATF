@@ -15,11 +15,11 @@ import org.staw.framework.constants.GlobalConstants;
 import org.testng.asserts.Assertion;
 import org.testng.asserts.IAssert;
 
-public class SoftAssertion extends Assertion {
+public class CommonAssertion extends Assertion {
 
 		
 		
-	    public static Logger log = Logger.getLogger(SoftAssertion.class.getName());
+	    public static Logger log = Logger.getLogger(CommonAssertion.class.getName());
 	    
 		@Override
 		public void executeAssert(IAssert assertCommand){
@@ -84,7 +84,6 @@ public class SoftAssertion extends Assertion {
 			
 		}
 
-
 	
 		public void setAssertedMessage(AssertTypes assertType, String message){
 			switch(assertType){
@@ -109,5 +108,11 @@ public class SoftAssertion extends Assertion {
 		public boolean Failed(String message) {
 			setAssertedMessage(AssertTypes.FAILED, message);
 			return false;
+		}
+		
+		public void InitializeTestContext() {
+			TestContextProvider.SetValue(GlobalConstants.ContextConstant.TEST_RESULT, Boolean.toString(true));
+			TestContextProvider.SetValue(GlobalConstants.ContextConstant.PASS_STEP_COUNT, "0");
+			TestContextProvider.SetValue(GlobalConstants.ContextConstant.FAIL_STEP_COUNT, "0");
 		}
 }

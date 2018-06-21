@@ -3,7 +3,7 @@ package org.staw.framework.constants;
 public class GlobalConstants {
 	
 	public class KeywordName{
-		public static final String INITIALIZE = "Initialize";
+		public static final String INITIALIZE = "INITIALIZE";
 	}
 	
 	public class RunEnvironment{

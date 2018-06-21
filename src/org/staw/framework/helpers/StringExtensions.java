@@ -14,4 +14,12 @@ public class StringExtensions {
 		}
 		return false;
 	}
+	
+	public static boolean compareMethodName(String lvalue, String rvalue) {
+		if(!rvalue.isEmpty()) {
+			rvalue = rvalue.replace(" ", "").replace("_", "");
+			return lvalue.equalsIgnoreCase(rvalue);
+		}
+		return false;		
+	}
 }

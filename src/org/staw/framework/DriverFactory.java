@@ -1,5 +1,8 @@
 package org.staw.framework;
 
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -20,36 +23,39 @@ import org.openqa.selenium.logging.LogType;
 import org.openqa.selenium.logging.LoggingPreferences;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.FluentWait;
-import org.staw.framework.constants.BrowserTargetType;
+import org.staw.framework.constants.BrowserType;
 import org.staw.framework.constants.DriverVariables;
+import org.staw.framework.constants.ExecutionEnvironment;
+import org.staw.framework.helpers.TestSetupHelper;
 
-public class SeleniumDriver {
+public class DriverFactory {
 	
-	public static Logger log = Logger.getLogger(SeleniumDriver.class.getName());
+	public static Logger log = Logger.getLogger(DriverFactory.class.getName());
 	private ThreadLocal<WebDriver> webDriver = new ThreadLocal<WebDriver>();
-	private static SeleniumDriver instance = new SeleniumDriver();	
+	private static DriverFactory instance = new DriverFactory();	
 	
-    public static SeleniumDriver getInstance(){
+    public static DriverFactory getInstance(){
     		return instance;
     }
 	   
        
-	public WebDriver getDriver(String tcName, String browser, String browserVersion, String osVersion, String executionEnv, SoftAssertion sa) {
+	public WebDriver getDriver(String tcName, String browser, String browserVersion, String osVersion, String executionEnv, CommonAssertion sa) {
 		
-		BrowserTargetType currType =  BrowserTargetType.getTargetType(executionEnv);		
+		BrowserType currType =  BrowserType.getTargetType(browser);		
 		try {
 			switch(currType){			
 			case INTERNET_EXPLORER:			
-				getIEDriver();
+				getIEDriver(executionEnv);
 				break;
 				
 			case FIREFOX:			
-				getFFDriver();
+				getFFDriver(executionEnv);
 				break; 
 				
 			case CHROME:										
-				getChromeDriver();
+				getChromeDriver(executionEnv);
 				break;
 				
 			case SAFARI:
@@ -72,18 +78,54 @@ public class SeleniumDriver {
 		return null;
 	}
 
+	private WebDriver getWebDriver(BrowserType bType) {
+		switch(bType) {
+			case CHROME:
+				return new ChromeDriver();				
+			case FIREFOX:
+				return new FirefoxDriver();				
+			case INTERNET_EXPLORER:
+				return new InternetExplorerDriver();
+			default:
+				return null;
+		}				
+	}
+	
+	private void setDriver(BrowserType bType, DesiredCapabilities capabilities, String executionEnv) {
+		ExecutionEnvironment currEnv =  ExecutionEnvironment.getLocation(executionEnv);
+		
+		switch(currEnv) {
+			case LOCAL:
+				this.webDriver.set(getWebDriver(bType));
+				break;
+			case REMOTE:				
+				this.webDriver.set(new RemoteWebDriver(getRemoteHub(), capabilities));										
+				break;
+		}
+	}
+	
+	private URL getRemoteHub() {
+		String remoteHub = TestSetupHelper.getRemoteHub();
+		try {
+			return new URL(remoteHub);
+		} catch (MalformedURLException e) {			
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
 
-	private void getChromeDriver() {		
+	private void getChromeDriver(String executionEnv ) {		
 		System.setProperty("webdriver.chrome.driver",DriverVariables.getFilePath(DriverVariables.CHROME_DRIVER_WINDOWS));				
 		DesiredCapabilities capabilities = DesiredCapabilities.chrome();
 		LoggingPreferences loggingprefs = new LoggingPreferences();
 		loggingprefs.enable(LogType.BROWSER, Level.SEVERE);
-		capabilities.setCapability(CapabilityType.LOGGING_PREFS, loggingprefs);		       
-		this.webDriver.set(new ChromeDriver(capabilities));
+		capabilities.setCapability(CapabilityType.LOGGING_PREFS, loggingprefs);		       		
+		setDriver(BrowserType.CHROME, capabilities, executionEnv);		
 	}
 
 
-	private void getFFDriver() {		 
+	private void getFFDriver(String executionEnv) {		 
 		DesiredCapabilities capabilities = DesiredCapabilities.firefox();				
 		capabilities.setCapability(FirefoxDriver.PROFILE, true);
 		System.setProperty("webdriver.gecko.driver", DriverVariables.getFilePath(DriverVariables.GECKO_DRIVER_WIN));
@@ -95,17 +137,17 @@ public class SeleniumDriver {
 		pref.enable(LogType.PERFORMANCE, Level.OFF);
 		pref.enable(LogType.PROFILER, Level.OFF);
 		pref.enable(LogType.SERVER, Level.OFF);
-		capabilities.setCapability(CapabilityType.LOGGING_PREFS, pref);
-		webDriver.set(new FirefoxDriver(capabilities));
+		capabilities.setCapability(CapabilityType.LOGGING_PREFS, pref);		
+		setDriver(BrowserType.FIREFOX, capabilities, executionEnv);		
 	}
 
 
-	private void getIEDriver() {		
+	private void getIEDriver(String executionEnv) {		
 		System.setProperty("webdriver.ie.driver",DriverVariables.getFilePath(DriverVariables.INTERNET_EXPLORER_DRIVER));
 		DesiredCapabilities capabilities = DesiredCapabilities.internetExplorer();
 		capabilities.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS,true);
-		capabilities.setCapability("ignoreZoomSetting", true);
-		this.webDriver.set(new InternetExplorerDriver(capabilities));
+		capabilities.setCapability("ignoreZoomSetting", true);		
+		setDriver(BrowserType.INTERNET_EXPLORER, capabilities, executionEnv);
 	}
 	
 
@@ -165,7 +207,7 @@ public class SeleniumDriver {
 	    }
 	  
 	  public static void getJavaScriptErrors(){	    	
-    		WebDriver driver = SeleniumDriver.getInstance().getWebDriver();
+    		WebDriver driver = DriverFactory.getInstance().getWebDriver();
         	JavascriptExecutor js = (JavascriptExecutor) driver;
         	Object temp = js.executeScript("return window.jsErrors");
         	if(temp instanceof ArrayList<?>){
@@ -194,7 +236,7 @@ public class SeleniumDriver {
 		}
 	  
 	  public static WebElement fluentWaitFindElement(final WebElement element, final By locator, final int timeoutSeconds) {
-			WebDriver driver = SeleniumDriver.getInstance().getWebDriver();
+			WebDriver driver = DriverFactory.getInstance().getWebDriver();
 		    FluentWait<WebDriver> wait = new FluentWait<WebDriver>(driver)
 		            .withTimeout(timeoutSeconds, TimeUnit.SECONDS)
 		            .pollingEvery(2, TimeUnit.SECONDS)
@@ -209,7 +251,7 @@ public class SeleniumDriver {
 		}
 	  
 	  public static List<WebElement> fluentWaitFindElements(final WebElement element, final By locator, final int timeoutSeconds) {
-	    	WebDriver driver = SeleniumDriver.getInstance().getWebDriver();
+	    	WebDriver driver = DriverFactory.getInstance().getWebDriver();
 	        FluentWait<WebDriver> wait = new FluentWait<WebDriver>(driver).withTimeout(timeoutSeconds, TimeUnit.SECONDS)
 	                .pollingEvery(2, TimeUnit.SECONDS).ignoring(NoSuchElementException.class);
 

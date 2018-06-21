@@ -1,6 +1,6 @@
 package org.staw.framework.constants;
 
-	public enum BrowserTargetType {		
+	public enum BrowserType {		
 		FIREFOX("Firefox"), 		
 		INTERNET_EXPLORER("Internet Explorer"), 
 		MICROSOFT_EDGE("Microsoft Edge"),		
@@ -9,14 +9,14 @@ package org.staw.framework.constants;
 		REMOTE("Remote");
 		
 		public String targetType;
-		private BrowserTargetType(String targetType){
+		private BrowserType(String targetType){
 			this.targetType = targetType;
 		}
 		public String getTargetType(){
 			return this.targetType;
 		}
-		public static BrowserTargetType getTargetType(String val){
-			for(BrowserTargetType et: BrowserTargetType.values()){
+		public static BrowserType getTargetType(String val){
+			for(BrowserType et: BrowserType.values()){
 				if(et.getTargetType().equalsIgnoreCase(val.trim())) return et;
 			}
 			return null;

@@ -13,8 +13,8 @@ import org.staw.datarepository.dao.TestContext.TestContextProvider;
 import org.staw.datarepository.dao.TestRun.TestRun;
 import org.staw.datarepository.dao.TestRun.TestRunProvider;
 import org.staw.framework.KeywordDispatcher;
-import org.staw.framework.SeleniumDriver;
-import org.staw.framework.SoftAssertion;
+import org.staw.framework.DriverFactory;
+import org.staw.framework.CommonAssertion;
 import org.staw.framework.ExecutionIdentity;
 import org.staw.framework.constants.GlobalConstants;
 import org.staw.framework.models.GlobalVariables;
@@ -23,7 +23,7 @@ import org.w3c.dom.NodeList;
 public class FrameworkHelper {
 
 	public static Logger log = Logger.getLogger(FrameworkHelper.class.getName());
-	private static SoftAssertion myAssert;
+	private static CommonAssertion commonAssertion;
 	private static String executionEnv = "";
  
 	
@@ -31,27 +31,10 @@ public class FrameworkHelper {
 		return String.valueOf(UUID.randomUUID());
 	}
 	
-	public static SoftAssertion initialize(String tcName, String browser, String browserVersion, String osVersion) {
-		Thread.currentThread().setName("Thread-"+tcName+"_"+browser+"_"+browserVersion+"_"+osVersion);
-		myAssert = new SoftAssertion();
-		
-		
-		
-		//To-Do Delete
-		tcName = tcName.trim();
-		browser = browser.trim();
-		browserVersion = browserVersion.trim();
-		osVersion = osVersion.trim();
-		
-		HashMap<String, String> inf = new HashMap<>();
-		inf.put(GlobalConstants.ContextConstant.TEST_NAME, tcName);
-		inf.put(GlobalConstants.ContextConstant.BROWSER, browser);
-		inf.put(GlobalConstants.ContextConstant.BROWSER_VERSION, browserVersion);
-		inf.put(GlobalConstants.ContextConstant.OPERATING_SYSTEM, osVersion);
-		inf.put(GlobalConstants.ContextConstant.USER_ID, TestSetupHelper.getCurrentUser());
-		inf.put(GlobalConstants.ContextConstant.HOST_NAME, TestSetupHelper.getCurrentHostName());
-		inf.put(GlobalConstants.ContextConstant.START_DATE_AND_TIME,DateExtension.getCurrentTimestampFormat());
-		//
+	public static CommonAssertion initialize(String testCaseName, String browser, String browserVersion, String osVersion) {
+		Thread.currentThread().setName("Thread-"+testCaseName+"_"+browser+"_"+browserVersion+"_"+osVersion);
+		commonAssertion = new CommonAssertion();
+				
 		try {
 			
 			ExecutionIdentity.initialize();
@@ -59,7 +42,7 @@ public class FrameworkHelper {
 									
 						
 			TestRun test = new TestRun();
-			test.setTestCaseName(tcName);
+			test.setTestCaseName(testCaseName);
 			test.setBrowserName(browser);
 			test.setBrowserVersion(browserVersion);
 			test.setOsName(osVersion);
@@ -70,46 +53,48 @@ public class FrameworkHelper {
 			TestRunProvider.Save(test);
 			
 			executionEnv = TestSetupHelper.getRunEnvironemnt();
-			SeleniumDriver.getInstance().getDriver(tcName, browser, browserVersion, osVersion, executionEnv, myAssert);
+			DriverFactory.getInstance().getDriver(testCaseName, browser, browserVersion, osVersion, executionEnv, commonAssertion);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
-		return myAssert;
+		return commonAssertion;
 	}
 		
-	public static boolean runTests(String tcName, String browser, String browserVersion, String osVersion){
-		WebDriver driver = SeleniumDriver.getInstance().getWebDriver();
-		String testCaseName = "";
-		String currRunEnv = EnviromentSetupHelper.getTestRunningEnvironmentVariable();
+	public static boolean runTests(String testCaseName, String browser, String browserVersion, String osVersion){
+		WebDriver driver = DriverFactory.getInstance().getWebDriver();
+	
 		if(driver != null) {
 			try {
 								
-				TestContextProvider.SetValue(GlobalConstants.ContextConstant.TEST_RESULT, Boolean.toString(true));
-				TestContextProvider.SetValue(GlobalConstants.ContextConstant.PASS_STEP_COUNT, "0");
-				TestContextProvider.SetValue(GlobalConstants.ContextConstant.FAIL_STEP_COUNT, "0");
+				commonAssertion.InitializeTestContext();
 		    	
-				KeywordDispatcher allactions = new KeywordDispatcher(myAssert);
+				KeywordDispatcher allactions = new KeywordDispatcher(commonAssertion);
 
 				NodeList keywords = null;
-				testCaseName = getTestCase(currRunEnv, tcName);
+			
 				keywords = TestSetupHelper.readKeywords(testCaseName.trim() + ".xml");
+				
 				if (keywords == null) {
 					
-					myAssert.assertTrue(false);
+					commonAssertion.assertTrue(false);
 															
 					TestContextProvider.SetValue(GlobalConstants.ContextConstant.TEST_CRASHED, "true");
 					
-					SeleniumDriver.getInstance().removeDriver(tcName);
+					DriverFactory.getInstance().removeDriver(testCaseName);
 					log.error("No Actions node found");
 					return false;
 				}
-				allactions.executeKeywords(keywords);
+				
+				TestContextProvider.SetValue(GlobalConstants.ContextConstant.TOTAL_EXECUTION_STEPS,  Integer.toString(keywords.getLength()));
+				
+				allactions.InvokeKeywordMethods(keywords);
+				
 			} catch (Exception e) {
 				
-				finalize(tcName, browser, browserVersion, osVersion);
-				log.error("Error coming from test: " + tcName + " with driver: " + SeleniumDriver.getInstance().getWebDriver().hashCode() + " on browser: " + browser);
+				finalize(testCaseName, browser, browserVersion, osVersion);
+				log.error("Error coming from test: " + testCaseName + " with driver: " + DriverFactory.getInstance().getWebDriver().hashCode() + " on browser: " + browser);
 				return false;
 			} finally {
 				
@@ -123,7 +108,7 @@ public class FrameworkHelper {
 	}
 	
 	public static void finalize(String tcName, String browser, String browserVersion, String osVersion) {
-		WebDriver driver = SeleniumDriver.getInstance().getWebDriver();
+		WebDriver driver = DriverFactory.getInstance().getWebDriver();
 		if(driver != null) {
 			tcName = tcName.trim();
 			browser = browser.trim();
@@ -134,7 +119,7 @@ public class FrameworkHelper {
 			
 			try {
 				
-					SeleniumDriver.getInstance().removeDriver(driver, tcName, log);
+					DriverFactory.getInstance().removeDriver(driver, tcName, log);
 				
 			} catch (Exception e) {
 				log.error("Unable to end test, Error: " + e.getMessage());

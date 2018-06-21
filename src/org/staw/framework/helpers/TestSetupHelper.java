@@ -22,9 +22,10 @@ import org.apache.log4j.Logger;
 import org.staw.datarepository.dao.TestContext.TestContextProvider;
 import org.staw.datarepository.dao.TestData.TestData;
 import org.staw.datarepository.dao.TestData.TestDataProvider;
-import org.staw.framework.constants.BrowserTargetType;
+import org.staw.framework.constants.BrowserType;
 import org.staw.framework.constants.DriverVariables;
 import org.staw.framework.constants.EnviromentProperties;
+import org.staw.framework.constants.ExecutionEnvironment;
 import org.staw.framework.constants.GlobalConstants;
 import org.staw.framework.models.EnvironmentOptions;
 import org.staw.framework.models.GlobalVariables;
@@ -64,16 +65,19 @@ public class TestSetupHelper extends ConfigHelper{
 		}		
 	}
 	
+	public static String getRemoteHub() {
+		return PropFile.getProperty("RemoteHub");
+	}
 	
 	public static String getRunEnvironemnt() throws Exception{
-		int executionEnvs=BrowserTargetType.values().length;
+		int executionEnvs=ExecutionEnvironment.values().length;
 		String[] validEnv = new String[executionEnvs];
 		for(int i=0; i<executionEnvs;i++)
-			validEnv[i] = BrowserTargetType.values()[i].getTargetType().toUpperCase();
-		if(Arrays.asList(validEnv).contains(PropFile.getProperty("RunningEnvironment").toUpperCase().trim())){
-			return PropFile.getProperty("RunningEnvironment");
+			validEnv[i] = ExecutionEnvironment.values()[i].getLocation().toUpperCase();
+		if(Arrays.asList(validEnv).contains(PropFile.getProperty("ExecutionEnvironment").toUpperCase().trim())){
+			return PropFile.getProperty("ExecutionEnvironment");
 		}
-		logger.error("INVALID RUN ENVIRONMENT");
+		logger.error("Invalid ExecutionEnvironment");
 		throw new Exception();
 	}
 	
@@ -83,13 +87,13 @@ public class TestSetupHelper extends ConfigHelper{
 		return PropFile.getProperty("RunTest");
 	}	
 	
-	public static String getLevel() throws Exception{
+	public static String getTargetEnvironment() throws Exception{
 		try{
-			String lvl = PropFile.getProperty("Level");
-			EnviromentSetupHelper.RunningEnvironment.getVariable(lvl);
-			return lvl;
+			String env = PropFile.getProperty("TargetEnvironment");
+			EnviromentSetupHelper.RunningEnvironment.getVariable(env);
+			return env;
 		}catch(Exception e){
-			throw new Exception("INVALID LELEL TYPE");
+			throw new Exception("Invalid Target Environment !!!");
 		}
 	}
 	
@@ -115,7 +119,7 @@ public class TestSetupHelper extends ConfigHelper{
 	public static List<EnvironmentOptions> getEnvironmentOptions() {
 		List<EnvironmentOptions> listOfEnv = new ArrayList<EnvironmentOptions>();
 		String runEnvNumber = getRunEnvNumber();
-		String[] envOptions = PropFile.getProperty("EnvironmentOptions"+runEnvNumber).split(",");
+		String[] envOptions = PropFile.getProperty("BrowserOptions"+runEnvNumber).split(",");
 		if (ArrayUtils.isNotEmpty(envOptions)) {
 			for (String option: envOptions) {
 				String[] tempEnvOptions = getEnvOptions(option);
@@ -131,20 +135,20 @@ public class TestSetupHelper extends ConfigHelper{
 	private static String getRunEnvNumber() {
 		String runEnvNum = "";
 		try {
-			runEnvNum = getEnvironmentCombination();
+			runEnvNum = getTargetedEnvironment();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return runEnvNum;
 	}
 	
-	public static String getEnvironmentCombination(){
+	public static String getTargetedEnvironment(){
 		try{
-			String env = PropFile.getProperty("RunEnvironment");
+			String env = PropFile.getProperty("BrowserCategory");
 			
 			return env;
 		}catch(Exception e){
-			throw new NumberFormatException("ERROR IN GETTING RUN COMBINATION IN CONFIG");
+			throw new NumberFormatException("error in getting targetted environment details from properties file");
 		}
 	}
 	
@@ -153,25 +157,28 @@ public class TestSetupHelper extends ConfigHelper{
 		return option.split(":");		
 	}
 	
+	public static Object[][] getParameters() throws IOException{
+		return getParameters(getTestCasesToExecute(),getEnvironmentOptions());
+	}
 	
 	public static Object[][] getParameters(List<String> tcName,
-			List<EnvironmentOptions> EOValues) {
+			List<EnvironmentOptions> EnvironmentValues) {
 		String env = null;
 		try {
 			env = getRunEnvironemnt();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		int noOfBrowsers = getNumberOfBrowsers(EOValues, env);
+		int noOfBrowsers = getNumberOfBrowsers(EnvironmentValues, env);
 		
 		Object[][] testCaseParameters = new Object[tcName.size() * noOfBrowsers][5];
 		int count = 0;
 		for (int j = 0; j < tcName.size(); j++) {
 			for (int i = 0; i < noOfBrowsers; i++) {
 				testCaseParameters[count][0] = tcName.get(j);
-				testCaseParameters[count][1] = EOValues.get(i).getBrowser();
-				testCaseParameters[count][2] = EOValues.get(i).getBrowserVersion();
-				testCaseParameters[count][3] = EOValues.get(i).getOsVersion();
+				testCaseParameters[count][1] = EnvironmentValues.get(i).getBrowser();
+				testCaseParameters[count][2] = EnvironmentValues.get(i).getBrowserVersion();
+				testCaseParameters[count][3] = EnvironmentValues.get(i).getOsVersion();
 				testCaseParameters[count][4] = env;
 				count += 1;
 			}
@@ -306,9 +313,6 @@ public class TestSetupHelper extends ConfigHelper{
 			Document doc = dBuilder.parse(KeywordFile);
 			doc.getDocumentElement().normalize();
 			nList = doc.getElementsByTagName("KeyWord");
-			int totalSteps = doc.getElementsByTagName("KeyWord").getLength();
-							
-			TestContextProvider.SetValue(GlobalConstants.ContextConstant.TOTAL_EXECUTION_STEPS,  Integer.toString(totalSteps));
 			
 		} catch (Exception e) {
 			logger.error("Unable to read xml document, Error: " + e.getMessage());
@@ -323,7 +327,7 @@ public class TestSetupHelper extends ConfigHelper{
 				
 			String[] runEnv = null;
 			try {
-				runEnv = getLevel().split(",");
+				runEnv = getTargetEnvironment().split(",");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -336,5 +340,21 @@ public class TestSetupHelper extends ConfigHelper{
 			}
 		
 		GlobalVariables.runEnvironment.put(GlobalConstants.RunEnvironment.RUN_ENVIRONMENT_PROP, var1);	
+	}
+	
+	public static List<String> getTestCasesToExecute() throws IOException {
+		List<String> listOfTests = new ArrayList<>();
+		
+		String testCases = TestSetupHelper.getTestCases();
+		if(testCases.contains(",")){
+			String[] tCases = testCases.split(",");
+			for(String tCase: tCases){
+				listOfTests.add(tCase.trim());
+			}
+		}else{
+			listOfTests.add(testCases);
+		}
+		
+		return listOfTests;
 	}
 }
